@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PALETTE DE COULEURS NATURELLES
+   ─────────────────────────────────────────────────────────────────────────
+   Palette inspirée de tons naturels et apaisants :
+   - #35392E : Vert foncé profond (base sombre)
+   - #99C6C4 : Turquoise pastel (accent principal)
+   - #83A08B : Vert sauge (secondaire)
+   - #738B69 : Vert olive (tertiaire)
+   - #4F4D46 : Gris verdâtre (base alternative)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── MODE CLAIR - Tons naturels et lumineux ──────────────────── */
+  --color-background: #f5f7f5;              /* Fond très clair avec nuance verte */
+  --color-foreground: #35392e;              /* Texte principal : vert foncé */
+  --color-muted: #e8ede9;                   /* Fond secondaire : vert très pâle */
+  --color-muted-foreground: #4f4d46;        /* Texte secondaire : gris verdâtre */
+  --color-border: #d4ddd6;                  /* Bordures : vert-gris clair */
+  --color-accent: #99c6c4;                  /* Accent : turquoise pastel */
+  --color-accent-foreground: #35392e;       /* Texte sur accent : vert foncé */
+  
+  /* ── Couleurs additionnelles pour variations ──────────────────── */
+  --color-sage: #83a08b;                    /* Vert sauge */
+  --color-olive: #738b69;                   /* Vert olive */
+  --color-success: #83a08b;                 /* Success : vert sauge */
+  --color-info: #99c6c4;                    /* Info : turquoise */
+  
+  --font-family-sans: Inter, system-ui, -apple-system, sans-serif;
+}
+
+/* ── MODE SOMBRE - Tons naturels profonds ────────────────────── */
+.dark {
+  --color-background: #35392e;              /* Fond : vert foncé profond */
+  --color-foreground: #e8ede9;              /* Texte principal : vert très pâle */
+  --color-muted: #42463c;                   /* Fond secondaire : vert foncé éclairci */
+  --color-muted-foreground: #b8c5b9;        /* Texte secondaire : vert-gris clair */
+  --color-border: #4f5449;                  /* Bordures : vert moyen */
+  --color-accent: #99c6c4;                  /* Accent : turquoise pastel (reste vif) */
+  --color-accent-foreground: #35392e;       /* Texte sur accent : vert foncé */
+  
+  /* ── Couleurs additionnelles pour variations ──────────────────── */
+  --color-sage: #83a08b;                    /* Vert sauge */
+  --color-olive: #738b69;                   /* Vert olive */
+  --color-success: #83a08b;                 /* Success : vert sauge */
+  --color-info: #99c6c4;                    /* Info : turquoise */
+}
+
+/* ── Détection automatique du thème sombre ───────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-background: #35392e;
+    --color-foreground: #e8ede9;
+    --color-muted: #42463c;
+    --color-muted-foreground: #b8c5b9;
+    --color-border: #4f5449;
+    --color-accent: #99c6c4;
+    --color-accent-foreground: #35392e;
+    --color-sage: #83a08b;
+    --color-olive: #738b69;
+    --color-success: #83a08b;
+    --color-info: #99c6c4;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATIONS PERSONNALISÉES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STYLES DE BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Scrollbar personnalisée (optionnel) ────────────────────── */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 6px;
+  border: 3px solid var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage);
+}
+
+/* ── Cacher la scrollbar (pour les carrousels) ──────────────── */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CLASSES UTILITAIRES POUR LES ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.6s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* ── Délais d'animation ─────────────────────────────────────── */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CLASSES DE COULEURS PERSONNALISÉES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.bg-background {
+  background-color: var(--color-background);
+}
+
+.text-foreground {
+  color: var(--color-foreground);
+}
+
+.bg-muted {
+  background-color: var(--color-muted);
+}
+
+.text-muted-foreground {
+  color: var(--color-muted-foreground);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-accent-foreground {
+  color: var(--color-accent-foreground);
+}
+
+.border-border {
+  border-color: var(--color-border);
+}
+
+/* ── Couleurs additionnelles ────────────────────────────────── */
+.bg-sage {
+  background-color: var(--color-sage);
+}
+
+.text-sage {
+  background-color: var(--color-sage);
+}
+
+.bg-olive {
+  background-color: var(--color-olive);
+}
+
+.text-olive {
+  color: var(--color-olive);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EFFETS SPÉCIAUX ET GRADIENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-sage) 100%);
+}
+
+.gradient-natural {
+  background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-olive) 100%);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SÉLECTION DE TEXTE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+::-moz-selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
