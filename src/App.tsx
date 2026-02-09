@@ -3,7 +3,7 @@ import Timeline from './components/Timeline';
 import Projects from './components/Project';
 import Contact from './components/Contact';
 import ThemeToggle from './components/ThemeToggle';
-import Logo from './components/logo';
+import Logo from './components/Logo';
 
 function App() {
   return (
