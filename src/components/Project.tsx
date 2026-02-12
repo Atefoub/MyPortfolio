@@ -56,7 +56,7 @@ export default function Projects() {
 
           {/* Flèche précédente */}
           <Button
-            variant="outline"
+            variant="primary"
             size="md"
             icon={<ChevronLeft />}
             onClick={goToPrev}
@@ -67,7 +67,7 @@ export default function Projects() {
 
           {/* Flèche suivante */}
           <Button
-            variant="outline"
+            variant="primary"
             size="md"
             icon={<ChevronRight />}
             onClick={goToNext}
