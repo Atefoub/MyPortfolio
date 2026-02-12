@@ -125,7 +125,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="/cv.pdf"
+                href="public\images\projects\CV - Antoine Mourin.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center gap-1 flex-1 min-w-[70px] p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
