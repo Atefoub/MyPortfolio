@@ -38,6 +38,12 @@ export default function Projects() {
     if (carouselRef.current) {
       const itemWidth = carouselRef.current.offsetWidth / itemsToShow;
       carouselRef.current.scrollTo({ left: currentIndex * itemWidth, behavior: 'smooth' });
+      
+      // Set CSS custom property for transform
+      const container = carouselRef.current.querySelector('.carousel-container') as HTMLElement;
+      if (container) {
+        container.style.setProperty('--translate-x', `-${(currentIndex * 100) / itemsToShow}%`);
+      }
     }
   }, [currentIndex, itemsToShow]);
 
@@ -78,10 +84,7 @@ export default function Projects() {
 
           {/* Container des cartes */}
           <div ref={carouselRef} className="overflow-hidden scrollbar-hide">
-            <div
-              className="flex gap-6 transition-transform duration-500"
-              style={{ transform: `translateX(-${(currentIndex * 100) / itemsToShow}%)` }}
-            >
+            <div className="carousel-container flex gap-6 transition-transform duration-500">
               {sortedProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} itemsToShow={itemsToShow} />
               ))}
@@ -114,7 +117,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
   const [isExpanded, setIsExpanded] = useState(false);
   
   const cardWidthClass =
-    itemsToShow === 1 ? 'w-full' : itemsToShow === 2 ? 'w-[calc(50%-0.75rem)]' : 'w-[calc(33.333%-1rem)]';
+    itemsToShow === 1 ? 'w-full' : itemsToShow === 2 ? 'project-card-tablet' : 'project-card-desktop';
 
   return (
     <div
@@ -122,9 +125,9 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
         'shrink-0 bg-background rounded-lg overflow-hidden border transition-all duration-300 group flex flex-col',
         cardWidthClass,
         project.inProgress
-          ? 'border-blue-500 ring-2 ring-blue-500/30'
+          ? 'border-blue-500 project-ring-blue'
           : project.featured
-            ? 'border-accent ring-2 ring-accent/30'
+            ? 'border-accent project-ring-accent'
             : 'border-border hover:border-accent',
       )}
     >
@@ -211,7 +214,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
           <p className="text-xs italic text-muted-foreground">{project.collaboration}</p>
         )}
 
-        {/* Liens texte (Code / Démo) — pas des boutons, des liens inline */}
+        {/* Liens texte (Code / Démo) */}
         <div className="flex gap-3 pt-4 mt-auto">
           {project.github && (
             <a
@@ -243,6 +246,29 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
           )}
         </div>
       </div>
+
+      <style>{`
+        .carousel-container {
+          --translate-x: 0%;
+          transform: translateX(var(--translate-x));
+        }
+
+        .project-card-tablet {
+          width: calc(50% - 0.75rem);
+        }
+
+        .project-card-desktop {
+          width: calc(33.333% - 1rem);
+        }
+
+        .project-ring-blue {
+          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        .project-ring-accent {
+          box-shadow: 0 0 0 2px rgba(153, 198, 196, 0.3);
+        }
+      `}</style>
     </div>
   );
 }
