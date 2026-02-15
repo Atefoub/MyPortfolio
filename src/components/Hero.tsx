@@ -105,19 +105,8 @@ export default function Hero() {
             <div className="relative aspect-square max-w-lg mx-auto lg:ml-auto">
               {/* Cercles décoratifs en arrière-plan */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div 
-                  className="absolute w-full h-full rounded-full opacity-20 animate-pulse-soft"
-                  style={{
-                    background: 'radial-gradient(circle, var(--color-accent) 0%, transparent 70%)',
-                  }}
-                />
-                <div 
-                  className="absolute w-[90%] h-[90%] rounded-full opacity-10 animate-pulse-soft"
-                  style={{
-                    background: 'radial-gradient(circle, var(--color-sage) 0%, transparent 70%)',
-                    animationDelay: '1s'
-                  }}
-                />
+                <div className="hero-glow-accent absolute w-full h-full rounded-full opacity-20 animate-pulse-soft" />
+                <div className="hero-glow-sage absolute w-[90%] h-[90%] rounded-full opacity-10 animate-pulse-soft hero-glow-delay" />
               </div>
 
               {/* Image avec effet glassmorphism */}
@@ -129,17 +118,40 @@ export default function Hero() {
                 />
                 
                 {/* Overlay dégradé subtil */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none"></div>
+                <div className="hero-overlay absolute inset-0 pointer-events-none"></div>
               </div>
 
               {/* Points décoratifs flottants */}
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-accent rounded-full opacity-20 blur-xl animate-pulse-soft"></div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-sage rounded-full opacity-20 blur-xl animate-pulse-soft" style={{ animationDelay: '1.5s' }}></div>
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-sage rounded-full opacity-20 blur-xl animate-pulse-soft hero-decoration-delay"></div>
             </div>
           </div>
 
         </div>
       </div>
+
+      <style>{`
+        .hero-glow-accent {
+          background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+        }
+
+        .hero-glow-sage {
+          background: radial-gradient(circle, var(--color-sage) 0%, transparent 70%);
+        }
+
+        .hero-glow-delay {
+          animation-delay: 1s;
+        }
+
+        .hero-overlay {
+          background: linear-gradient(180deg, transparent 0%, var(--color-background) 60%, var(--color-background) 100%);
+          opacity: 0.4;
+        }
+
+        .hero-decoration-delay {
+          animation-delay: 1.5s;
+        }
+      `}</style>
     </section>
   );
 }
