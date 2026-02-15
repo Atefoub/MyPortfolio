@@ -24,18 +24,10 @@ export default function Logo() {
           {/* Cercles pulsants en arrière-plan */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div 
-              className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: 'radial-gradient(circle, rgba(153, 198, 196, 0.3) 0%, transparent 70%)',
-                animation: 'pulse-ring 2s ease-out infinite'
-              }}
+              className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-1"
             />
             <div 
-              className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: 'radial-gradient(circle, rgba(131, 160, 139, 0.2) 0%, transparent 70%)',
-                animation: 'pulse-ring 2s ease-out infinite 0.5s'
-              }}
+              className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-2"
             />
           </div>
 
@@ -43,14 +35,10 @@ export default function Logo() {
           <div 
             className={`
               relative w-11 h-11 rounded-full flex items-center justify-center
-              border-2 transition-all duration-300
+              border-2 transition-all duration-300 logo-background
               group-hover:border-accent group-hover:scale-110
-              ${isOpen ? 'border-accent scale-110' : ''}
+              ${isOpen ? 'border-accent scale-110' : 'border-border'}
             `}
-            style={{
-              borderColor: isOpen ? 'var(--color-accent)' : 'var(--color-border)',
-              background: 'linear-gradient(135deg, var(--color-muted) 0%, var(--color-background) 100%)',
-            }}
           >
             {/* Lettres avec effet de couleur au hover */}
             <span className={`text-xl font-bold transition-all duration-300 group-hover:text-accent ${isOpen ? 'text-accent' : ''}`}>
@@ -61,31 +49,13 @@ export default function Logo() {
           {/* Points décoratifs qui orbitent */}
           <div className={`absolute inset-0 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
             <div 
-              className="absolute w-1 h-1 rounded-full bg-accent"
-              style={{
-                top: '10%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                animation: 'orbit 3s linear infinite'
-              }}
+              className="absolute w-1 h-1 rounded-full bg-accent orbit-dot-1"
             />
             <div 
-              className="absolute w-1 h-1 rounded-full bg-accent"
-              style={{
-                top: '50%',
-                right: '10%',
-                transform: 'translateY(-50%)',
-                animation: 'orbit 3s linear infinite 1s'
-              }}
+              className="absolute w-1 h-1 rounded-full bg-accent orbit-dot-2"
             />
             <div 
-              className="absolute w-1 h-1 rounded-full bg-accent"
-              style={{
-                bottom: '10%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                animation: 'orbit 3s linear infinite 2s'
-              }}
+              className="absolute w-1 h-1 rounded-full bg-accent orbit-dot-3"
             />
           </div>
         </div>
@@ -110,6 +80,41 @@ export default function Logo() {
               transform: rotate(360deg) translateX(20px) rotate(-360deg);
             }
           }
+
+          .pulse-ring-1 {
+            background: radial-gradient(circle, rgba(153, 198, 196, 0.3) 0%, transparent 70%);
+            animation: pulse-ring 2s ease-out infinite;
+          }
+
+          .pulse-ring-2 {
+            background: radial-gradient(circle, rgba(131, 160, 139, 0.2) 0%, transparent 70%);
+            animation: pulse-ring 2s ease-out infinite 0.5s;
+          }
+
+          .logo-background {
+            background: linear-gradient(135deg, var(--color-muted) 0%, var(--color-background) 100%);
+          }
+
+          .orbit-dot-1 {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit 3s linear infinite;
+          }
+
+          .orbit-dot-2 {
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            animation: orbit 3s linear infinite 1s;
+          }
+
+          .orbit-dot-3 {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit 3s linear infinite 2s;
+          }
         `}</style>
       </button>
 
@@ -124,10 +129,7 @@ export default function Logo() {
           
           {/* Popup en position fixe - DIMENSIONS RÉDUITES */}
           <div 
-            className="fixed top-20 left-4 z-50"
-            style={{
-              animation: 'slideInLeft 0.3s ease-out'
-            }}
+            className="fixed top-20 left-4 z-50 slide-in-animation"
           >
             {/* Container de l'animation - RÉDUIT */}
             <div className="relative bg-background border-2 border-accent rounded-xl shadow-2xl overflow-hidden">
@@ -149,26 +151,14 @@ export default function Logo() {
 
               {/* Animation Juggling Lab - Dimensions réduites et FIXES */}
               <div 
-                className="relative bg-gradient-to-br from-muted/30 to-background rounded-t-lg overflow-hidden"
-                style={{
-                  width: '200px',
-                  height: '280px',
-                  minWidth: '200px',
-                  maxWidth: '200px',
-                  minHeight: '280px',
-                  maxHeight: '280px'
-                }}
+                className="relative popup-gradient popup-container rounded-t-lg overflow-hidden"
               >
                 <iframe
                   src={jugglingLabUrl}
                   title="Juggling pattern 531"
-                  className="w-full h-full border-0"
+                  className="w-full h-full border-0 iframe-no-interaction"
                   loading="eager"
                   sandbox="allow-scripts allow-same-origin"
-                  style={{
-                    pointerEvents: 'none', // Empêche toute interaction avec l'iframe
-                    userSelect: 'none'
-                  }}
                 />
               </div>
 
@@ -193,6 +183,29 @@ export default function Logo() {
                   opacity: 1;
                   transform: translateX(0);
                 }
+              }
+
+              .slide-in-animation {
+                animation: slideInLeft 0.3s ease-out;
+              }
+
+              .popup-gradient {
+                background: linear-gradient(135deg, var(--color-muted), var(--color-background));
+                opacity: 0.95;
+              }
+
+              .popup-container {
+                width: 200px;
+                height: 280px;
+                min-width: 200px;
+                max-width: 200px;
+                min-height: 280px;
+                max-height: 280px;
+              }
+
+              .iframe-no-interaction {
+                pointer-events: none;
+                user-select: none;
               }
             `}</style>
           </div>

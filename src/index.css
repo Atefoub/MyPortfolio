@@ -142,7 +142,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ── Scrollbar personnalisée (optionnel) ────────────────────── */
+/* ── Scrollbar personnalisée - CORRECTION: Utiliser des propriétés standard ── */
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -161,10 +161,23 @@ html {
   background: var(--color-sage);
 }
 
+/* ── Support Firefox pour scrollbar (navigateurs modernes) ──── */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-muted);
+  }
+}
+
 /* ── Cacher la scrollbar (pour les carrousels) ──────────────── */
 .scrollbar-hide {
-  scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+@supports (scrollbar-width: none) {
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -250,7 +263,7 @@ html {
 }
 
 .text-sage {
-  background-color: var(--color-sage);
+  color: var(--color-sage);
 }
 
 .bg-olive {

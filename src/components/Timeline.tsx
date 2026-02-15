@@ -26,7 +26,7 @@ export default function Timeline() {
   };
 
   return (
-    <section className="py-24 px-4 md:px-8 lg:px-16 bg-gradient-to-br from-background via-muted/30 to-background" id="parcours">
+    <section className="py-24 px-4 md:px-8 lg:px-16 timeline-section" id="parcours">
       <div className="max-w-6xl mx-auto">
         
         {/* ── En-tête avec identité forte ──────────────────────── */}
@@ -35,7 +35,7 @@ export default function Timeline() {
             <Sparkles className="w-5 h-5 text-accent" />
             <span className="text-sm font-semibold uppercase tracking-wider text-accent">Mon Histoire</span>
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+          <h2 className="timeline-title text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
             Parcours
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
@@ -51,12 +51,12 @@ export default function Timeline() {
             className={cn(
               'group relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 overflow-hidden',
               filter === 'all'
-                ? 'bg-accent text-accent-foreground shadow-xl shadow-accent/20 scale-105'
+                ? 'bg-accent text-accent-foreground shadow-xl filter-shadow-accent scale-105'
                 : 'bg-muted/50 text-muted-foreground hover:bg-muted border border-border/50'
             )}
           >
             {filter === 'all' && (
-              <span className="absolute inset-0 bg-gradient-to-r from-accent via-accent/80 to-accent animate-pulse"></span>
+              <span className="absolute inset-0 filter-pulse-gradient"></span>
             )}
             <span className="relative flex items-center gap-2">
               <span className={cn(
@@ -72,7 +72,7 @@ export default function Timeline() {
             className={cn(
               'group relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 overflow-hidden',
               filter === 'formation'
-                ? 'bg-[#83a08b] text-white shadow-xl shadow-[#83a08b]/30 scale-105'
+                ? 'filter-formation-active text-white shadow-xl filter-shadow-sage scale-105'
                 : 'bg-muted/50 text-muted-foreground hover:bg-muted border border-border/50'
             )}
           >
@@ -87,7 +87,7 @@ export default function Timeline() {
             className={cn(
               'group relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 overflow-hidden',
               filter === 'experience'
-                ? 'bg-[#738b69] text-white shadow-xl shadow-[#738b69]/30 scale-105'
+                ? 'filter-experience-active text-white shadow-xl filter-shadow-olive scale-105'
                 : 'bg-muted/50 text-muted-foreground hover:bg-muted border border-border/50'
             )}
           >
@@ -101,7 +101,7 @@ export default function Timeline() {
         {/* ── Timeline verticale à gauche ──────────────────────── */}
         <div className="relative">
           {/* Ligne verticale stylisée avec gradient */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-border to-transparent"></div>
+          <div className="timeline-line absolute left-6 top-0 bottom-0 w-px"></div>
 
           {/* Items */}
           <div className="space-y-12">
@@ -117,6 +117,48 @@ export default function Timeline() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .timeline-section {
+          background: linear-gradient(135deg, var(--color-background) 0%, rgba(232, 237, 233, 0.3) 50%, var(--color-background) 100%);
+        }
+
+        .timeline-title {
+          background: linear-gradient(90deg, var(--color-foreground) 0%, rgba(53, 57, 46, 0.6) 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .filter-pulse-gradient {
+          background: linear-gradient(90deg, var(--color-accent) 0%, rgba(153, 198, 196, 0.8) 50%, var(--color-accent) 100%);
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .filter-formation-active {
+          background-color: #83a08b;
+        }
+
+        .filter-experience-active {
+          background-color: #738b69;
+        }
+
+        .filter-shadow-accent {
+          box-shadow: 0 10px 40px rgba(153, 198, 196, 0.2);
+        }
+
+        .filter-shadow-sage {
+          box-shadow: 0 10px 40px rgba(131, 160, 139, 0.3);
+        }
+
+        .filter-shadow-olive {
+          box-shadow: 0 10px 40px rgba(115, 139, 105, 0.3);
+        }
+
+        .timeline-line {
+          background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-border) 50%, transparent 100%);
+        }
+      `}</style>
     </section>
   );
 }
@@ -133,29 +175,28 @@ interface TimelineCardProps {
 function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) {
   const isFormation = item.type === 'formation';
   
-  // Couleurs de la palette naturelle
-  const primaryColor = isFormation ? '#83a08b' : '#738b69'; // Vert sauge / Vert olive
-  const secondaryColor = isFormation ? '#99c6c4' : '#4f4d46'; // Turquoise / Gris verdâtre
+  // Classes CSS basées sur le type
+  const typeClass = isFormation ? 'timeline-formation' : 'timeline-experience';
   
+  const cardClasses = cn(
+    'relative rounded-2xl overflow-hidden border transition-all duration-500 timeline-card',
+    typeClass,
+    isExpanded ? 'shadow-2xl scale-[1.02]' : 'shadow-lg hover:shadow-xl'
+  );
+
+  // Animation delay calculé via une classe dynamique
+  const delayClass = `timeline-delay-${Math.min(index, 10)}`;
+
   return (
-    <div
-      className="relative animate-slide-up pl-16"
-      style={{ animationDelay: `${index * 100}ms` }}
-    >
+    <div className={cn('relative animate-slide-up pl-16', delayClass)}>
       {/* ── Point sur la timeline avec animation ──────────────── */}
       <div className="absolute left-0 top-8 flex items-center justify-center">
         <div className="relative">
           {/* Cercle extérieur pulsant */}
-          <div 
-            className="absolute inset-0 rounded-full animate-ping opacity-30"
-            style={{ backgroundColor: primaryColor }}
-          ></div>
+          <div className={cn('timeline-ping absolute inset-0 rounded-full animate-ping opacity-30', typeClass)}></div>
           
           {/* Cercle principal avec icône */}
-          <div 
-            className="relative w-12 h-12 rounded-full border-4 border-background shadow-2xl flex items-center justify-center transition-all duration-300"
-            style={{ backgroundColor: primaryColor }}
-          >
+          <div className={cn('timeline-circle relative w-12 h-12 rounded-full border-4 border-background shadow-2xl flex items-center justify-center transition-all duration-300', typeClass)}>
             {isFormation ? (
               <GraduationCap className="w-5 h-5 text-white" />
             ) : (
@@ -165,24 +206,11 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
         </div>
       </div>
 
-      {/* ── Card principale avec effet glassmorphism ──────────── */}
-      <div 
-        className={cn(
-          "group relative bg-gradient-to-br from-background to-muted/30 rounded-2xl overflow-hidden border transition-all duration-500",
-          isExpanded ? "shadow-2xl scale-[1.02]" : "shadow-lg hover:shadow-xl"
-        )}
-        style={{ 
-          borderColor: `${primaryColor}33`,
-        }}
-      >
+      {/* ── Card principale ──────────────────────────────────────── */}
+      <div className={cardClasses}>
         
         {/* Bande décorative en haut */}
-        <div 
-          className="absolute top-0 left-0 right-0 h-1"
-          style={{ 
-            background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})` 
-          }}
-        ></div>
+        <div className={cn('timeline-card-band absolute top-0 left-0 right-0 h-1', typeClass)}></div>
 
         {/* En-tête clickable */}
         <button
@@ -194,10 +222,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
             <div className="flex-1 space-y-4">
               {/* Type + Année */}
               <div className="flex items-center gap-3 flex-wrap">
-                <span 
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg text-white"
-                  style={{ backgroundColor: primaryColor }}
-                >
+                <span className={cn('timeline-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg text-white', typeClass)}>
                   {isFormation ? (
                     <GraduationCap className="w-3.5 h-3.5" />
                   ) : (
@@ -232,18 +257,13 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
                 </p>
               )}
 
-              {/* Tags de compétences avec couleurs naturelles */}
+              {/* Tags de compétences */}
               {item.skills && item.skills.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {item.skills.slice(0, isExpanded ? undefined : 6).map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 cursor-default border"
-                      style={{
-                        backgroundColor: `${primaryColor}1A`,
-                        color: primaryColor,
-                        borderColor: `${primaryColor}33`
-                      }}
+                      className={cn('timeline-skill-tag px-3 py-1.5 text-xs font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 cursor-default border', typeClass)}
                     >
                       {skill}
                     </span>
@@ -260,12 +280,11 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
             {/* Icône dépliable stylisée */}
             <div 
               className={cn(
-                "shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
+                "timeline-chevron shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                 isExpanded 
-                  ? "text-white rotate-180"
+                  ? cn("text-white rotate-180", typeClass)
                   : "bg-muted text-muted-foreground group-hover:bg-accent/20"
               )}
-              style={isExpanded ? { backgroundColor: primaryColor } : {}}
             >
               <ChevronDown className="w-5 h-5" />
             </div>
@@ -276,7 +295,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
         <div
           className={cn(
             "overflow-hidden transition-all duration-500 ease-in-out",
-            isExpanded ? "max-h-[3000px] opacity-100" : "max-h-0 opacity-0"
+            isExpanded ? "timeline-expanded opacity-100" : "max-h-0 opacity-0"
           )}
         >
           <div className="px-8 pb-8 pt-2 border-t border-border/50">
@@ -285,10 +304,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
             {item.detailedDescription && (
               <div className="mt-6 space-y-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <div 
-                    className="w-1 h-6 rounded-full"
-                    style={{ backgroundColor: primaryColor }}
-                  ></div>
+                  <div className={cn('timeline-detail-bar w-1 h-6 rounded-full', typeClass)}></div>
                   <h4 className="font-bold text-sm uppercase tracking-wider text-foreground">
                     Détails
                   </h4>
@@ -301,10 +317,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
                     return (
                       <p key={i} className="flex items-start gap-3">
                         {i > 0 && (
-                          <span 
-                            className="w-1.5 h-1.5 rounded-full mt-2 shrink-0"
-                            style={{ backgroundColor: primaryColor }}
-                          ></span>
+                          <span className={cn('timeline-bullet w-1.5 h-1.5 rounded-full mt-2 shrink-0', typeClass)}></span>
                         )}
                         <span className="flex-1">{trimmed}</span>
                       </p>
@@ -318,14 +331,8 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
             {item.achievements && item.achievements.length > 0 && (
               <div className="mt-6 space-y-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <div 
-                    className="w-1 h-6 rounded-full"
-                    style={{ backgroundColor: primaryColor }}
-                  ></div>
-                  <Award 
-                    className="w-5 h-5"
-                    style={{ color: primaryColor }}
-                  />
+                  <div className={cn('timeline-detail-bar w-1 h-6 rounded-full', typeClass)}></div>
+                  <Award className={cn('w-5 h-5', typeClass)} />
                   <h4 className="font-bold text-sm uppercase tracking-wider text-foreground">
                     Réalisations clés
                   </h4>
@@ -335,16 +342,9 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
                   {item.achievements.map((achievement, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] border"
-                      style={{
-                        backgroundColor: `${primaryColor}0D`,
-                        borderColor: `${primaryColor}33`
-                      }}
+                      className={cn('timeline-achievement flex items-start gap-3 p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] border', typeClass)}
                     >
-                      <span 
-                        className="inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0 font-bold text-xs text-white"
-                        style={{ backgroundColor: primaryColor }}
-                      >
+                      <span className={cn('timeline-check inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0 font-bold text-xs text-white', typeClass)}>
                         ✓
                       </span>
                       <span className="flex-1 text-muted-foreground leading-relaxed">
@@ -358,6 +358,126 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
           </div>
         </div>
       </div>
+
+      <style>{`
+        /* Animation delays */
+        ${Array.from({ length: 11 }, (_, i) => `
+          .timeline-delay-${i} {
+            animation-delay: ${i * 100}ms;
+          }
+        `).join('\n')}
+
+        /* Expanded state */
+        .timeline-expanded {
+          max-height: 750px;
+        }
+
+        /* Formation colors */
+        .timeline-formation.timeline-card {
+          background: linear-gradient(135deg, var(--color-background), rgba(232, 237, 233, 0.3));
+          border-color: rgba(131, 160, 139, 0.2);
+        }
+
+        .timeline-formation.timeline-ping {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-circle {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-card-band {
+          background: linear-gradient(90deg, #83a08b, #99c6c4);
+        }
+
+        .timeline-formation.timeline-badge {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-skill-tag {
+          background-color: rgba(131, 160, 139, 0.1);
+          color: #83a08b;
+          border-color: rgba(131, 160, 139, 0.2);
+        }
+
+        .timeline-formation.timeline-chevron {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-detail-bar {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-bullet {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.timeline-achievement {
+          background-color: rgba(131, 160, 139, 0.05);
+          border-color: rgba(131, 160, 139, 0.2);
+        }
+
+        .timeline-formation.timeline-check {
+          background-color: #83a08b;
+        }
+
+        .timeline-formation.w-5.h-5 {
+          color: #83a08b;
+        }
+
+        /* Experience colors */
+        .timeline-experience.timeline-card {
+          background: linear-gradient(135deg, var(--color-background), rgba(232, 237, 233, 0.3));
+          border-color: rgba(115, 139, 105, 0.2);
+        }
+
+        .timeline-experience.timeline-ping {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-circle {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-card-band {
+          background: linear-gradient(90deg, #738b69, #4f4d46);
+        }
+
+        .timeline-experience.timeline-badge {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-skill-tag {
+          background-color: rgba(115, 139, 105, 0.1);
+          color: #738b69;
+          border-color: rgba(115, 139, 105, 0.2);
+        }
+
+        .timeline-experience.timeline-chevron {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-detail-bar {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-bullet {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.timeline-achievement {
+          background-color: rgba(115, 139, 105, 0.05);
+          border-color: rgba(115, 139, 105, 0.2);
+        }
+
+        .timeline-experience.timeline-check {
+          background-color: #738b69;
+        }
+
+        .timeline-experience.w-5.h-5 {
+          color: #738b69;
+        }
+      `}</style>
     </div>
   );
 }

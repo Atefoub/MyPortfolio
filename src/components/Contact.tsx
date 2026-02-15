@@ -102,13 +102,13 @@ export default function Contact() {
             {/* Séparateur */}
             <div className="border-t border-border my-1"></div>
 
-            {/* Liens sociaux */}
+            {/* Liens sociaux - CORRECTION: remplacer min-w-[70px] par w-20 */}
             <div className="flex flex-wrap gap-2">
               <a
                 href="https://github.com/Atefoub"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-1 flex-1 min-w-[70px] p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+                className="flex flex-col items-center gap-1 flex-1 w-20 p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
               >
                 <Github className="w-5 h-5" />
                 <span className="text-[10px] font-medium">GitHub</span>
@@ -118,7 +118,7 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/antoine-mourin-0033ab233/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-1 flex-1 min-w-[70px] p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+                className="flex flex-col items-center gap-1 flex-1 w-20 p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
               >
                 <Linkedin className="w-5 h-5" />
                 <span className="text-[10px] font-medium">LinkedIn</span>
@@ -128,7 +128,7 @@ export default function Contact() {
                 href="public\images\projects\CV - Antoine Mourin.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-1 flex-1 min-w-[70px] p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+                className="flex flex-col items-center gap-1 flex-1 w-20 p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
               >
                 <FileText className="w-5 h-5" />
                 <span className="text-[10px] font-medium">CV</span>
