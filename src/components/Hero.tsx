@@ -78,7 +78,7 @@ function HeroImage() {
 
         <div className="relative rounded-3xl overflow-hidden border-4 border-accent/30 shadow-2xl transition-all duration-500 hover:scale-105 hover:border-accent/50">
           <img src="./images/hero.jpg" alt="Antoine Mourin" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background opacity-40 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background opacity-40 pointer-events-none" />
         </div>
 
         <div className="absolute -top-4 -right-4 w-20 h-20 bg-accent rounded-full opacity-20 blur-xl animate-pulse-soft" />

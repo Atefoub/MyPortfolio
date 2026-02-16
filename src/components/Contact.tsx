@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, type ChangeEvent } from 'react';
 import { Github, Linkedin, Mail, FileText, Send, CheckCircle, Calendar, Briefcase } from 'lucide-react';
 import { FORMSPREE_ENDPOINT, ANIMATION_DELAYS } from '../lib/constants';
 import { useFormSubmit } from '../lib/hooks';
@@ -19,7 +19,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const { status, submit } = useFormSubmit(FORMSPREE_ENDPOINT);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -122,7 +122,7 @@ function ContactForm({
   formData: { name: string; email: string; message: string };
   status: 'idle' | 'sending' | 'success' | 'error';
   onSubmit: (e: FormEvent) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }) {
   if (status === 'success') {
     return (
@@ -191,7 +191,7 @@ function FormField({
   label: string;
   type: 'text' | 'email' | 'textarea';
   value: string;
-  onChange: (e: any) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   disabled: boolean;
   placeholder?: string;
   rows?: number;
