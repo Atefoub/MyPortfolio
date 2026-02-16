@@ -1,14 +1,7 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PALETTE DE COULEURS NATURELLES
-   ─────────────────────────────────────────────────────────────────────────
-   Palette inspirée de tons naturels et apaisants :
-   - #35392E : Vert foncé profond (base sombre)
-   - #99C6C4 : Turquoise pastel (accent principal)
-   - #83A08B : Vert sauge (secondaire)
-   - #738B69 : Vert olive (tertiaire)
-   - #4F4D46 : Gris verdâtre (base alternative)
+   PALETTE DE COULEURS NATURELLES (ORIGINAL)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -142,7 +135,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ── Scrollbar personnalisée - CORRECTION: Utiliser des propriétés standard ── */
+/* ── Scrollbar personnalisée ────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -161,7 +154,7 @@ html {
   background: var(--color-sage);
 }
 
-/* ── Support Firefox pour scrollbar (navigateurs modernes) ──── */
+/* ── Support Firefox pour scrollbar ──────────────────────────── */
 @supports (scrollbar-width: thin) {
   * {
     scrollbar-width: thin;
@@ -172,12 +165,7 @@ html {
 /* ── Cacher la scrollbar (pour les carrousels) ──────────────── */
 .scrollbar-hide {
   -ms-overflow-style: none;
-}
-
-@supports (scrollbar-width: none) {
-  .scrollbar-hide {
-    scrollbar-width: none;
-  }
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -310,4 +298,13 @@ html {
 ::-moz-selection {
   background-color: var(--color-accent);
   color: var(--color-accent-foreground);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARROUSEL
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.carousel-container {
+  --translate-x: 0%;
+  transform: translateX(var(--translate-x));
 }
