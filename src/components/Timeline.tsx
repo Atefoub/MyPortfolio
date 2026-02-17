@@ -35,10 +35,11 @@ export default function Timeline() {
             <Sparkles className="w-5 h-5 text-accent" />
             <span className="text-sm font-semibold uppercase tracking-wider text-accent">Mon Histoire</span>
           </div>
-          <h2 className="timeline-title text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h2 className="timeline-title text-3xl md:text-4xl font-bold mb-3">
             Parcours
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+          <div className="w-20 h-1 bg-accent mb-4" />
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
             De la comptabilité au code : une reconversion vers le développement web, 
             portée par la passion de créer et d'innover.
           </p>

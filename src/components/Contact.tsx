@@ -2,7 +2,6 @@ import { useState, type FormEvent, type ChangeEvent } from 'react';
 import { Github, Linkedin, Mail, FileText, Send, CheckCircle, Calendar, Briefcase } from 'lucide-react';
 import { FORMSPREE_ENDPOINT, ANIMATION_DELAYS } from '../lib/constants';
 import { useFormSubmit } from '../lib/hooks';
-import SectionHeader from './SectionHeader';
 
 const AVAILABILITY = [
   { icon: Calendar, title: 'Stage - 2 mois', subtitle: 'Disponible à partir de juin 2026', color: 'green' },
@@ -30,12 +29,15 @@ export default function Contact() {
   };
 
   return (
-    <section className="pt-20 pb-2 px-4 md:px-8 lg:px-16" id="contact">
+    <section className="pt-20 pb-8 px-4 md:px-8 lg:px-16" id="contact">
       <div className="max-w-5xl mx-auto w-full">
-        <SectionHeader
-          title="Contact"
-          subtitle="Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter !"
-        />
+        <div className="mb-4 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">Contact</h2>
+          <div className="w-20 h-1 bg-accent mb-4" />
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter !
+          </p>
+        </div>
 
         <AvailabilityBadges />
 
@@ -57,7 +59,7 @@ export default function Contact() {
 
 function AvailabilityBadges() {
   return (
-    <div className={`flex flex-wrap justify-center gap-2 mb-6 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+    <div className={`flex flex-wrap justify-center gap-2 mb-4 -mt-8 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
       {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
         <div key={title} className={`flex items-center gap-2 px-4 py-2 bg-${color}-500/10 text-${color}-600 dark:text-${color}-400 rounded-lg border border-${color}-500/20`}>
           <Icon className="w-4 h-4" />
@@ -233,8 +235,8 @@ function FormField({
 
 function Footer() {
   return (
-    <div className="mt-4 pt-4 border-t border-border text-center text-muted-foreground">
-      <p className="text-xs">&copy; {new Date().getFullYear()} Antoine Mourin. Tous droits réservés.</p>
+    <div className="mt-6 pt-4 border-t border-border text-center text-muted-foreground">
+      <p className="text-sm">&copy; {new Date().getFullYear()} Antoine Mourin. Tous droits réservés.</p>
     </div>
   );
 }
