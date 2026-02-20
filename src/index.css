@@ -155,11 +155,9 @@ html {
 }
 
 /* ── Support Firefox pour scrollbar ──────────────────────────── */
-@supports (scrollbar-width: thin) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) var(--color-muted);
-  }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-muted);
 }
 
 /* ── Cacher la scrollbar (pour les carrousels) ──────────────── */
