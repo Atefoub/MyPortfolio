@@ -29,26 +29,32 @@ export default function Contact() {
   };
 
   return (
-    <section className="pt-20 pb-8 px-4 md:px-8 lg:px-16" id="contact">
+    <section className="pt-16 md:pt-20 pb-8 px-4 md:px-8 lg:px-16" id="contact">
       <div className="max-w-5xl mx-auto w-full">
         <div className="mb-4 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Contact</h2>
+          <h2 className="text-2xl md:text-4xl font-bold mb-3">Contact</h2>
           <div className="w-20 h-1 bg-accent mb-4" />
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+          <p className="text-sm md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
             Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter !
           </p>
         </div>
 
-        <AvailabilityBadges />
+        {/* Badges dispo */}
+        <div className={`flex flex-col sm:flex-row flex-wrap justify-center gap-2 mb-4 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+          {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
+            <div key={title} className={`flex items-center gap-2 px-4 py-2 bg-${color}-500/10 text-${color}-600 dark:text-${color}-400 rounded-lg border border-${color}-500/20`}>
+              <Icon className="w-4 h-4 shrink-0" />
+              <div className="text-left">
+                <div className="text-xs font-semibold">{title}</div>
+                <div className="text-[10px] opacity-80">{subtitle}</div>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-stretch animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
           <ContactInfo />
-          <ContactForm 
-            formData={formData} 
-            status={status} 
-            onSubmit={handleSubmit} 
-            onChange={handleChange} 
-          />
+          <ContactForm formData={formData} status={status} onSubmit={handleSubmit} onChange={handleChange} />
         </div>
 
         <Footer />
@@ -57,28 +63,12 @@ export default function Contact() {
   );
 }
 
-function AvailabilityBadges() {
-  return (
-    <div className={`flex flex-wrap justify-center gap-2 mb-4 -mt-8 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-      {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
-        <div key={title} className={`flex items-center gap-2 px-4 py-2 bg-${color}-500/10 text-${color}-600 dark:text-${color}-400 rounded-lg border border-${color}-500/20`}>
-          <Icon className="w-4 h-4" />
-          <div className="text-left">
-            <div className="text-xs font-semibold">{title}</div>
-            <div className="text-[10px] opacity-80">{subtitle}</div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 function ContactInfo() {
   return (
     <div className="flex flex-col gap-3 bg-muted rounded-xl p-4 justify-center">
       <a
         href="mailto:antoinem1pro@gmail.com"
-        className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-sm"
+        className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-sm w-fit"
       >
         <Mail className="w-4 h-4" />
         antoinem1pro@gmail.com
@@ -104,7 +94,7 @@ function ContactInfo() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-1 flex-1 w-20 p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+            className="flex flex-col items-center gap-1 flex-1 min-w-16 p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
           >
             <Icon className="w-5 h-5" />
             <span className="text-[10px] font-medium">{label}</span>
@@ -115,12 +105,12 @@ function ContactInfo() {
   );
 }
 
-function ContactForm({ 
-  formData, 
-  status, 
-  onSubmit, 
-  onChange 
-}: { 
+function ContactForm({
+  formData,
+  status,
+  onSubmit,
+  onChange,
+}: {
   formData: { name: string; email: string; message: string };
   status: 'idle' | 'sending' | 'success' | 'error';
   onSubmit: (e: FormEvent) => void;
@@ -144,13 +134,13 @@ function ContactForm({
       <form onSubmit={onSubmit} className="flex flex-col gap-2 flex-1" noValidate>
         <FormField id="name" label="Nom" type="text" value={formData.name} onChange={onChange} disabled={status === 'sending'} />
         <FormField id="email" label="Email" type="email" value={formData.email} onChange={onChange} disabled={status === 'sending'} placeholder="vous@exemple.com" />
-        <FormField 
-          id="message" 
-          label="Message" 
-          type="textarea" 
-          value={formData.message} 
-          onChange={onChange} 
-          disabled={status === 'sending'} 
+        <FormField
+          id="message"
+          label="Message"
+          type="textarea"
+          value={formData.message}
+          onChange={onChange}
+          disabled={status === 'sending'}
           placeholder="Parlez-moi de votre projet..."
           rows={3}
         />
@@ -179,53 +169,28 @@ function ContactForm({
   );
 }
 
-function FormField({ 
-  id, 
-  label, 
-  type, 
-  value, 
-  onChange, 
-  disabled, 
-  placeholder,
-  rows 
+function FormField({
+  id, label, type, value, onChange, disabled, placeholder, rows
 }: {
-  id: string;
-  label: string;
-  type: 'text' | 'email' | 'textarea';
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
-  disabled: boolean;
-  placeholder?: string;
-  rows?: number;
+  id: string; label: string; type: 'text' | 'email' | 'textarea';
+  value: string; onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
+  disabled: boolean; placeholder?: string; rows?: number;
 }) {
   const baseClasses = "px-3 py-2 rounded-lg bg-background border border-border text-xs placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 transition-shadow duration-200";
-  
+
   return (
     <div className={`flex flex-col gap-1 ${type === 'textarea' ? 'flex-1' : ''}`}>
       <label htmlFor={id} className="text-xs font-medium">{label}</label>
       {type === 'textarea' ? (
         <textarea
-          id={id}
-          name={id}
-          value={value}
-          onChange={onChange}
-          required
-          rows={rows}
-          disabled={disabled}
-          placeholder={placeholder}
+          id={id} name={id} value={value} onChange={onChange} required
+          rows={rows} disabled={disabled} placeholder={placeholder}
           className={`${baseClasses} flex-1 resize-none`}
         />
       ) : (
         <input
-          id={id}
-          name={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          required
-          disabled={disabled}
-          placeholder={placeholder}
-          autoComplete={id}
+          id={id} name={id} type={type} value={value} onChange={onChange} required
+          disabled={disabled} placeholder={placeholder} autoComplete={id}
           className={baseClasses}
         />
       )}
@@ -236,7 +201,7 @@ function FormField({
 function Footer() {
   return (
     <div className="mt-6 pt-4 border-t border-border text-center text-muted-foreground">
-      <p className="text-sm">&copy; {new Date().getFullYear()} Antoine Mourin. Tous droits réservés.</p>
+      <p className="text-xs md:text-sm">&copy; {new Date().getFullYear()} Antoine Mourin. Tous droits réservés.</p>
     </div>
   );
 }
