@@ -4,9 +4,15 @@ import Button from './Button';
 
 const iconMap = { Github, Linkedin, Mail };
 
-export default function SocialLinks({ variant = 'ghost', size = 'md' }: { variant?: 'ghost' | 'primary'; size?: 'sm' | 'md' | 'lg' }) {
+export default function SocialLinks({
+  variant = 'ghost',
+  size = 'md',
+}: {
+  variant?: 'ghost' | 'primary';
+  size?: 'sm' | 'md' | 'lg';
+}) {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2 sm:gap-3">
       {SOCIAL_LINKS.map(({ href, icon, label }) => {
         const Icon = iconMap[icon as keyof typeof iconMap];
         return (

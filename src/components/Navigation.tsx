@@ -7,7 +7,6 @@ import Logo from './Logo';
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Fermer le menu au resize vers desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setMenuOpen(false);
@@ -16,7 +15,6 @@ export default function Navigation() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Bloquer le scroll quand le menu est ouvert
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -24,7 +22,6 @@ export default function Navigation() {
 
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
-    // Laisser le temps au menu de se fermer avant le scroll
     setTimeout(() => {
       if (href === '#') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -36,12 +33,12 @@ export default function Navigation() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           <Logo />
 
           {/* Liens desktop */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {NAV_LINKS.map(({ href, label }) => (
               <button
                 key={href}
@@ -56,7 +53,7 @@ export default function Navigation() {
           </div>
 
           {/* Boutons mobile */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
             <ThemeToggle />
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -72,15 +69,13 @@ export default function Navigation() {
       {/* Menu mobile */}
       {menuOpen && (
         <>
-          {/* Overlay */}
           <div
-            className="fixed inset-0 top-16 z-30 bg-foreground/20 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 top-14 sm:top-16 z-30 bg-foreground/20 backdrop-blur-sm md:hidden"
             onClick={() => setMenuOpen(false)}
             aria-hidden="true"
           />
-          {/* Panneau */}
-          <div className="absolute top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden animate-slide-up">
-            <div className="flex flex-col px-4 py-4 gap-1">
+          <div className="absolute top-14 sm:top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden animate-slide-up">
+            <div className="flex flex-col px-4 py-3 gap-1">
               {NAV_LINKS.map(({ href, label }) => (
                 <button
                   key={href}
