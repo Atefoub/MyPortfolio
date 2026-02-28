@@ -4,10 +4,10 @@ export interface TimelineItem {
   title: string;
   organization: string;
   type: 'formation' | 'experience';
-  shortDescription: string; // Description courte toujours visible
-  detailedDescription?: string; // Description détaillée dans la section dépliable
-  skills?: string[]; // Compétences/technologies sous forme de tags
-  achievements?: string[]; // Réalisations clés (optionnel)
+  shortDescription: string;
+  detailedDescription?: string;
+  skills?: string[];
+  achievements?: string[];
 }
 
 export const timeline: TimelineItem[] = [
@@ -38,45 +38,7 @@ export const timeline: TimelineItem[] = [
     achievements: [
       "Développement de 10+ projets full-stack de A à Z",
       "Maîtrise des méthodologies agiles et du travail en équipe",
-      "Intégration d'APIs d'IA (OpenAI, Hugging Face) dans des projets concrets",
       "Déploiement et maintenance d'applications en production"
-    ]
-  },
-  {
-    id: 2,
-    year: "Juin 2026",
-    title: "Stage Développement Web & Mobile",
-    organization: "Recherche active - 2 mois",
-    type: "formation",
-    shortDescription: "Recherche de stage pour consolider mes compétences techniques en environnement professionnel.",
-    detailedDescription: "Opportunité pour mettre en pratique mes compétences en développement full-stack dans un contexte professionnel réel. Ouvert aux projets innovants dans la tech, fintech ou transformation digitale. Possibilité de prolongation en alternance.",
-    skills: [
-      "React",
-      "TypeScript",
-      "Node.js",
-      "API REST",
-      "PostgreSQL",
-      "Git",
-      "Agile"
-    ]
-  },
-  {
-    id: 3,
-    year: "Sept. 2026 - Sept. 2028",
-    title: "Alternance Concepteur Développeur d'Applications",
-    organization: "RNCP niveau 7 - 24 mois",
-    type: "formation",
-    shortDescription: "Recherche d'alternance pour approfondir mes compétences en développement d'applications web et mobiles.",
-    detailedDescription: "Formation avancée en alternance pour maîtriser l'architecture logicielle, les technologies modernes et contribuer à des projets innovants sur le long terme. Focus sur l'optimisation des performances, GraphQL, et l'intégration d'IA.",
-    skills: [
-      "Architecture logicielle",
-      "GraphQL",
-      "Microservices",
-      "React Native",
-      "DevOps",
-      "Cloud (AWS/Azure)",
-      "Optimisation performances",
-      "IA/ML"
     ]
   },
   {
@@ -93,18 +55,16 @@ export const timeline: TimelineItem[] = [
       "VBA",
       "Power Automate",
       "Excel avancé",
-      "SQL",
       "Gestion de trésorerie",
       "Automatisation",
       "Processus financiers"
     ],
     achievements: [
-      "Automatisation de tâches répétitives permettant un gain de 30% du temps de traitement",
+      "Automatisation de tâches répétitives en utilisant Powerautomate",
       "Développement de scripts Python pour le traitement de données comptables volumineuses",
-      "Migration et paramétrage de 3 entités comptables sur SAP",
-      "Formation et support des utilisateurs sur les nouveaux outils digitaux",
+      "Formation et support des utilisateurs sur les nouveaux outils digitaux (Powerautomate)",
       "Amélioration continue des processus comptables et des outils de reporting",
-      "Gestion de la conformité RGPD pour les données financières"
+      "Transmission de connaissance pour externaliser la saisie comptable"
     ]
   },
   {

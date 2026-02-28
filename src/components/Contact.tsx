@@ -39,15 +39,21 @@ export default function Contact() {
           </p>
         </div>
 
-        {/* Badges dispo */}
-        <div className={`flex flex-col sm:flex-row flex-wrap justify-center gap-2 mb-4 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+        {/* ── Badges dispo redesignés ── */}
+        <div className={`flex flex-col sm:flex-row flex-wrap gap-3 mb-6 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
           {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
-            <div key={title} className={`flex items-center gap-2 px-4 py-2 bg-${color}-500/10 text-${color}-600 dark:text-${color}-400 rounded-lg border border-${color}-500/20`}>
-              <Icon className="w-4 h-4 shrink-0" />
-              <div className="text-left">
-                <div className="text-xs font-semibold">{title}</div>
-                <div className="text-[10px] opacity-80">{subtitle}</div>
+            <div key={title} className={`avail-badge avail-badge-${color}`}>
+              <div className={`avail-badge-icon-wrap avail-icon-${color}`}>
+                <Icon className="w-4 h-4" />
               </div>
+              <div className="avail-badge-text">
+                <div className="avail-badge-title">{title}</div>
+                <div className="avail-badge-subtitle">{subtitle}</div>
+              </div>
+              <span className={`avail-badge-dot-wrap`}>
+                <span className={`avail-ping avail-ping-${color}`} />
+                <span className={`avail-dot avail-dot-${color}`} />
+              </span>
             </div>
           ))}
         </div>
@@ -59,6 +65,133 @@ export default function Contact() {
 
         <Footer />
       </div>
+
+      <style>{`
+        /* ── Badge base ── */
+        .avail-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 18px 12px 14px;
+          border-radius: 14px;
+          border-width: 1.5px;
+          border-style: solid;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          cursor: default;
+          min-width: 260px;
+          position: relative;
+        }
+        .avail-badge:hover {
+          transform: translateY(-2px);
+        }
+
+        /* Green */
+        .avail-badge-green {
+          background: rgba(34, 197, 94, 0.08);
+          border-color: rgba(34, 197, 94, 0.4);
+        }
+        .avail-badge-green:hover {
+          box-shadow: 0 6px 24px rgba(34, 197, 94, 0.2);
+          background: rgba(34, 197, 94, 0.12);
+        }
+        .dark .avail-badge-green {
+          background: rgba(34, 197, 94, 0.1);
+          border-color: rgba(34, 197, 94, 0.35);
+        }
+
+        /* Blue */
+        .avail-badge-blue {
+          background: rgba(59, 130, 246, 0.08);
+          border-color: rgba(59, 130, 246, 0.4);
+        }
+        .avail-badge-blue:hover {
+          box-shadow: 0 6px 24px rgba(59, 130, 246, 0.2);
+          background: rgba(59, 130, 246, 0.12);
+        }
+        .dark .avail-badge-blue {
+          background: rgba(59, 130, 246, 0.1);
+          border-color: rgba(59, 130, 246, 0.35);
+        }
+
+        /* ── Icon wrapper ── */
+        .avail-badge-icon-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 9px;
+          flex-shrink: 0;
+        }
+        .avail-icon-green {
+          background: rgba(34, 197, 94, 0.15);
+          color: #16a34a;
+        }
+        .dark .avail-icon-green {
+          background: rgba(34, 197, 94, 0.2);
+          color: #4ade80;
+        }
+        .avail-icon-blue {
+          background: rgba(59, 130, 246, 0.15);
+          color: #2563eb;
+        }
+        .dark .avail-icon-blue {
+          background: rgba(59, 130, 246, 0.2);
+          color: #60a5fa;
+        }
+
+        /* ── Text ── */
+        .avail-badge-text {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          flex: 1;
+        }
+        .avail-badge-title {
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: var(--color-foreground);
+          line-height: 1.2;
+        }
+        .avail-badge-subtitle {
+          font-size: 0.75rem;
+          color: var(--color-muted-foreground);
+          line-height: 1.3;
+        }
+
+        /* ── Animated dot ── */
+        .avail-badge-dot-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 10px;
+          height: 10px;
+          flex-shrink: 0;
+        }
+        .avail-ping {
+          position: absolute;
+          inset: 0;
+          border-radius: 9999px;
+          animation: avail-ping 1.8s ease-out infinite;
+        }
+        .avail-dot {
+          position: relative;
+          width: 10px;
+          height: 10px;
+          border-radius: 9999px;
+        }
+        .avail-ping-green { background: #22c55e; }
+        .avail-dot-green  { background: #22c55e; }
+        .avail-ping-blue  { background: #3b82f6; }
+        .avail-dot-blue   { background: #3b82f6; }
+
+        @keyframes avail-ping {
+          0%   { transform: scale(1);   opacity: 0.75; }
+          70%  { transform: scale(2.4); opacity: 0; }
+          100% { transform: scale(2.4); opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 }
