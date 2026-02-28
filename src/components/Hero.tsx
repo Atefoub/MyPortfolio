@@ -3,11 +3,6 @@ import { ANIMATION_DELAYS } from '../lib/constants';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
 
-const AVAILABILITY_BADGES = [
-  { color: 'green', label: 'Disponible pour stage (juin 2026)' },
-  { color: 'blue', label: 'Alternance (sept. 2026 - 24 mois)' },
-];
-
 export default function Hero() {
   const scrollToProjects = () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
 
@@ -50,20 +45,117 @@ export default function Hero() {
               <SocialLinks />
             </div>
 
-            <div className={`flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-              {AVAILABILITY_BADGES.map(({ color, label }) => (
-                <span
-                  key={label}
-                  className={`inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-${color}-500/10 text-${color}-600 dark:text-${color}-400 rounded-full text-xs sm:text-sm font-medium border border-${color}-500/20`}
-                >
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${color}-400 opacity-75`} />
-                    <span className={`relative inline-flex rounded-full h-2 w-2 bg-${color}-500`} />
-                  </span>
-                  {label}
+            {/* ── Badges de disponibilité redesignés ── */}
+            <div className={`flex flex-col sm:flex-row flex-wrap gap-3 animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
+              {/* Badge Stage */}
+              <div className="hero-badge hero-badge-green">
+                <span className="hero-badge-dot-wrapper">
+                  <span className="hero-badge-ping hero-badge-ping-green" />
+                  <span className="hero-badge-dot hero-badge-dot-green" />
                 </span>
-              ))}
+                <span className="hero-badge-label">Disponible pour stage de 8 semaines du 08 juin au 24 juillet 2026</span>
+              </div>
+
+              {/* Badge Alternance */}
+              <div className="hero-badge hero-badge-blue">
+                <span className="hero-badge-dot-wrapper">
+                  <span className="hero-badge-ping hero-badge-ping-blue" />
+                  <span className="hero-badge-dot hero-badge-dot-blue" />
+                </span>
+                <span className="hero-badge-label">Alternance (sept. 2026 – 24 mois)</span>
+              </div>
             </div>
+
+            <style>{`
+              .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 18px;
+                border-radius: 9999px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                letter-spacing: 0.01em;
+                border-width: 1.5px;
+                border-style: solid;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                cursor: default;
+              }
+              .hero-badge:hover {
+                transform: translateY(-2px);
+              }
+
+              /* Green badge */
+              .hero-badge-green {
+                background: rgba(34, 197, 94, 0.12);
+                border-color: rgba(34, 197, 94, 0.45);
+                color: #16a34a;
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+              }
+              .dark .hero-badge-green {
+                color: #4ade80;
+                background: rgba(34, 197, 94, 0.15);
+                border-color: rgba(34, 197, 94, 0.4);
+              }
+              .hero-badge-green:hover {
+                box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
+              }
+
+              /* Blue badge */
+              .hero-badge-blue {
+                background: rgba(59, 130, 246, 0.12);
+                border-color: rgba(59, 130, 246, 0.45);
+                color: #2563eb;
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+              }
+              .dark .hero-badge-blue {
+                color: #60a5fa;
+                background: rgba(59, 130, 246, 0.15);
+                border-color: rgba(59, 130, 246, 0.4);
+              }
+              .hero-badge-blue:hover {
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+              }
+
+              /* Dot */
+              .hero-badge-dot-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 10px;
+                height: 10px;
+                flex-shrink: 0;
+              }
+              .hero-badge-ping {
+                position: absolute;
+                inset: 0;
+                border-radius: 9999px;
+                animation: hero-ping 1.6s ease-out infinite;
+              }
+              .hero-badge-ping-green { background: #22c55e; }
+              .hero-badge-ping-blue  { background: #3b82f6; }
+
+              .hero-badge-dot {
+                position: relative;
+                width: 10px;
+                height: 10px;
+                border-radius: 9999px;
+                flex-shrink: 0;
+              }
+              .hero-badge-dot-green { background: #22c55e; }
+              .hero-badge-dot-blue  { background: #3b82f6; }
+
+              @keyframes hero-ping {
+                0%   { transform: scale(1);   opacity: 0.7; }
+                70%  { transform: scale(2.2); opacity: 0; }
+                100% { transform: scale(2.2); opacity: 0; }
+              }
+
+              .hero-badge-label {
+                white-space: nowrap;
+              }
+            `}</style>
           </div>
         </div>
       </div>

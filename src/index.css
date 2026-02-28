@@ -155,7 +155,7 @@ html {
 }
 
 /* ── Support Firefox pour scrollbar ──────────────────────────── */
-* {
+html {
   scrollbar-width: thin;
   scrollbar-color: var(--color-accent) var(--color-muted);
 }
