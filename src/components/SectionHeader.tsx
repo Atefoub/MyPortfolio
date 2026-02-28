@@ -8,27 +8,36 @@ interface SectionHeaderProps {
   className?: string;
 }
 
-export default function SectionHeader({ title, subtitle, icon, className = '' }: SectionHeaderProps) {
+export default function SectionHeader({
+  title,
+  subtitle,
+  icon,
+  className = '',
+}: SectionHeaderProps) {
   return (
-    <div className={`mb-16 animate-fade-in ${className}`}>
+    <div className={`mb-10 sm:mb-12 md:mb-16 animate-fade-in ${className}`}>
       {icon && (
-        <div className="inline-flex items-center gap-3 mb-6 px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
+        <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 rounded-full border border-accent/20">
           {icon}
-          <span className="text-sm font-semibold uppercase tracking-wider text-accent">
+          <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-accent">
             {title}
           </span>
         </div>
       )}
-      
+
       {!icon && (
         <>
-          <h2 className="text-4xl md:text-5xl lg:text-4xl font-bold mb-4">{title}</h2>
-          <div className="w-20 h-1 bg-accent" />
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
+            {title}
+          </h2>
+          <div className="w-16 sm:w-20 h-1 bg-accent" />
         </>
       )}
-      
+
       {subtitle && (
-        <p className={`text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mt-6 ${ANIMATION_DELAYS.SHORT}`}>
+        <p
+          className={`text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed mt-4 sm:mt-6 ${ANIMATION_DELAYS.SHORT}`}
+        >
           {subtitle}
         </p>
       )}
