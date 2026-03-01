@@ -62,6 +62,48 @@ export function useResponsiveItemsCount(breakpoints: { mobile: number; tablet: n
   return itemsToShow;
 }
 
+/**
+ * Retourne true si la largeur de fenêtre est inférieure au breakpoint donné.
+ * Se met à jour automatiquement au resize.
+ */
+export function useIsMobile(breakpoint: number): boolean {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < breakpoint);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
+/**
+ * Retourne la date et l'heure courantes au format français,
+ * mises à jour chaque seconde.
+ */
+export function useDateTime() {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const date = now.toLocaleDateString('fr-FR', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  });
+  const time = now.toLocaleTimeString('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  return { date, time };
+}
+
 export function useFormSubmit(endpoint: string) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 

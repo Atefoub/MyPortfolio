@@ -1,18 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { CAROUSEL_BREAKPOINTS, JUGGLING_POPUP } from '../lib/constants';
+import { useIsMobile } from '../lib/hooks';
 
 export default function Logo() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile(CAROUSEL_BREAKPOINTS.MOBILE);
 
   const pattern = '531';
-  const jugglingLabUrl = `https://jugglinglab.org/anim?pattern=${pattern};width=200;height=280;fps=30;slowdown=2.0;border=0;showground=false;prop=ball`;
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
+  const jugglingLabUrl = `https://jugglinglab.org/anim?pattern=${pattern};width=${JUGGLING_POPUP.WIDTH};height=${JUGGLING_POPUP.HEIGHT};fps=30;slowdown=2.0;border=0;showground=false;prop=ball`;
 
   const togglePopup = () => setIsOpen(!isOpen);
 
@@ -171,10 +166,10 @@ export default function Logo() {
                 opacity: 0.95;
               }
               .popup-container {
-                width: 200px;
-                height: 280px;
-                min-width: 200px; max-width: 200px;
-                min-height: 280px; max-height: 280px;
+                width: ${JUGGLING_POPUP.WIDTH}px;
+                height: ${JUGGLING_POPUP.HEIGHT}px;
+                min-width: ${JUGGLING_POPUP.WIDTH}px; max-width: ${JUGGLING_POPUP.WIDTH}px;
+                min-height: ${JUGGLING_POPUP.HEIGHT}px; max-height: ${JUGGLING_POPUP.HEIGHT}px;
               }
               .iframe-no-interaction {
                 pointer-events: none;

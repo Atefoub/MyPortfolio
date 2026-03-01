@@ -15,8 +15,6 @@
   --color-accent-foreground: #35392e;
   --color-sage: #83a08b;
   --color-olive: #738b69;
-  --color-success: #83a08b;
-  --color-info: #99c6c4;
   --font-family-sans: Inter, system-ui, -apple-system, sans-serif;
 }
 
@@ -31,8 +29,6 @@
   --color-accent-foreground: #35392e;
   --color-sage: #83a08b;
   --color-olive: #738b69;
-  --color-success: #83a08b;
-  --color-info: #99c6c4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,8 +42,6 @@
     --color-accent-foreground: #35392e;
     --color-sage: #83a08b;
     --color-olive: #738b69;
-    --color-success: #83a08b;
-    --color-info: #99c6c4;
   }
 }
 

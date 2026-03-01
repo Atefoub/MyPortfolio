@@ -10,7 +10,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { TIMELINE_MAX_DELAYS } from '../lib/constants';
+import { TIMELINE_MAX_DELAYS, TIMELINE_MAX_VISIBLE_SKILLS, TIMELINE_EXPANDED_MAX_HEIGHT } from '../lib/constants';
+import SectionHeader from './SectionHeader';
 
 type FilterType = 'all' | 'formation' | 'experience';
 
@@ -38,20 +39,17 @@ export default function Timeline() {
     >
       <div className="max-w-6xl mx-auto">
 
-        {/* En-tête */}
-        <div className="mb-8 sm:mb-10 md:mb-16 animate-fade-in">
-          <div className="inline-flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 md:mb-6 px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 rounded-full border border-accent/20">
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent" />
-            <span className="text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider text-accent">
-              Mon Histoire
-            </span>
-          </div>
+        {/* En-tête — composant partagé, mode "icon" */}
+        <SectionHeader
+          icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent" />}
+          title="Mon Histoire"
+          subtitle="De la comptabilité au code : une reconversion vers le développement web, portée par la passion de créer et d'innover."
+        />
+
+        {/* Titre principal affiché sous le badge (hors SectionHeader car style spécifique) */}
+        <div className="-mt-4 sm:-mt-6 md:-mt-8 mb-8 sm:mb-10 md:mb-16">
           <h2 className="timeline-title text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Parcours</h2>
-          <div className="w-16 sm:w-20 h-1 bg-accent mb-3 sm:mb-4" />
-          <p className="text-sm md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            De la comptabilité au code : une reconversion vers le développement web, portée par la
-            passion de créer et d'innover.
-          </p>
+          <div className="w-16 sm:w-20 h-1 bg-accent" />
         </div>
 
         {/* Filtres */}
@@ -225,7 +223,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
               {/* Skills */}
               {item.skills && item.skills.length > 0 && (
                 <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-                  {item.skills.slice(0, isExpanded ? undefined : 4).map((skill) => (
+                  {item.skills.slice(0, isExpanded ? undefined : TIMELINE_MAX_VISIBLE_SKILLS).map((skill) => (
                     <span
                       key={skill}
                       className={cn(
@@ -236,9 +234,9 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
                       {skill}
                     </span>
                   ))}
-                  {!isExpanded && item.skills.length > 4 && (
+                  {!isExpanded && item.skills.length > TIMELINE_MAX_VISIBLE_SKILLS && (
                     <span className="px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] md:text-xs font-semibold rounded-lg bg-muted border border-border text-muted-foreground">
-                      +{item.skills.length - 4} autres
+                      +{item.skills.length - TIMELINE_MAX_VISIBLE_SKILLS} autres
                     </span>
                   )}
                 </div>
@@ -337,7 +335,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
           `.timeline-delay-${i} { animation-delay: ${i * 100}ms; }`
         ).join('\n')}
 
-        .timeline-expanded { max-height: 800px; }
+        .timeline-expanded { max-height: ${TIMELINE_EXPANDED_MAX_HEIGHT}; }
 
         /* ── Styles partagés par les deux types ── */
         .timeline-card { background: linear-gradient(135deg, var(--color-background), rgba(232,237,233,0.3)); }
