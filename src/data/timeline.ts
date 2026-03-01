@@ -13,7 +13,7 @@ export interface TimelineItem {
 export const timeline: TimelineItem[] = [
   {
     id: 1,
-    year: "2024 - 2026",
+    year: "2025 - 2026",
     title: "Concepteur Développeur d'Applications",
     organization: "Ada Tech School - Nantes",
     type: "formation",
