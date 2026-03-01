@@ -34,7 +34,7 @@ export const projects: Project[] = [
   {
     id: 12,
     title: "Adaopte - Plateforme d'Adoption Animale",
-    description: "Application web dédiée à l'adoption responsable d'animaux abandonnés. Développée à partir d'une maquette, elle propose une page d'accueil avec recherche filtrée, une page de liste avec filtres par type et localisation, une pagination, et une page bénévolat avec formulaire. Architecture orientée composants réutilisables, données typées en TypeScript (JSON local), filtrage optimisé avec useMemo, persistance des filtres via localStorage et modélisation d'une base de données SQL.",
+    description: "Application web dédiée à l'adoption responsable d'animaux abandonnés. Développée à partir d'une maquette, elle propose une page d'accueil avec recherche filtrée, une page de liste avec filtres par type et localisation, une pagination, et une page bénévolat avec formulaire. Architecture orientée composants réutilisables, données typées en TypeScript (JSON local), filtrage optimisé avec useMemo, persistance des filtres via localStorage.",
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "JSON", "localStorage", "SQL", "useMemo"],
     date: "Janvier 2026",
     github: "https://github.com/Atefoub/adaopte",
