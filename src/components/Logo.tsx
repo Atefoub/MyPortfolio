@@ -11,23 +11,10 @@ export default function Logo() {
 
   const togglePopup = () => setIsOpen(!isOpen);
 
-  // Styles positionnement popup selon taille écran
+  // Positionnement popup selon taille écran
   const popupPositionStyle: React.CSSProperties = isMobile
-    ? {
-        // Mobile : centré horizontalement, collé sous la navbar
-        position: 'fixed',
-        top: '72px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 50,
-      }
-    : {
-        // Desktop : à gauche sous le logo (comportement original)
-        position: 'fixed',
-        top: '72px',
-        left: '16px',
-        zIndex: 50,
-      };
+    ? { position: 'fixed', top: '72px', left: '50%', transform: 'translateX(-50%)', zIndex: 50 }
+    : { position: 'fixed', top: '72px', left: '16px', zIndex: 50 };
 
   return (
     <div className="relative">
@@ -37,13 +24,13 @@ export default function Logo() {
         aria-label="Afficher l'animation de jonglage"
       >
         <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
-          {/* Cercles pulsants */}
+          {/* Cercles pulsants — styles dans index.css (.pulse-ring-*) */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-1" />
             <div className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-2" />
           </div>
 
-          {/* Fond principal */}
+          {/* Fond principal — styles dans index.css (.logo-background) */}
           <div
             className={`
               relative w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center
@@ -59,7 +46,7 @@ export default function Logo() {
             </span>
           </div>
 
-          {/* Orbiting dots */}
+          {/* Orbiting dots — styles dans index.css (.orbit-dot-*) */}
           <div
             className={`absolute inset-0 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
           >
@@ -68,49 +55,11 @@ export default function Logo() {
             <div className="absolute w-1 h-1 rounded-full bg-accent orbit-dot-3" />
           </div>
         </div>
-
-        <style>{`
-          @keyframes pulse-ring {
-            0%   { transform: scale(0.9); opacity: 0.6; }
-            100% { transform: scale(1.5); opacity: 0; }
-          }
-          @keyframes orbit {
-            0%, 100% { transform: rotate(0deg) translateX(20px) rotate(0deg); }
-            100%      { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
-          }
-          .pulse-ring-1 {
-            background: radial-gradient(circle, rgba(153,198,196,0.3) 0%, transparent 70%);
-            animation: pulse-ring 2s ease-out infinite;
-          }
-          .pulse-ring-2 {
-            background: radial-gradient(circle, rgba(131,160,139,0.2) 0%, transparent 70%);
-            animation: pulse-ring 2s ease-out infinite 0.5s;
-          }
-          .logo-background {
-            background: linear-gradient(135deg, var(--color-muted) 0%, var(--color-background) 100%);
-          }
-          .orbit-dot-1 {
-            top: 10%; left: 50%;
-            transform: translateX(-50%);
-            animation: orbit 3s linear infinite;
-          }
-          .orbit-dot-2 {
-            top: 50%; right: 10%;
-            transform: translateY(-50%);
-            animation: orbit 3s linear infinite 1s;
-          }
-          .orbit-dot-3 {
-            bottom: 10%; left: 50%;
-            transform: translateX(-50%);
-            animation: orbit 3s linear infinite 2s;
-          }
-        `}</style>
       </button>
 
-      {/* Popup */}
+      {/* Popup — styles dans index.css (.popup-slide-in, .popup-gradient, .iframe-no-interaction) */}
       {isOpen && (
         <>
-          {/* Overlay fermeture */}
           <div className="fixed inset-0 z-40" onClick={togglePopup} />
 
           <div style={popupPositionStyle} className="popup-slide-in">
@@ -132,7 +81,17 @@ export default function Logo() {
               </div>
 
               {/* iFrame Juggling Lab */}
-              <div className="relative popup-gradient popup-container rounded-t-lg overflow-hidden">
+              <div
+                className="relative popup-gradient rounded-t-lg overflow-hidden"
+                style={{
+                  width: JUGGLING_POPUP.WIDTH,
+                  height: JUGGLING_POPUP.HEIGHT,
+                  minWidth: JUGGLING_POPUP.WIDTH,
+                  maxWidth: JUGGLING_POPUP.WIDTH,
+                  minHeight: JUGGLING_POPUP.HEIGHT,
+                  maxHeight: JUGGLING_POPUP.HEIGHT,
+                }}
+              >
                 <iframe
                   src={jugglingLabUrl}
                   title="Juggling pattern 531"
@@ -152,30 +111,6 @@ export default function Logo() {
                 </p>
               </div>
             </div>
-
-            <style>{`
-              @keyframes popupSlideIn {
-                from { opacity: 0; transform: translateY(-8px); }
-                to   { opacity: 1; transform: translateY(0); }
-              }
-              .popup-slide-in {
-                animation: popupSlideIn 0.25s ease-out;
-              }
-              .popup-gradient {
-                background: linear-gradient(135deg, var(--color-muted), var(--color-background));
-                opacity: 0.95;
-              }
-              .popup-container {
-                width: ${JUGGLING_POPUP.WIDTH}px;
-                height: ${JUGGLING_POPUP.HEIGHT}px;
-                min-width: ${JUGGLING_POPUP.WIDTH}px; max-width: ${JUGGLING_POPUP.WIDTH}px;
-                min-height: ${JUGGLING_POPUP.HEIGHT}px; max-height: ${JUGGLING_POPUP.HEIGHT}px;
-              }
-              .iframe-no-interaction {
-                pointer-events: none;
-                user-select: none;
-              }
-            `}</style>
           </div>
         </>
       )}

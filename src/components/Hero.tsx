@@ -52,10 +52,9 @@ export default function Hero() {
               <SocialLinks />
             </div>
 
-            {/* Badges disponibilité */}
+            {/* Badges disponibilité — styles dans index.css (.hero-badge-*) */}
             <div className={`flex flex-col gap-2 sm:gap-3 animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
               <div className="hero-badge hero-badge-green">
-                {/* Dot animé — classes globales status-* de index.css */}
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-green" />
                   <span className="status-dot status-dot-green" />
@@ -73,59 +72,6 @@ export default function Hero() {
                 <span className="hero-badge-label">Alternance · sept. 2026 – 24 mois</span>
               </div>
             </div>
-
-            <style>{`
-              .hero-badge {
-                display: inline-flex;
-                align-items: center;
-                gap: 10px;
-                padding: 8px 14px;
-                border-radius: 9999px;
-                font-size: 0.78rem;
-                font-weight: 600;
-                letter-spacing: 0.01em;
-                border-width: 1.5px;
-                border-style: solid;
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
-                cursor: default;
-                white-space: normal;
-                word-break: break-word;
-                max-width: 100%;
-                width: fit-content;
-              }
-              @media (min-width: 480px) {
-                .hero-badge {
-                  padding: 10px 18px;
-                  font-size: 0.85rem;
-                  white-space: nowrap;
-                }
-              }
-              .hero-badge:hover { transform: translateY(-2px); }
-
-              .hero-badge-green {
-                background: rgba(34, 197, 94, 0.12);
-                border-color: rgba(34, 197, 94, 0.45);
-                color: #16a34a;
-              }
-              .dark .hero-badge-green {
-                color: #4ade80;
-                background: rgba(34, 197, 94, 0.15);
-                border-color: rgba(34, 197, 94, 0.4);
-              }
-              .hero-badge-green:hover { box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25); }
-
-              .hero-badge-blue {
-                background: rgba(59, 130, 246, 0.12);
-                border-color: rgba(59, 130, 246, 0.45);
-                color: #2563eb;
-              }
-              .dark .hero-badge-blue {
-                color: #60a5fa;
-                background: rgba(59, 130, 246, 0.15);
-                border-color: rgba(59, 130, 246, 0.4);
-              }
-              .hero-badge-blue:hover { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25); }
-            `}</style>
           </div>
 
         </div>

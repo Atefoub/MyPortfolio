@@ -10,7 +10,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { TIMELINE_MAX_DELAYS, TIMELINE_MAX_VISIBLE_SKILLS, TIMELINE_EXPANDED_MAX_HEIGHT } from '../lib/constants';
+import { TIMELINE_MAX_DELAYS, TIMELINE_MAX_VISIBLE_SKILLS } from '../lib/constants';
 import SectionHeader from './SectionHeader';
 
 type FilterType = 'all' | 'formation' | 'experience';
@@ -33,20 +33,20 @@ export default function Timeline() {
   };
 
   return (
+    /* Styles de la section dans index.css (.timeline-section) */
     <section
       className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-16 timeline-section"
       id="parcours"
     >
       <div className="max-w-6xl mx-auto">
 
-        {/* En-tête — composant partagé, mode "icon" */}
         <SectionHeader
           icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-accent" />}
           title="Mon Histoire"
           subtitle="De la comptabilité au code : une reconversion vers le développement web, portée par la passion de créer et d'innover."
         />
 
-        {/* Titre principal affiché sous le badge (hors SectionHeader car style spécifique) */}
+        {/* Titre principal — styles dans index.css (.timeline-title) */}
         <div className="-mt-4 sm:-mt-6 md:-mt-8 mb-8 sm:mb-10 md:mb-16">
           <h2 className="timeline-title text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Parcours</h2>
           <div className="w-16 sm:w-20 h-1 bg-accent" />
@@ -79,7 +79,7 @@ export default function Timeline() {
           ))}
         </div>
 
-        {/* Timeline */}
+        {/* Timeline — ligne dans index.css (.timeline-line) */}
         <div className="relative">
           <div className="timeline-line absolute left-4 sm:left-5 md:left-6 top-0 bottom-0 w-px" />
 
@@ -96,31 +96,6 @@ export default function Timeline() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        .timeline-section {
-          background: linear-gradient(
-            135deg,
-            var(--color-background) 0%,
-            rgba(232, 237, 233, 0.3) 50%,
-            var(--color-background) 100%
-          );
-        }
-        .timeline-title {
-          background: linear-gradient(90deg, var(--color-foreground) 0%, rgba(53, 57, 46, 0.6) 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .timeline-line {
-          background: linear-gradient(
-            180deg,
-            var(--color-accent) 0%,
-            var(--color-border) 50%,
-            transparent 100%
-          );
-        }
-      `}</style>
     </section>
   );
 }
@@ -143,6 +118,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
   );
 
   return (
+    /* Styles dans index.css (.timeline-delay-N, .timeline-formation/experience) */
     <div
       className={cn(
         'relative animate-slide-up pl-10 sm:pl-12 md:pl-16',
@@ -162,7 +138,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
             {isFormation ? (
               <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" />
             ) : (
-              <Briefcase className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" />
+              <Briefcase className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md-h-5 text-white" />
             )}
           </div>
         </div>
@@ -328,42 +304,6 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
           </div>
         </div>
       </div>
-
-      <style>{`
-        /* Délais d'animation par index */
-        ${Array.from({ length: TIMELINE_MAX_DELAYS }, (_, i) =>
-          `.timeline-delay-${i} { animation-delay: ${i * 100}ms; }`
-        ).join('\n')}
-
-        .timeline-expanded { max-height: ${TIMELINE_EXPANDED_MAX_HEIGHT}; }
-
-        /* ── Styles partagés par les deux types ── */
-        .timeline-card { background: linear-gradient(135deg, var(--color-background), rgba(232,237,233,0.3)); }
-
-        /* ── Formation ── */
-        .timeline-formation.timeline-card        { border-color: rgba(131,160,139,0.2); }
-        .timeline-formation.timeline-ping,
-        .timeline-formation.timeline-circle,
-        .timeline-formation.timeline-badge,
-        .timeline-formation.timeline-detail-bar,
-        .timeline-formation.timeline-bullet,
-        .timeline-formation.timeline-check       { background-color: #83a08b; }
-        .timeline-formation.timeline-card-band   { background: linear-gradient(90deg, #83a08b, #99c6c4); }
-        .timeline-formation.timeline-skill-tag   { background-color: rgba(131,160,139,0.1); color: #83a08b; border-color: rgba(131,160,139,0.2); }
-        .timeline-formation.timeline-achievement { background-color: rgba(131,160,139,0.05); border-color: rgba(131,160,139,0.2); }
-
-        /* ── Expérience ── */
-        .timeline-experience.timeline-card        { border-color: rgba(115,139,105,0.2); }
-        .timeline-experience.timeline-ping,
-        .timeline-experience.timeline-circle,
-        .timeline-experience.timeline-badge,
-        .timeline-experience.timeline-detail-bar,
-        .timeline-experience.timeline-bullet,
-        .timeline-experience.timeline-check       { background-color: #738b69; }
-        .timeline-experience.timeline-card-band   { background: linear-gradient(90deg, #738b69, #4f4d46); }
-        .timeline-experience.timeline-skill-tag   { background-color: rgba(115,139,105,0.1); color: #738b69; border-color: rgba(115,139,105,0.2); }
-        .timeline-experience.timeline-achievement { background-color: rgba(115,139,105,0.05); border-color: rgba(115,139,105,0.2); }
-      `}</style>
     </div>
   );
 }
