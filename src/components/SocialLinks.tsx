@@ -2,6 +2,7 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 import { SOCIAL_LINKS } from '../lib/constants';
 import Button from './Button';
 
+// iconMap doit rester synchronisé avec le type SocialIcon de constants.ts
 const iconMap = { Github, Linkedin, Mail };
 
 export default function SocialLinks({
@@ -14,7 +15,8 @@ export default function SocialLinks({
   return (
     <div className="flex gap-2 sm:gap-3">
       {SOCIAL_LINKS.map(({ href, icon, label }) => {
-        const Icon = iconMap[icon as keyof typeof iconMap];
+        // Pas de cast nécessaire : icon est typé 'Github' | 'Linkedin' | 'Mail'
+        const Icon = iconMap[icon];
         return (
           <Button
             key={href}

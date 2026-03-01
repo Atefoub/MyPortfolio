@@ -149,16 +149,19 @@ export const projects: Project[] = [
   }
 ];
 
+/**
+ * Retourne les projets triés selon l'ordre d'affichage du carousel :
+ * 1. Projets `inProgress` en premier (peu importe leur id)
+ * 2. Projets `featured` ensuite, triés par `id` décroissant (le plus récent en tête)
+ * 3. Tous les autres projets, triés par `id` croissant (ordre chronologique)
+ */
 export function getSortedProjects(): Project[] {
   return [...projects].sort((a, b) => {
-    // 1. Projets en cours en premier
     if (a.inProgress && !b.inProgress) return -1;
     if (!a.inProgress && b.inProgress) return 1;
-    // 2. Projets featured ensuite, triés par id décroissant (plus récent en premier)
     if (a.featured && !b.featured) return -1;
     if (!a.featured && b.featured) return 1;
     if (a.featured && b.featured) return b.id - a.id;
-    // 3. Autres projets par id croissant
     return a.id - b.id;
   });
 }

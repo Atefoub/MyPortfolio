@@ -27,13 +27,19 @@ export const NAV_LINKS = [
   { href: '#contact', label: 'Contact' },
 ] as const;
 
-export const SOCIAL_LINKS = [
+// Type union des icônes disponibles dans SocialLinks / iconMap
+type SocialIcon = 'Github' | 'Linkedin' | 'Mail';
+
+export const SOCIAL_LINKS: ReadonlyArray<{ href: string; icon: SocialIcon; label: string }> = [
   { href: 'https://github.com/Atefoub', icon: 'Github', label: 'GitHub' },
   { href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', icon: 'Linkedin', label: 'LinkedIn' },
   { href: 'mailto:antoinem1pro@gmail.com', icon: 'Mail', label: 'Email' },
 ] as const;
 
 export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzknqwk';
+
+// Chemin du CV — partagé entre Navigation et Contact
+export const CV_PATH = '/images/projects/CV - Antoine Mourin.pdf';
 
 // Délais avant reset du statut du formulaire (ms)
 export const FORM_RESET_DELAYS = {
@@ -45,7 +51,7 @@ export const CAROUSEL_CONFIG = {
   itemsPerView: { mobile: 1, tablet: 2, desktop: 3 },
 } as const;
 
-// Breakpoints utilisés par useResponsiveItemsCount (px)
+// Breakpoints utilisés par useResponsiveItemsCount et useIsMobile (px)
 export const CAROUSEL_BREAKPOINTS = {
   MOBILE: 640,
   TABLET: 1024,
@@ -59,5 +65,30 @@ export const PROJECT_CARD = {
   MAX_TECH_TAGS: 5,
 } as const;
 
+/** Seuil de déplacement horizontal (px) pour déclencher un swipe carousel */
+export const SWIPE_THRESHOLD = 50;
+
 // Nombre max de niveaux de délai d'animation pour la timeline
 export const TIMELINE_MAX_DELAYS = 11;
+
+/** Nombre de skills visibles dans une carte timeline avant expansion */
+export const TIMELINE_MAX_VISIBLE_SKILLS = 4;
+
+/** max-height CSS de la zone dépliable d'une carte timeline */
+export const TIMELINE_EXPANDED_MAX_HEIGHT = '800px';
+
+// Navigation — seuils et délais
+/** Scroll (px) à partir duquel le FAB "Mon CV" devient visible */
+export const SCROLL_THRESHOLD = 300;
+/** Breakpoint (px) au-dessus duquel le menu mobile se ferme au resize */
+export const NAV_MOBILE_BREAKPOINT = 768;
+/** Délai (ms) entre le clic sur un lien nav et le scroll effectif */
+export const NAV_SCROLL_DELAY = 150;
+
+// Logo / popup JugglingLab
+export const JUGGLING_POPUP = {
+  /** Largeur de l'iframe JugglingLab (px) — doit correspondre au paramètre URL width= */
+  WIDTH: 200,
+  /** Hauteur de l'iframe JugglingLab (px) — doit correspondre au paramètre URL height= */
+  HEIGHT: 280,
+} as const;

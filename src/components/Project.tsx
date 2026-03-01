@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { getSortedProjects, type Project as ProjectType } from '../data/projects';
 import { ChevronLeft, ChevronRight, ExternalLink, Github, Star, Loader2, ChevronDown } from 'lucide-react';
-import { CAROUSEL_CONFIG, PROJECT_CARD } from '../lib/constants';
+import { CAROUSEL_CONFIG, PROJECT_CARD, SWIPE_THRESHOLD } from '../lib/constants';
 import { useCarousel, useResponsiveItemsCount } from '../lib/hooks';
 import { cn } from '../lib/utils';
 import Button from './Button';
@@ -52,7 +52,6 @@ export default function Projects() {
       // Ignore principalement les scrolls verticaux
       if (deltaY > Math.abs(deltaX)) return;
 
-      const SWIPE_THRESHOLD = 50;
       if (deltaX > SWIPE_THRESHOLD) goToNext();
       else if (deltaX < -SWIPE_THRESHOLD) goToPrev();
 

@@ -1,33 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Download } from 'lucide-react';
-import { NAV_LINKS } from '../lib/constants';
+import {
+  NAV_LINKS,
+  CV_PATH,
+  SCROLL_THRESHOLD,
+  NAV_MOBILE_BREAKPOINT,
+  NAV_SCROLL_DELAY,
+} from '../lib/constants';
+import { useDateTime } from '../lib/hooks';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
-
-const CV_PATH = '/images/projects/CV - Antoine Mourin.pdf';
-
-// ── Hook date/heure temps réel ──────────────────────────────
-function useDateTime() {
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const date = now.toLocaleDateString('fr-FR', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-  });
-  const time = now.toLocaleTimeString('fr-FR', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-
-  return { date, time };
-}
 
 // ── Navigation ───────────────────────────────────────────────
 export default function Navigation() {
@@ -36,13 +18,15 @@ export default function Navigation() {
   const { date, time } = useDateTime();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 300);
+    const handleScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    const handleResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    const handleResize = () => {
+      if (window.innerWidth >= NAV_MOBILE_BREAKPOINT) setMenuOpen(false);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -57,7 +41,7 @@ export default function Navigation() {
     setTimeout(() => {
       if (href === '#') window.scrollTo({ top: 0, behavior: 'smooth' });
       else document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-    }, 150);
+    }, NAV_SCROLL_DELAY);
   };
 
   return (
@@ -195,7 +179,6 @@ export default function Navigation() {
           color: var(--color-accent);
           white-space: nowrap;
         }
-        /* Un peu plus grand sur sm+ */
         @media (min-width: 640px) {
           .datetime-date { font-size: 0.65rem; }
           .datetime-time { font-size: 0.72rem; }

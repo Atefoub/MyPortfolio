@@ -29,6 +29,7 @@ export default function Button<T extends ElementType = 'button'>({
   disabled,
   ...props
 }: ButtonProps<T>) {
+  // Cast nécessaire — voir JSDoc ci-dessus
   const Component = (as ?? 'button') as ElementType;
   const isIconOnly = !children;
   const sizeConfig = BUTTON_SIZES[size];
