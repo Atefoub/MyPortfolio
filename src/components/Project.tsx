@@ -143,7 +143,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
       )}
     >
       {project.image && (
-        <div className="aspect-video bg-muted overflow-hidden relative">
+        <div className="aspect-video bg-muted overflow-hidden relative flex items-center justify-center">
           <img
             src={project.image}
             alt={project.title}
@@ -216,7 +216,7 @@ function ProjectBadge({ inProgress, featured }: { inProgress?: boolean; featured
 function TechTags({ technologies }: { technologies: string[] }) {
   return (
     <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-      {technologies.slice(0, PROJECT_CARD.MAX_TECH_TAGS).map((tech) => (
+      {technologies.map((tech) => (
         <span
           key={tech}
           className="px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 bg-muted text-[10px] sm:text-xs rounded-full text-muted-foreground"
@@ -224,11 +224,6 @@ function TechTags({ technologies }: { technologies: string[] }) {
           {tech}
         </span>
       ))}
-      {technologies.length > PROJECT_CARD.MAX_TECH_TAGS && (
-        <span className="px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 bg-muted text-[10px] sm:text-xs rounded-full text-muted-foreground">
-          +{technologies.length - PROJECT_CARD.MAX_TECH_TAGS}
-        </span>
-      )}
     </div>
   );
 }
