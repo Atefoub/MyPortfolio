@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { TIMELINE_MAX_DELAYS } from '../lib/constants';
 
 type FilterType = 'all' | 'formation' | 'experience';
 
@@ -147,7 +148,7 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
     <div
       className={cn(
         'relative animate-slide-up pl-10 sm:pl-12 md:pl-16',
-        `timeline-delay-${Math.min(index, 10)}`,
+        `timeline-delay-${Math.min(index, TIMELINE_MAX_DELAYS - 1)}`,
       )}
     >
       {/* Point timeline */}
@@ -331,32 +332,39 @@ function TimelineCard({ item, index, isExpanded, onToggle }: TimelineCardProps) 
       </div>
 
       <style>{`
-        ${Array.from({ length: 11 }, (_, i) => `.timeline-delay-${i} { animation-delay: ${i * 100}ms; }`).join('\n')}
+        /* Délais d'animation par index */
+        ${Array.from({ length: TIMELINE_MAX_DELAYS }, (_, i) =>
+          `.timeline-delay-${i} { animation-delay: ${i * 100}ms; }`
+        ).join('\n')}
+
         .timeline-expanded { max-height: 800px; }
 
-        /* Formation */
-        .timeline-formation.timeline-card { background: linear-gradient(135deg, var(--color-background), rgba(232,237,233,0.3)); border-color: rgba(131,160,139,0.2); }
-        .timeline-formation.timeline-ping { background-color: #83a08b; }
-        .timeline-formation.timeline-circle { background-color: #83a08b; }
-        .timeline-formation.timeline-card-band { background: linear-gradient(90deg, #83a08b, #99c6c4); }
-        .timeline-formation.timeline-badge { background-color: #83a08b; }
-        .timeline-formation.timeline-skill-tag { background-color: rgba(131,160,139,0.1); color: #83a08b; border-color: rgba(131,160,139,0.2); }
-        .timeline-formation.timeline-detail-bar { background-color: #83a08b; }
-        .timeline-formation.timeline-bullet { background-color: #83a08b; }
-        .timeline-formation.timeline-achievement { background-color: rgba(131,160,139,0.05); border-color: rgba(131,160,139,0.2); }
-        .timeline-formation.timeline-check { background-color: #83a08b; }
+        /* ── Styles partagés par les deux types ── */
+        .timeline-card { background: linear-gradient(135deg, var(--color-background), rgba(232,237,233,0.3)); }
 
-        /* Experience */
-        .timeline-experience.timeline-card { background: linear-gradient(135deg, var(--color-background), rgba(232,237,233,0.3)); border-color: rgba(115,139,105,0.2); }
-        .timeline-experience.timeline-ping { background-color: #738b69; }
-        .timeline-experience.timeline-circle { background-color: #738b69; }
-        .timeline-experience.timeline-card-band { background: linear-gradient(90deg, #738b69, #4f4d46); }
-        .timeline-experience.timeline-badge { background-color: #738b69; }
-        .timeline-experience.timeline-skill-tag { background-color: rgba(115,139,105,0.1); color: #738b69; border-color: rgba(115,139,105,0.2); }
-        .timeline-experience.timeline-detail-bar { background-color: #738b69; }
-        .timeline-experience.timeline-bullet { background-color: #738b69; }
+        /* ── Formation ── */
+        .timeline-formation.timeline-card        { border-color: rgba(131,160,139,0.2); }
+        .timeline-formation.timeline-ping,
+        .timeline-formation.timeline-circle,
+        .timeline-formation.timeline-badge,
+        .timeline-formation.timeline-detail-bar,
+        .timeline-formation.timeline-bullet,
+        .timeline-formation.timeline-check       { background-color: #83a08b; }
+        .timeline-formation.timeline-card-band   { background: linear-gradient(90deg, #83a08b, #99c6c4); }
+        .timeline-formation.timeline-skill-tag   { background-color: rgba(131,160,139,0.1); color: #83a08b; border-color: rgba(131,160,139,0.2); }
+        .timeline-formation.timeline-achievement { background-color: rgba(131,160,139,0.05); border-color: rgba(131,160,139,0.2); }
+
+        /* ── Expérience ── */
+        .timeline-experience.timeline-card        { border-color: rgba(115,139,105,0.2); }
+        .timeline-experience.timeline-ping,
+        .timeline-experience.timeline-circle,
+        .timeline-experience.timeline-badge,
+        .timeline-experience.timeline-detail-bar,
+        .timeline-experience.timeline-bullet,
+        .timeline-experience.timeline-check       { background-color: #738b69; }
+        .timeline-experience.timeline-card-band   { background: linear-gradient(90deg, #738b69, #4f4d46); }
+        .timeline-experience.timeline-skill-tag   { background-color: rgba(115,139,105,0.1); color: #738b69; border-color: rgba(115,139,105,0.2); }
         .timeline-experience.timeline-achievement { background-color: rgba(115,139,105,0.05); border-color: rgba(115,139,105,0.2); }
-        .timeline-experience.timeline-check { background-color: #738b69; }
       `}</style>
     </div>
   );

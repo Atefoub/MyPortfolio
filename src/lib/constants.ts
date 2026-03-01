@@ -28,26 +28,36 @@ export const NAV_LINKS = [
 ] as const;
 
 export const SOCIAL_LINKS = [
-  { 
-    href: 'https://github.com/Atefoub', 
-    icon: 'Github', 
-    label: 'GitHub' 
-  },
-  { 
-    href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', 
-    icon: 'Linkedin', 
-    label: 'LinkedIn' 
-  },
-  { 
-    href: 'mailto:antoinem1pro@gmail.com', 
-    icon: 'Mail', 
-    label: 'Email' 
-  },
+  { href: 'https://github.com/Atefoub', icon: 'Github', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', icon: 'Linkedin', label: 'LinkedIn' },
+  { href: 'mailto:antoinem1pro@gmail.com', icon: 'Mail', label: 'Email' },
 ] as const;
 
 export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzknqwk';
 
+// Délais avant reset du statut du formulaire (ms)
+export const FORM_RESET_DELAYS = {
+  SUCCESS: 4000,
+  ERROR: 3000,
+} as const;
+
 export const CAROUSEL_CONFIG = {
   itemsPerView: { mobile: 1, tablet: 2, desktop: 3 },
-  breakpoints: { mobile: 640, tablet: 1024 },
 } as const;
+
+// Breakpoints utilisés par useResponsiveItemsCount (px)
+export const CAROUSEL_BREAKPOINTS = {
+  MOBILE: 640,
+  TABLET: 1024,
+} as const;
+
+// Seuils et limites pour les cartes projet
+export const PROJECT_CARD = {
+  /** Longueur de description à partir de laquelle le bouton "Voir plus" apparaît */
+  DESCRIPTION_CLAMP_THRESHOLD: 150,
+  /** Nombre max de tags technos affichés avant le badge "+N" */
+  MAX_TECH_TAGS: 5,
+} as const;
+
+// Nombre max de niveaux de délai d'animation pour la timeline
+export const TIMELINE_MAX_DELAYS = 11;

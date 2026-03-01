@@ -52,12 +52,13 @@ export default function Hero() {
               <SocialLinks />
             </div>
 
-            {/* Badges disponibilité — wrappables sur mobile */}
+            {/* Badges disponibilité */}
             <div className={`flex flex-col gap-2 sm:gap-3 animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
               <div className="hero-badge hero-badge-green">
-                <span className="hero-badge-dot-wrapper">
-                  <span className="hero-badge-ping hero-badge-ping-green" />
-                  <span className="hero-badge-dot hero-badge-dot-green" />
+                {/* Dot animé — classes globales status-* de index.css */}
+                <span className="status-dot-wrap">
+                  <span className="status-ping status-ping-green" />
+                  <span className="status-dot status-dot-green" />
                 </span>
                 <span className="hero-badge-label">
                   Stage 8 semaines · 08 juin – 24 juillet 2026
@@ -65,9 +66,9 @@ export default function Hero() {
               </div>
 
               <div className="hero-badge hero-badge-blue">
-                <span className="hero-badge-dot-wrapper">
-                  <span className="hero-badge-ping hero-badge-ping-blue" />
-                  <span className="hero-badge-dot hero-badge-dot-blue" />
+                <span className="status-dot-wrap">
+                  <span className="status-ping status-ping-blue" />
+                  <span className="status-dot status-dot-blue" />
                 </span>
                 <span className="hero-badge-label">Alternance · sept. 2026 – 24 mois</span>
               </div>
@@ -87,13 +88,11 @@ export default function Hero() {
                 border-style: solid;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
                 cursor: default;
-                /* CORRIGÉ : wrap sur mobile */
                 white-space: normal;
                 word-break: break-word;
                 max-width: 100%;
                 width: fit-content;
               }
-              /* nowrap dès 480px, les textes sont courts */
               @media (min-width: 480px) {
                 .hero-badge {
                   padding: 10px 18px;
@@ -126,40 +125,6 @@ export default function Hero() {
                 border-color: rgba(59, 130, 246, 0.4);
               }
               .hero-badge-blue:hover { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25); }
-
-              .hero-badge-dot-wrapper {
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 10px;
-                height: 10px;
-                flex-shrink: 0;
-              }
-              .hero-badge-ping {
-                position: absolute;
-                inset: 0;
-                border-radius: 9999px;
-                animation: hero-ping 1.6s ease-out infinite;
-              }
-              .hero-badge-ping-green { background: #22c55e; }
-              .hero-badge-ping-blue  { background: #3b82f6; }
-
-              .hero-badge-dot {
-                position: relative;
-                width: 10px;
-                height: 10px;
-                border-radius: 9999px;
-                flex-shrink: 0;
-              }
-              .hero-badge-dot-green { background: #22c55e; }
-              .hero-badge-dot-blue  { background: #3b82f6; }
-
-              @keyframes hero-ping {
-                0%   { transform: scale(1);   opacity: 0.7; }
-                70%  { transform: scale(2.2); opacity: 0; }
-                100% { transform: scale(2.2); opacity: 0; }
-              }
             `}</style>
           </div>
 
@@ -172,7 +137,6 @@ export default function Hero() {
 function HeroImage() {
   return (
     <div className={`relative animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-      {/* Taille fixe par breakpoint pour éviter les débordements */}
       <div className="relative aspect-square w-52 sm:w-72 md:w-80 lg:w-full lg:max-w-md xl:max-w-lg mx-auto">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="absolute w-full h-full rounded-full opacity-20 animate-pulse-soft bg-[radial-gradient(circle,var(--color-accent)_0%,transparent_70%)]" />
