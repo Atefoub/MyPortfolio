@@ -1,5 +1,6 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
-import { getSortedProjects, type Project as ProjectType } from '../data/projects';
+import { useRef, useCallback, useState } from 'react';
+import { type Project as ProjectType } from '../data/projects';
+import { getSortedProjects } from '../lib/projectHelpers';
 import { ChevronLeft, ChevronRight, ExternalLink, Github, Star, Loader2, ChevronDown } from 'lucide-react';
 import { CAROUSEL_CONFIG, PROJECT_CARD, SWIPE_THRESHOLD } from '../lib/constants';
 import { useCarousel, useResponsiveItemsCount } from '../lib/hooks';
@@ -15,7 +16,6 @@ const CARD_WIDTH_BY_ITEMS_COUNT: Record<1 | 2 | 3, string> = {
 };
 
 export default function Projects() {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const sortedProjects = getSortedProjects();
   const itemsToShow = useResponsiveItemsCount(CAROUSEL_CONFIG.itemsPerView);
   const { currentIndex, setCurrentIndex, goToNext, goToPrev, maxIndex } = useCarousel(
@@ -23,15 +23,8 @@ export default function Projects() {
     itemsToShow,
   );
 
-  // Translate carousel on index change
-  useEffect(() => {
-    if (carouselRef.current) {
-      const container = carouselRef.current.querySelector('.carousel-container') as HTMLElement;
-      if (container) {
-        container.style.setProperty('--translate-x', `-${(currentIndex * 100) / itemsToShow}%`);
-      }
-    }
-  }, [currentIndex, itemsToShow]);
+  // Translate via CSS custom property sur l'élément React (pas de manipulation DOM directe)
+  const translateX = `-${(currentIndex * 100) / itemsToShow}%`;
 
   // ── Touch / swipe support ──────────────────────────────────────
   const touchStartX = useRef<number | null>(null);
@@ -49,7 +42,6 @@ export default function Projects() {
       const deltaX = touchStartX.current - e.changedTouches[0].clientX;
       const deltaY = Math.abs(touchStartY.current - e.changedTouches[0].clientY);
 
-      // Ignore principalement les scrolls verticaux
       if (deltaY > Math.abs(deltaX)) return;
 
       if (deltaX > SWIPE_THRESHOLD) goToNext();
@@ -88,21 +80,23 @@ export default function Projects() {
             className="hidden sm:inline-flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10"
           />
 
-          {/* Carousel */}
+          {/* Carousel — transform piloté par state React, pas par DOM direct */}
           <div
-            ref={carouselRef}
             className="overflow-hidden scrollbar-hide"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="carousel-container flex gap-3 sm:gap-4 md:gap-6 transition-transform duration-500">
+            <div
+              className="flex gap-3 sm:gap-4 md:gap-6 transition-transform duration-500"
+              style={{ transform: `translateX(${translateX})` }}
+            >
               {sortedProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} itemsToShow={itemsToShow} />
               ))}
             </div>
           </div>
 
-          {/* Boutons mobile — sous le carousel */}
+          {/* Boutons mobile */}
           <div className="flex sm:hidden justify-center gap-4 mt-5">
             <button
               onClick={goToPrev}

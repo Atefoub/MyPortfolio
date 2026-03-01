@@ -61,7 +61,7 @@ export default function Contact() {
           </p>
         </div>
 
-        {/* Badges dispo */}
+        {/* Badges dispo — styles dans index.css (.avail-badge-*) */}
         <div
           className={`flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mb-5 sm:mb-6 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}
         >
@@ -74,7 +74,6 @@ export default function Contact() {
                 <div className="avail-badge-title">{title}</div>
                 <div className="avail-badge-subtitle">{subtitle}</div>
               </div>
-              {/* Dot animé — classes globales status-* de index.css */}
               <span className="status-dot-wrap">
                 <span className={`status-ping status-ping-${color}`} />
                 <span className={`status-dot status-dot-${color}`} />
@@ -98,94 +97,6 @@ export default function Contact() {
 
         <Footer />
       </div>
-
-      <style>{`
-        /* Badge base */
-        .avail-badge {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 14px;
-          border-radius: 14px;
-          border-width: 1.5px;
-          border-style: solid;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          cursor: default;
-          width: 100%;
-          position: relative;
-        }
-        @media (min-width: 640px) {
-          .avail-badge {
-            padding: 12px 18px 12px 14px;
-            min-width: 260px;
-            width: auto;
-          }
-        }
-        .avail-badge:hover { transform: translateY(-2px); }
-
-        /* Green */
-        .avail-badge-green {
-          background: rgba(34, 197, 94, 0.08);
-          border-color: rgba(34, 197, 94, 0.4);
-        }
-        .avail-badge-green:hover {
-          box-shadow: 0 6px 24px rgba(34, 197, 94, 0.2);
-          background: rgba(34, 197, 94, 0.12);
-        }
-        .dark .avail-badge-green {
-          background: rgba(34, 197, 94, 0.1);
-          border-color: rgba(34, 197, 94, 0.35);
-        }
-
-        /* Blue */
-        .avail-badge-blue {
-          background: rgba(59, 130, 246, 0.08);
-          border-color: rgba(59, 130, 246, 0.4);
-        }
-        .avail-badge-blue:hover {
-          box-shadow: 0 6px 24px rgba(59, 130, 246, 0.2);
-          background: rgba(59, 130, 246, 0.12);
-        }
-        .dark .avail-badge-blue {
-          background: rgba(59, 130, 246, 0.1);
-          border-color: rgba(59, 130, 246, 0.35);
-        }
-
-        /* Icon wrapper */
-        .avail-badge-icon-wrap {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 34px;
-          height: 34px;
-          border-radius: 9px;
-          flex-shrink: 0;
-        }
-        .avail-icon-green { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
-        .dark .avail-icon-green { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-        .avail-icon-blue { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
-        .dark .avail-icon-blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
-
-        /* Text */
-        .avail-badge-text { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-        .avail-badge-title {
-          font-size: 0.8rem;
-          font-weight: 700;
-          color: var(--color-foreground);
-          line-height: 1.2;
-        }
-        @media (min-width: 640px) {
-          .avail-badge-title { font-size: 0.875rem; }
-        }
-        .avail-badge-subtitle {
-          font-size: 0.7rem;
-          color: var(--color-muted-foreground);
-          line-height: 1.3;
-        }
-        @media (min-width: 640px) {
-          .avail-badge-subtitle { font-size: 0.75rem; }
-        }
-      `}</style>
     </section>
   );
 }

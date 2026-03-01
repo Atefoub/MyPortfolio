@@ -13,7 +13,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // 🚀 PROJET EN COURS - Mis en premier
+  // 🚀 PROJET EN COURS
   {
     id: 11,
     title: "JuggleFlow - Application d'Apprentissage du Jonglage",
@@ -27,10 +27,10 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/JuggleFlow",
     image: "/images/projects/juggleflow.png",
     featured: true,
-    inProgress: true
+    inProgress: true,
   },
 
-  // ⭐ PROJETS PHARES (après le projet en cours)
+  // ⭐ PROJETS PHARES
   {
     id: 12,
     title: "Adaopte - Plateforme d'Adoption Animale",
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     demo: "https://adaopte-blue.vercel.app",
     image: "/images/projects/screenshot_exercice_11_Adaopte.jpg",
     featured: true,
-    collaboration: "Projet réalisé en collaboration avec Maëlle Aucher et Antoine Boinot (Promo Grace Hopper)"
+    collaboration: "Projet réalisé en collaboration avec Maëlle Aucher et Antoine Boinot (Promo Grace Hopper)",
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/quiz_objets_insolites",
     demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
     image: "/images/projects/screenshot_exercice_5_quiz.jpg",
-    collaboration: "Projet réalisé en collaboration avec Chloé Verglas"
+    collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
   },
   {
     id: 6,
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     demo: "https://projet-dataviz-davanto.vercel.app/",
     image: "/images/projects/screenshot_exercice_9_projet_Dataviz.jpg",
     featured: true,
-    collaboration: "Projet réalisé en collaboration avec David"
+    collaboration: "Projet réalisé en collaboration avec David",
   },
 
   // AUTRES PROJETS
@@ -86,7 +86,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/01_bonjour_javascript.md",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/bonjour_javascript",
-    image: "/images/projects/screenshot_exercice_1_bonjour_javascript.jpg"
+    image: "/images/projects/screenshot_exercice_1_bonjour_javascript.jpg",
   },
   {
     id: 2,
@@ -96,7 +96,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/02_guess_a_number.md",
     demo: "https://guess-a-number-atefoub.netlify.app/",
-    image: "/images/projects/screenshot_exercice_2_guess_a_number.jpg"
+    image: "/images/projects/screenshot_exercice_2_guess_a_number.jpg",
   },
   {
     id: 3,
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
-    image: "/images/projects/screenshot_exercice_3_paw_models.jpg"
+    image: "/images/projects/screenshot_exercice_3_paw_models.jpg",
   },
   {
     id: 4,
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
-    image: "/images/projects/screenshot_exercice_4_flexbox_galery.jpg"
+    image: "/images/projects/screenshot_exercice_4_flexbox_galery.jpg",
   },
   {
     id: 7,
@@ -126,7 +126,7 @@ export const projects: Project[] = [
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/Paradoxe_Syracuse",
     demo: "https://atefoub.github.io/Paradoxe_Syracuse",
-    image: "/images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg"
+    image: "/images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg",
   },
   {
     id: 8,
@@ -135,7 +135,7 @@ export const projects: Project[] = [
     technologies: ["Python", "Tkinter", "FPDF", "PyInstaller"],
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/generateur-attestation-licence",
-    image: "/images/projects/screenshot_exercice_8_attestation_licence.jpg"
+    image: "/images/projects/screenshot_exercice_8_attestation_licence.jpg",
   },
   {
     id: 10,
@@ -145,23 +145,6 @@ export const projects: Project[] = [
     date: "Décembre 2025",
     github: "https://github.com/Atefoub/mini_station_meteo",
     demo: "https://atefoub.github.io/mini_station_meteo/",
-    image: "/images/projects/screenshot_exercice_10_mini_station_meteo.jpg"
-  }
+    image: "/images/projects/screenshot_exercice_10_mini_station_meteo.jpg",
+  },
 ];
-
-/**
- * Retourne les projets triés selon l'ordre d'affichage du carousel :
- * 1. Projets `inProgress` en premier (peu importe leur id)
- * 2. Projets `featured` ensuite, triés par `id` décroissant (le plus récent en tête)
- * 3. Tous les autres projets, triés par `id` croissant (ordre chronologique)
- */
-export function getSortedProjects(): Project[] {
-  return [...projects].sort((a, b) => {
-    if (a.inProgress && !b.inProgress) return -1;
-    if (!a.inProgress && b.inProgress) return 1;
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
-    if (a.featured && b.featured) return b.id - a.id;
-    return a.id - b.id;
-  });
-}

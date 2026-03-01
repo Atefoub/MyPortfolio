@@ -5,6 +5,14 @@ import { CAROUSEL_BREAKPOINTS, FORM_RESET_DELAYS } from './constants';
 // CUSTOM HOOKS
 // ═══════════════════════════════════════════════════════════════
 
+/**
+ * Gestion du thème clair/sombre.
+ *
+ * Le choix de l'utilisateur est persisté dans localStorage.
+ * Si aucun choix n'existe, on suit `prefers-color-scheme`.
+ * Note : un flash (~50ms) peut apparaître au premier rendu si le thème
+ * sauvegardé diffère du thème système — c'est le compromis sans script HTML.
+ */
 export function useTheme() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('theme');
@@ -14,13 +22,12 @@ export function useTheme() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = useCallback(() => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-  }, [theme]);
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
 
   return { theme, toggleTheme };
 }
@@ -107,30 +114,33 @@ export function useDateTime() {
 export function useFormSubmit(endpoint: string) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  const submit = useCallback(async (data: Record<string, string>) => {
-    setStatus('sending');
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+  const submit = useCallback(
+    async (data: Record<string, string>) => {
+      setStatus('sending');
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
 
-      if (res.ok) {
-        setStatus('success');
-        setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.SUCCESS);
-        return true;
-      } else {
+        if (res.ok) {
+          setStatus('success');
+          setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.SUCCESS);
+          return true;
+        } else {
+          setStatus('error');
+          setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.ERROR);
+          return false;
+        }
+      } catch {
         setStatus('error');
         setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.ERROR);
         return false;
       }
-    } catch {
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.ERROR);
-      return false;
-    }
-  }, [endpoint]);
+    },
+    [endpoint],
+  );
 
   return { status, submit };
 }

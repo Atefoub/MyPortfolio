@@ -36,7 +36,11 @@ export const SOCIAL_LINKS: ReadonlyArray<{ href: string; icon: SocialIcon; label
   { href: 'mailto:antoinem1pro@gmail.com', icon: 'Mail', label: 'Email' },
 ] as const;
 
-export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzknqwk';
+/**
+ * Endpoint Formspree — défini dans `.env` (VITE_FORMSPREE_ENDPOINT).
+ * Ne jamais hardcoder cette valeur ici pour éviter le spam.
+ */
+export const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT as string;
 
 // Chemin du CV — partagé entre Navigation et Contact
 export const CV_PATH = '/images/projects/CV - Antoine Mourin.pdf';
@@ -87,8 +91,8 @@ export const NAV_SCROLL_DELAY = 150;
 
 // Logo / popup JugglingLab
 export const JUGGLING_POPUP = {
-  /** Largeur de l'iframe JugglingLab (px) — doit correspondre au paramètre URL width= */
+  /** Largeur de l'iframe JugglingLab (px) */
   WIDTH: 200,
-  /** Hauteur de l'iframe JugglingLab (px) — doit correspondre au paramètre URL height= */
+  /** Hauteur de l'iframe JugglingLab (px) */
   HEIGHT: 280,
 } as const;
