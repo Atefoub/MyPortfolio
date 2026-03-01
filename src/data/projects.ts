@@ -15,7 +15,7 @@ export interface Project {
 export const projects: Project[] = [
   // 🚀 PROJET EN COURS
   {
-    id: 1,
+    id: 100,
     title: "JuggleFlow - Application d'Apprentissage du Jonglage",
     description: "Progressive Web App (PWA) complète pour l'apprentissage structuré du jonglage. Parcours progressif avec système de gamification (badges, statistiques), animations en temps réel via l'API Juggling Lab, et mode hors ligne. Architecture full-stack pour les établissements scolaires avec conformité RGPD renforcée. Le projet s'appuie sur des recherches scientifiques démontrant les bienfaits cognitifs du jonglage.",
     technologies: [
@@ -32,7 +32,7 @@ export const projects: Project[] = [
 
   // ⭐ PROJETS PHARES
   {
-    id: 11,
+    id: 13,
     title: "Adaopte - Plateforme d'Adoption Animale",
     description: "Application web dédiée à l'adoption responsable d'animaux abandonnés. Développée à partir d'une maquette, elle propose une page d'accueil avec recherche filtrée, une page de liste avec filtres par type et localisation, une pagination, et une page bénévolat avec formulaire. Architecture orientée composants réutilisables, données typées en TypeScript (JSON local), filtrage optimisé avec useMemo, persistance des filtres via localStorage.",
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "JSON", "localStorage", "SQL", "useMemo"],
@@ -44,29 +44,7 @@ export const projects: Project[] = [
     collaboration: "Projet réalisé en collaboration avec Maëlle Aucher et Antoine Boinot (Promo Grace Hopper)",
   },
   {
-    id: 5,
-    title: "Quiz des Objets Insolites",
-    description: "Quiz interactif avec timer, système de score, et historique des meilleurs résultats. Inclut mélange aléatoire des réponses, barre de progression, affichage d'explications, et sauvegarde localStorage. Design responsive avec animations.",
-    technologies: ["HTML", "CSS", "JavaScript", "localStorage", "JSON"],
-    date: "Octobre 2025",
-    github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/quiz_objets_insolites",
-    demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
-    image: "/images/projects/screenshot_exercice_5_quiz.jpg",
-    collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
-    featured: true,
-  },
-  {
-    id: 6,
-    title: "Parlez-vous le Morse ?",
-    description: "Encodeur/décodeur de code Morse avec traduction bidirectionnelle (Latin ↔ Morse). Interface moderne avec panneau d'information sur l'histoire du code Morse et ses inventeurs. Design chaleureux aux tons orange/corail.",
-    technologies: ["HTML", "CSS", "JavaScript"],
-    date: "Novembre 2025",
-    github: "https://github.com/Atefoub/parlez_vous_le_morse",
-    demo: "https://atefoub.github.io/parlez_vous_le_morse/",
-    image: "/images/projects/screenshot_exercice_6_parlez_vous_le_morse.jpg",
-  },
-  {
-    id: 9,
+    id: 12,
     title: "Dataviz Cinéma à Paris",
     description: "Application de visualisation de données explorant l'activité cinématographique parisienne depuis 2016. Utilise l'API OpenData Paris (14 738 enregistrements). Visualisations interactives avec Recharts, design glassmorphism, et architecture modulaire.",
     technologies: ["React", "TypeScript", "Vite", "Recharts", "Tailwind CSS", "API OpenData"],
@@ -76,6 +54,18 @@ export const projects: Project[] = [
     image: "/images/projects/screenshot_exercice_9_projet_Dataviz.jpg",
     featured: true,
     collaboration: "Projet réalisé en collaboration avec David",
+  },
+  {
+    id: 11,
+    title: "Quiz des Objets Insolites",
+    description: "Quiz interactif avec timer, système de score, et historique des meilleurs résultats. Inclut mélange aléatoire des réponses, barre de progression, affichage d'explications, et sauvegarde localStorage. Design responsive avec animations.",
+    technologies: ["HTML", "CSS", "JavaScript", "localStorage", "JSON"],
+    date: "Octobre 2025",
+    github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/quiz_objets_insolites",
+    demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
+    image: "/images/projects/screenshot_exercice_5_quiz.jpg",
+    featured: true,
+    collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
   },
 
   // AUTRES PROJETS
@@ -120,7 +110,17 @@ export const projects: Project[] = [
     image: "/images/projects/screenshot_exercice_4_flexbox_galery.jpg",
   },
   {
-    id: 7,
+    id: 5,
+    title: "Parlez-vous le Morse ?",
+    description: "Encodeur/décodeur de code Morse avec traduction bidirectionnelle (Latin ↔ Morse). Interface moderne avec panneau d'information sur l'histoire du code Morse et ses inventeurs. Design chaleureux aux tons orange/corail.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    date: "Novembre 2025",
+    github: "https://github.com/Atefoub/parlez_vous_le_morse",
+    demo: "https://atefoub.github.io/parlez_vous_le_morse/",
+    image: "/images/projects/screenshot_exercice_6_parlez_vous_le_morse.jpg",
+  },
+  {
+    id: 6,
     title: "Conjecture de Syracuse",
     description: "Exploration et visualisation de la conjecture de Syracuse (Collatz). Calculateur interactif avec visualisation graphique des trajectoires et statistiques détaillées (altitude maximale, temps de vol). Interface éducative et interactive.",
     technologies: ["HTML", "CSS", "JavaScript"],
@@ -128,10 +128,9 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/Paradoxe_Syracuse",
     demo: "https://atefoub.github.io/Paradoxe_Syracuse",
     image: "/images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg",
-    featured: false,
   },
   {
-    id: 8,
+    id: 7,
     title: "Générateur d'Attestation de Licence",
     description: "Application Python avec interface graphique pour générer automatiquement des attestations de licence en PDF. Inclut logo, informations administratives, signature, et formatage professionnel. Compilable en exécutable standalone.",
     technologies: ["Python", "Tkinter", "FPDF", "PyInstaller"],
@@ -140,7 +139,7 @@ export const projects: Project[] = [
     image: "/images/projects/screenshot_exercice_8_attestation_licence.jpg",
   },
   {
-    id: 10,
+    id: 8,
     title: "Mini Station Météo",
     description: "Application météo en temps réel utilisant l'API OpenWeatherMap. Recherche de ville, affichage des conditions actuelles, icônes dynamiques, conversion en Celsius, gestion d'erreurs, et design glassmorphisme avec animations fluides.",
     technologies: ["HTML", "CSS", "JavaScript", "API OpenWeatherMap", "localStorage"],
@@ -148,6 +147,5 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/mini_station_meteo",
     demo: "https://atefoub.github.io/mini_station_meteo/",
     image: "/images/projects/screenshot_exercice_10_mini_station_meteo.jpg",
-    featured: false,
   },
 ];
