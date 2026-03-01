@@ -15,7 +15,7 @@ export interface Project {
 export const projects: Project[] = [
   // 🚀 PROJET EN COURS
   {
-    id: 11,
+    id: 1,
     title: "JuggleFlow - Application d'Apprentissage du Jonglage",
     description: "Progressive Web App (PWA) complète pour l'apprentissage structuré du jonglage. Parcours progressif avec système de gamification (badges, statistiques), animations en temps réel via l'API Juggling Lab, et mode hors ligne. Architecture full-stack pour les établissements scolaires avec conformité RGPD renforcée. Le projet s'appuie sur des recherches scientifiques démontrant les bienfaits cognitifs du jonglage.",
     technologies: [
@@ -32,7 +32,7 @@ export const projects: Project[] = [
 
   // ⭐ PROJETS PHARES
   {
-    id: 12,
+    id: 11,
     title: "Adaopte - Plateforme d'Adoption Animale",
     description: "Application web dédiée à l'adoption responsable d'animaux abandonnés. Développée à partir d'une maquette, elle propose une page d'accueil avec recherche filtrée, une page de liste avec filtres par type et localisation, une pagination, et une page bénévolat avec formulaire. Architecture orientée composants réutilisables, données typées en TypeScript (JSON local), filtrage optimisé avec useMemo, persistance des filtres via localStorage.",
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "JSON", "localStorage", "SQL", "useMemo"],
@@ -53,6 +53,7 @@ export const projects: Project[] = [
     demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
     image: "/images/projects/screenshot_exercice_5_quiz.jpg",
     collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
+    featured: true,
   },
   {
     id: 6,
@@ -127,6 +128,7 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/Paradoxe_Syracuse",
     demo: "https://atefoub.github.io/Paradoxe_Syracuse",
     image: "/images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg",
+    featured: false,
   },
   {
     id: 8,
@@ -146,5 +148,6 @@ export const projects: Project[] = [
     github: "https://github.com/Atefoub/mini_station_meteo",
     demo: "https://atefoub.github.io/mini_station_meteo/",
     image: "/images/projects/screenshot_exercice_10_mini_station_meteo.jpg",
+    featured: false,
   },
 ];
