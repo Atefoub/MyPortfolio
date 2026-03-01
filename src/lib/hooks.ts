@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { CAROUSEL_BREAKPOINTS, FORM_RESET_DELAYS } from './constants';
 
 // ═══════════════════════════════════════════════════════════════
 // CUSTOM HOOKS
@@ -6,8 +7,9 @@ import { useState, useEffect, useCallback } from 'react';
 
 export function useTheme() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    return savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   useEffect(() => {
@@ -43,15 +45,15 @@ export function useResponsiveItemsCount(breakpoints: { mobile: number; tablet: n
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
+      if (window.innerWidth < CAROUSEL_BREAKPOINTS.MOBILE) {
         setItemsToShow(breakpoints.mobile);
-      } else if (window.innerWidth < 1024) {
+      } else if (window.innerWidth < CAROUSEL_BREAKPOINTS.TABLET) {
         setItemsToShow(breakpoints.tablet);
       } else {
         setItemsToShow(breakpoints.desktop);
       }
     };
-    
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -74,37 +76,19 @@ export function useFormSubmit(endpoint: string) {
 
       if (res.ok) {
         setStatus('success');
-        setTimeout(() => setStatus('idle'), 4000);
+        setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.SUCCESS);
         return true;
       } else {
         setStatus('error');
-        setTimeout(() => setStatus('idle'), 3000);
+        setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.ERROR);
         return false;
       }
     } catch {
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), FORM_RESET_DELAYS.ERROR);
       return false;
     }
   }, [endpoint]);
 
   return { status, submit };
-}
-
-export function useToggleSet<T>(initialSet: Set<T> = new Set()) {
-  const [set, setSet] = useState<Set<T>>(initialSet);
-
-  const toggle = useCallback((id: T) => {
-    setSet((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  }, []);
-
-  return { set, toggle };
 }

@@ -25,7 +25,7 @@ const AVAILABILITY = [
     subtitle: 'Dès septembre 2026 (RNCP niveau 7)',
     color: 'blue',
   },
-];
+] as const;
 
 const CONTACT_LINKS = [
   { icon: Github, href: 'https://github.com/Atefoub', label: 'GitHub' },
@@ -74,9 +74,10 @@ export default function Contact() {
                 <div className="avail-badge-title">{title}</div>
                 <div className="avail-badge-subtitle">{subtitle}</div>
               </div>
-              <span className="avail-badge-dot-wrap">
-                <span className={`avail-ping avail-ping-${color}`} />
-                <span className={`avail-dot avail-dot-${color}`} />
+              {/* Dot animé — classes globales status-* de index.css */}
+              <span className="status-dot-wrap">
+                <span className={`status-ping status-ping-${color}`} />
+                <span className={`status-dot status-dot-${color}`} />
               </span>
             </div>
           ))}
@@ -110,7 +111,6 @@ export default function Contact() {
           border-style: solid;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           cursor: default;
-          /* Full width sur mobile, auto sur sm+ */
           width: 100%;
           position: relative;
         }
@@ -184,34 +184,6 @@ export default function Contact() {
         }
         @media (min-width: 640px) {
           .avail-badge-subtitle { font-size: 0.75rem; }
-        }
-
-        /* Dot */
-        .avail-badge-dot-wrap {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 10px;
-          height: 10px;
-          flex-shrink: 0;
-        }
-        .avail-ping {
-          position: absolute;
-          inset: 0;
-          border-radius: 9999px;
-          animation: avail-ping 1.8s ease-out infinite;
-        }
-        .avail-dot { position: relative; width: 10px; height: 10px; border-radius: 9999px; }
-        .avail-ping-green { background: #22c55e; }
-        .avail-dot-green  { background: #22c55e; }
-        .avail-ping-blue  { background: #3b82f6; }
-        .avail-dot-blue   { background: #3b82f6; }
-
-        @keyframes avail-ping {
-          0%   { transform: scale(1);   opacity: 0.75; }
-          70%  { transform: scale(2.4); opacity: 0; }
-          100% { transform: scale(2.4); opacity: 0; }
         }
       `}</style>
     </section>
@@ -371,9 +343,7 @@ function FormField({
   label: string;
   type: 'text' | 'email' | 'textarea';
   value: string;
-  onChange: (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
-  ) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   disabled: boolean;
   placeholder?: string;
   rows?: number;

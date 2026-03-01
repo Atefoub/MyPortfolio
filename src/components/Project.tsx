@@ -1,11 +1,18 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { getSortedProjects, type Project as ProjectType } from '../data/projects';
 import { ChevronLeft, ChevronRight, ExternalLink, Github, Star, Loader2, ChevronDown } from 'lucide-react';
-import { CAROUSEL_CONFIG } from '../lib/constants';
+import { CAROUSEL_CONFIG, PROJECT_CARD } from '../lib/constants';
 import { useCarousel, useResponsiveItemsCount } from '../lib/hooks';
 import { cn } from '../lib/utils';
 import Button from './Button';
 import SectionHeader from './SectionHeader';
+
+// Largeurs Tailwind par nombre de cartes visibles simultanément
+const CARD_WIDTH_BY_ITEMS_COUNT: Record<1 | 2 | 3, string> = {
+  1: 'w-full',
+  2: 'w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.5rem)]',
+  3: 'w-[calc(33.333%-0.75rem)] sm:w-[calc(33.333%-1rem)]',
+};
 
 export default function Projects() {
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -126,12 +133,7 @@ export default function Projects() {
 function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToShow: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const cardWidthClass = (
-    { 1: 'w-full', 2: 'w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.5rem)]', 3: 'w-[calc(33.333%-0.75rem)] sm:w-[calc(33.333%-1rem)]' } as Record<
-      number,
-      string
-    >
-  )[itemsToShow] ?? 'w-full';
+  const cardWidthClass = CARD_WIDTH_BY_ITEMS_COUNT[itemsToShow as 1 | 2 | 3] ?? 'w-full';
 
   const borderClass = project.inProgress
     ? 'border-blue-500 shadow-[0_0_0_2px_rgba(59,130,246,0.3)]'
@@ -176,7 +178,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
             >
               {project.description}
             </p>
-            {project.description.length > 150 && (
+            {project.description.length > PROJECT_CARD.DESCRIPTION_CLAMP_THRESHOLD && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="mt-1 inline-flex items-center gap-1 text-[10px] sm:text-xs text-accent hover:text-accent/80 transition-colors font-medium"
@@ -221,7 +223,7 @@ function ProjectBadge({ inProgress, featured }: { inProgress?: boolean; featured
 function TechTags({ technologies }: { technologies: string[] }) {
   return (
     <div className="flex flex-wrap gap-1 sm:gap-1.5 md:gap-2">
-      {technologies.slice(0, 5).map((tech) => (
+      {technologies.slice(0, PROJECT_CARD.MAX_TECH_TAGS).map((tech) => (
         <span
           key={tech}
           className="px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 bg-muted text-[10px] sm:text-xs rounded-full text-muted-foreground"
@@ -229,9 +231,9 @@ function TechTags({ technologies }: { technologies: string[] }) {
           {tech}
         </span>
       ))}
-      {technologies.length > 5 && (
+      {technologies.length > PROJECT_CARD.MAX_TECH_TAGS && (
         <span className="px-1.5 sm:px-2 md:px-3 py-0.5 md:py-1 bg-muted text-[10px] sm:text-xs rounded-full text-muted-foreground">
-          +{technologies.length - 5}
+          +{technologies.length - PROJECT_CARD.MAX_TECH_TAGS}
         </span>
       )}
     </div>
