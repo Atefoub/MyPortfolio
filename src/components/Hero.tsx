@@ -1,14 +1,18 @@
 import { ArrowDown } from 'lucide-react';
-import { ANIMATION_DELAYS } from '../lib/constants';
+import { ANIMATION_DELAYS, type ViewId } from '../lib/constants';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
 
-export default function Hero() {
-  const scrollToProjects = () =>
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+interface HeroProps {
+  onNavigate: (view: ViewId) => void;
+}
 
+export default function Hero({ onNavigate }: HeroProps) {
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-16 sm:py-20">
+    <section
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-16 py-16 sm:py-20"
+      id="hero"
+    >
       <div className="max-w-7xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
 
@@ -46,13 +50,18 @@ export default function Hero() {
             <div
               className={`flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
             >
-              <Button variant="primary" size="lg" icon={<ArrowDown />} onClick={scrollToProjects}>
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<ArrowDown />}
+                onClick={() => onNavigate('projects')}
+              >
                 Voir mes projets
               </Button>
               <SocialLinks />
             </div>
 
-            {/* Badges disponibilité — styles dans index.css (.hero-badge-*) */}
+            {/* Badges disponibilité */}
             <div className={`flex flex-col gap-2 sm:gap-3 animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
               <div className="hero-badge hero-badge-green">
                 <span className="status-dot-wrap">

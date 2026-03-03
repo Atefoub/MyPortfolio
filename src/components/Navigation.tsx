@@ -3,24 +3,22 @@ import { Menu, X, Download } from 'lucide-react';
 import {
   NAV_LINKS,
   CV_PATH,
-  SCROLL_THRESHOLD,
   NAV_MOBILE_BREAKPOINT,
-  NAV_SCROLL_DELAY,
 } from '../lib/constants';
+import type { ViewId } from '../lib/constants';
 import { useDateTime } from '../lib/hooks';
+import { cn } from '../lib/utils';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
 
-export default function Navigation() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { date, time } = useDateTime();
+interface NavigationProps {
+  activeView: ViewId;
+  onNavigate: (view: ViewId) => void;
+}
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+export default function Navigation({ activeView, onNavigate }: NavigationProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { date, time } = useDateTime();
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,15 +30,14 @@ export default function Navigation() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [menuOpen]);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (view: ViewId) => {
     setMenuOpen(false);
-    setTimeout(() => {
-      if (href === '#') window.scrollTo({ top: 0, behavior: 'smooth' });
-      else document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-    }, NAV_SCROLL_DELAY);
+    onNavigate(view);
   };
 
   return (
@@ -51,7 +48,6 @@ export default function Navigation() {
 
             {/* ── Gauche : DateTime + Logo ── */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Styles dans index.css (.datetime-block, .datetime-date, etc.) */}
               <div className="datetime-block" aria-label="Date et heure">
                 <span className="datetime-date">{date}</span>
                 <span className="datetime-time">{time}</span>
@@ -62,18 +58,29 @@ export default function Navigation() {
 
             {/* ── Droite Desktop ── */}
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
-              {NAV_LINKS.map(({ href, label }) => (
-                <button
-                  key={href}
-                  onClick={() => handleNavClick(href)}
-                  className="relative text-sm font-medium text-muted-foreground hover:text-accent transition-all duration-300 group"
-                >
-                  {label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full" />
-                </button>
-              ))}
+              {NAV_LINKS.map(({ view, label }) => {
+                const isActive = activeView === view;
+                return (
+                  <button
+                    key={view}
+                    onClick={() => handleNavClick(view)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={cn(
+                      'relative text-sm font-medium transition-all duration-300 group',
+                      isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent',
+                    )}
+                  >
+                    {label}
+                    <span
+                      className={cn(
+                        'absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300',
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full',
+                      )}
+                    />
+                  </button>
+                );
+              })}
 
-              {/* Styles dans index.css (.cv-btn-desktop) */}
               <a
                 href={CV_PATH}
                 download="CV - Antoine Mourin.pdf"
@@ -111,17 +118,25 @@ export default function Navigation() {
             />
             <div className="absolute top-14 sm:top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden animate-slide-up">
               <div className="flex flex-col px-4 py-3 gap-1">
-                {NAV_LINKS.map(({ href, label }) => (
-                  <button
-                    key={href}
-                    onClick={() => handleNavClick(href)}
-                    className="text-left px-4 py-3 rounded-xl text-base font-medium text-muted-foreground hover:text-accent hover:bg-muted transition-all duration-200"
-                  >
-                    {label}
-                  </button>
-                ))}
+                {NAV_LINKS.map(({ view, label }) => {
+                  const isActive = activeView === view;
+                  return (
+                    <button
+                      key={view}
+                      onClick={() => handleNavClick(view)}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={cn(
+                        'text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-200',
+                        isActive
+                          ? 'text-accent bg-accent/10'
+                          : 'text-muted-foreground hover:text-accent hover:bg-muted',
+                      )}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
 
-                {/* Styles dans index.css (.cv-btn-mobile-menu) */}
                 <a
                   href={CV_PATH}
                   download="CV - Antoine Mourin.pdf"
@@ -137,12 +152,12 @@ export default function Navigation() {
         )}
       </nav>
 
-      {/* ── FAB mobile — styles dans index.css (.cv-fab) ── */}
+      {/* ── FAB mobile ── */}
       <a
         href={CV_PATH}
         download="CV - Antoine Mourin.pdf"
         aria-label="Télécharger mon CV"
-        className={`cv-fab md:hidden ${scrolled ? 'cv-fab-visible' : 'cv-fab-hidden'}`}
+        className="cv-fab md:hidden cv-fab-visible"
       >
         <Download className="w-5 h-5" />
         <span className="cv-fab-label">CV</span>
