@@ -48,27 +48,32 @@ export default function Contact() {
   };
 
   return (
-    <section className="pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 px-4 sm:px-6 md:px-8 lg:px-16" id="contact">
-      <div className="max-w-5xl mx-auto w-full">
+    <section
+      className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-16"
+      style={{ height: 'calc(100vh - 56px)' }}
+      id="contact"
+    >
+      <style>{`@media (min-width: 640px) { #contact { height: calc(100vh - 64px); } }`}</style>
+
+      <div className="max-w-5xl mx-auto w-full flex flex-col flex-1 min-h-0 py-3 sm:py-4 md:py-6">
 
         {/* En-tête */}
-        <div className="mb-4 animate-fade-in">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Contact</h2>
-          <div className="w-16 sm:w-20 h-1 bg-accent mb-3 sm:mb-4" />
-          <p className="text-sm md:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me
-            contacter !
+        <div className="shrink-0 mb-2 sm:mb-3 animate-fade-in">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1.5">Contact</h2>
+          <div className="w-12 sm:w-16 h-1 bg-accent mb-1.5 sm:mb-2" />
+          <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+            Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter&nbsp;!
           </p>
         </div>
 
-        {/* Badges dispo — styles dans index.css (.avail-badge-*) */}
+        {/* Badges dispo */}
         <div
-          className={`flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mb-5 sm:mb-6 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}
+          className={`flex flex-col sm:flex-row flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3 shrink-0 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}
         >
           {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
             <div key={title} className={`avail-badge avail-badge-${color}`}>
               <div className={`avail-badge-icon-wrap avail-icon-${color}`}>
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5" />
               </div>
               <div className="avail-badge-text">
                 <div className="avail-badge-title">{title}</div>
@@ -82,9 +87,9 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Grid contact */}
+        {/* Grid contact — flex-1 pour occuper l'espace restant */}
         <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 items-stretch animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
+          className={`grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3 flex-1 min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
         >
           <ContactInfo />
           <ContactForm
@@ -103,17 +108,17 @@ export default function Contact() {
 
 function ContactInfo() {
   return (
-    <div className="flex flex-col gap-3 bg-muted rounded-xl p-3 sm:p-4 justify-center">
+    <div className="flex flex-col gap-2 bg-muted rounded-xl p-2.5 sm:p-3 justify-center">
       <a
         href="mailto:antoinem1pro@gmail.com"
-        className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs sm:text-sm w-fit"
+        className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs w-fit"
       >
-        <Mail className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+        <Mail className="w-3.5 h-3.5" />
         antoinem1pro@gmail.com
       </a>
 
-      <div className="flex items-start gap-2 px-2 sm:px-3 py-2 text-muted-foreground">
-        <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-start gap-2 px-2 py-1.5 text-muted-foreground">
+        <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -128,12 +133,12 @@ function ContactInfo() {
           />
         </svg>
         <div>
-          <div className="font-medium text-foreground text-xs sm:text-sm">Anetz (44150)</div>
-          <div className="text-[10px] sm:text-xs">Région Pays de la Loire</div>
+          <div className="font-medium text-foreground text-xs">Anetz (44150)</div>
+          <div className="text-[10px]">Région Pays de la Loire</div>
         </div>
       </div>
 
-      <div className="border-t border-border my-0.5 sm:my-1" />
+      <div className="border-t border-border" />
 
       <div className="flex flex-wrap gap-2">
         {CONTACT_LINKS.map(({ icon: Icon, href, label }) => (
@@ -142,9 +147,9 @@ function ContactInfo() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-1 flex-1 min-w-14 p-2 sm:p-3 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+            className="flex flex-col items-center gap-1 flex-1 min-w-14 p-2 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
           >
-            <Icon className="w-4 sm:w-5 h-4 sm:h-5" />
+            <Icon className="w-4 h-4" />
             <span className="text-[9px] sm:text-[10px] font-medium">{label}</span>
           </a>
         ))}
@@ -166,10 +171,10 @@ function ContactForm({
 }) {
   if (status === 'success') {
     return (
-      <div className="bg-muted rounded-xl p-4 flex flex-col items-center justify-center text-center py-8 gap-4">
-        <CheckCircle className="w-10 sm:w-12 h-10 sm:h-12 text-green-500" />
-        <p className="text-base sm:text-lg font-semibold">Message envoyé !</p>
-        <p className="text-xs sm:text-sm text-muted-foreground">
+      <div className="bg-muted rounded-xl p-4 flex flex-col items-center justify-center text-center gap-3">
+        <CheckCircle className="w-10 h-10 text-green-500" />
+        <p className="text-sm font-semibold">Message envoyé !</p>
+        <p className="text-xs text-muted-foreground">
           Je vous répondrai dans les meilleurs délais.
         </p>
       </div>
@@ -177,13 +182,13 @@ function ContactForm({
   }
 
   return (
-    <div className="bg-muted rounded-xl p-3 sm:p-4 flex flex-col">
-      <h3 className="text-sm sm:text-base font-semibold mb-1">Envoyer un message</h3>
-      <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+    <div className="bg-muted rounded-xl p-2.5 sm:p-3 flex flex-col">
+      <h3 className="text-xs sm:text-sm font-semibold mb-0.5">Envoyer un message</h3>
+      <p className="text-[10px] text-muted-foreground mb-1.5 sm:mb-2">
         Tous les champs sont obligatoires.
       </p>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-2 flex-1" noValidate>
+      <form onSubmit={onSubmit} className="flex flex-col gap-1.5 flex-1" noValidate>
         <FormField
           id="name"
           label="Nom"
@@ -213,7 +218,7 @@ function ContactForm({
         />
 
         {status === 'error' && (
-          <p className="text-xs sm:text-sm text-red-500">
+          <p className="text-xs text-red-500">
             Une erreur est survenue. Veuillez réessayer.
           </p>
         )}
@@ -221,7 +226,7 @@ function ContactForm({
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="self-start mt-1 inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-accent text-accent-foreground rounded-full text-[10px] sm:text-xs font-medium hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all duration-300 active:scale-95"
+          className="self-start mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent text-accent-foreground rounded-full text-[10px] sm:text-xs font-medium hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 transition-all duration-300 active:scale-95"
         >
           {status === 'sending' ? (
             <>
@@ -260,11 +265,11 @@ function FormField({
   rows?: number;
 }) {
   const baseClasses =
-    'px-2.5 sm:px-3 py-2 rounded-lg bg-background border border-border text-xs placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 transition-shadow duration-200';
+    'px-2.5 py-1.5 rounded-lg bg-background border border-border text-xs placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 transition-shadow duration-200';
 
   return (
-    <div className={`flex flex-col gap-0.5 sm:gap-1 ${type === 'textarea' ? 'flex-1' : ''}`}>
-      <label htmlFor={id} className="text-[10px] sm:text-xs font-medium">
+    <div className={`flex flex-col gap-0.5 ${type === 'textarea' ? 'flex-1' : ''}`}>
+      <label htmlFor={id} className="text-[10px] font-medium">
         {label}
       </label>
       {type === 'textarea' ? (
@@ -299,8 +304,8 @@ function FormField({
 
 function Footer() {
   return (
-    <div className="mt-5 sm:mt-6 pt-4 border-t border-border text-center text-muted-foreground">
-      <p className="text-[10px] sm:text-xs md:text-sm">
+    <div className="shrink-0 mt-2 pt-2 border-t border-border text-center text-muted-foreground">
+      <p className="text-[10px] sm:text-xs">
         &copy; {new Date().getFullYear()} Antoine Mourin. Tous droits réservés.
       </p>
     </div>

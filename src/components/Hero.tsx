@@ -53,7 +53,6 @@ export default function Hero({ onNavigate }: HeroProps) {
               <Button
                 variant="primary"
                 size="lg"
-                icon={<ArrowDown />}
                 onClick={() => onNavigate('projects')}
               >
                 Voir mes projets

@@ -11,10 +11,14 @@ export default function Logo() {
 
   const togglePopup = () => setIsOpen(!isOpen);
 
-  // Positionnement popup selon taille écran
-  const popupPositionStyle: React.CSSProperties = isMobile
-    ? { position: 'fixed', top: '72px', left: '50%', transform: 'translateX(-50%)', zIndex: 50 }
-    : { position: 'fixed', top: '72px', left: '16px', zIndex: 50 };
+  // Popup centré horizontalement dans la navbar sur tous les écrans
+  const popupPositionStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: isMobile ? '72px' : '68px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 50,
+  };
 
   return (
     <div className="relative">
@@ -24,13 +28,13 @@ export default function Logo() {
         aria-label="Afficher l'animation de jonglage"
       >
         <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
-          {/* Cercles pulsants — styles dans index.css (.pulse-ring-*) */}
+          {/* Cercles pulsants */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-1" />
             <div className="absolute w-full h-full rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pulse-ring-2" />
           </div>
 
-          {/* Fond principal — styles dans index.css (.logo-background) */}
+          {/* Fond principal */}
           <div
             className={`
               relative w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center
@@ -46,7 +50,7 @@ export default function Logo() {
             </span>
           </div>
 
-          {/* Orbiting dots — styles dans index.css (.orbit-dot-*) */}
+          {/* Orbiting dots */}
           <div
             className={`absolute inset-0 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
           >
@@ -57,7 +61,7 @@ export default function Logo() {
         </div>
       </button>
 
-      {/* Popup — styles dans index.css (.popup-slide-in, .popup-gradient, .iframe-no-interaction) */}
+      {/* Popup */}
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={togglePopup} />
