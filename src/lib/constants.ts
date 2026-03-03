@@ -20,20 +20,23 @@ export const BUTTON_SIZES = {
   lg: { padding: 'px-8 py-4', paddingIcon: 'p-4', text: 'text-base', icon: 'w-5 h-5' },
 } as const;
 
-export const NAV_LINKS = [
-  { href: '#', label: 'Accueil' },
-  { href: '#parcours', label: 'Parcours' },
-  { href: '#projects', label: 'Projets' },
-  { href: '#contact', label: 'Contact' },
-] as const;
+// Vue identifiers — doivent correspondre aux `id` des sections
+export type ViewId = 'hero' | 'parcours' | 'projects' | 'contact';
+
+export const NAV_LINKS: ReadonlyArray<{ href: string; label: string; view: ViewId }> = [
+  { href: '#',         label: 'Accueil',  view: 'hero'     },
+  { href: '#parcours', label: 'Parcours', view: 'parcours' },
+  { href: '#projects', label: 'Projets',  view: 'projects' },
+  { href: '#contact',  label: 'Contact',  view: 'contact'  },
+];
 
 // Type union des icônes disponibles dans SocialLinks / iconMap
 type SocialIcon = 'Github' | 'Linkedin' | 'Mail';
 
 export const SOCIAL_LINKS: ReadonlyArray<{ href: string; icon: SocialIcon; label: string }> = [
-  { href: 'https://github.com/Atefoub', icon: 'Github', label: 'GitHub' },
+  { href: 'https://github.com/Atefoub',                            icon: 'Github',   label: 'GitHub'   },
   { href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', icon: 'Linkedin', label: 'LinkedIn' },
-  { href: 'mailto:antoinem1pro@gmail.com', icon: 'Mail', label: 'Email' },
+  { href: 'mailto:antoinem1pro@gmail.com',                         icon: 'Mail',     label: 'Email'    },
 ] as const;
 
 /**
@@ -48,7 +51,7 @@ export const CV_PATH = '/images/projects/CV - Antoine Mourin.pdf';
 // Délais avant reset du statut du formulaire (ms)
 export const FORM_RESET_DELAYS = {
   SUCCESS: 4000,
-  ERROR: 3000,
+  ERROR:   3000,
 } as const;
 
 export const CAROUSEL_CONFIG = {
@@ -86,13 +89,13 @@ export const TIMELINE_EXPANDED_MAX_HEIGHT = '800px';
 export const SCROLL_THRESHOLD = 300;
 /** Breakpoint (px) au-dessus duquel le menu mobile se ferme au resize */
 export const NAV_MOBILE_BREAKPOINT = 768;
-/** Délai (ms) entre le clic sur un lien nav et le scroll effectif */
+/** Délai (ms) entre le clic sur un lien nav et l'affichage de la vue */
 export const NAV_SCROLL_DELAY = 150;
 
 // Logo / popup JugglingLab
 export const JUGGLING_POPUP = {
   /** Largeur de l'iframe JugglingLab (px) */
-  WIDTH: 200,
+  WIDTH:  200,
   /** Hauteur de l'iframe JugglingLab (px) */
   HEIGHT: 280,
 } as const;

@@ -165,6 +165,21 @@ span[role="button"], .badge-like {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   IMAGES — règle globale sauf dans les flip cards
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+img { max-width: 100%; height: auto; }
+
+/* Les images dans la face avant des flip cards doivent remplir toute la zone */
+.flip-card-front img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    CLASSES UTILITAIRES ANIMATIONS
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -636,7 +651,6 @@ span[role="button"], .badge-like {
   );
 }
 
-/* Délais d'animation par index (0 à 10) */
 .timeline-delay-0  { animation-delay:    0ms; }
 .timeline-delay-1  { animation-delay:  100ms; }
 .timeline-delay-2  { animation-delay:  200ms; }
@@ -651,12 +665,10 @@ span[role="button"], .badge-like {
 
 .timeline-expanded { max-height: 800px; }
 
-/* ── Styles partagés par les deux types ── */
 .timeline-card {
   background: linear-gradient(135deg, var(--color-background), rgba(232, 237, 233, 0.3));
 }
 
-/* ── Formation ── */
 .timeline-formation.timeline-card       { border-color: rgba(131, 160, 139, 0.2); }
 .timeline-formation.timeline-ping,
 .timeline-formation.timeline-circle,
@@ -668,7 +680,6 @@ span[role="button"], .badge-like {
 .timeline-formation.timeline-skill-tag  { background-color: rgba(131, 160, 139, 0.1); color: #83a08b; border-color: rgba(131, 160, 139, 0.2); }
 .timeline-formation.timeline-achievement { background-color: rgba(131, 160, 139, 0.05); border-color: rgba(131, 160, 139, 0.2); }
 
-/* ── Expérience ── */
 .timeline-experience.timeline-card       { border-color: rgba(115, 139, 105, 0.2); }
 .timeline-experience.timeline-ping,
 .timeline-experience.timeline-circle,
@@ -684,8 +695,6 @@ span[role="button"], .badge-like {
    RESPONSIVE UTILITAIRES COMPLÉMENTAIRES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-img { max-width: 100%; height: auto; }
-
 @media (max-width: 639px) {
   h1, h2, h3 { word-break: break-word; }
   p { overflow-wrap: break-word; }
@@ -696,5 +705,62 @@ img { max-width: 100%; height: auto; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FLIP CARD — Animation de retournement 3D
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.flip-card {
+  perspective: 1200px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Force les images de la face avant à remplir toute la zone */
+.flip-card-front img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner {
+    transition: none;
+  }
+  .flip-card-inner.flipped .flip-card-front {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .flip-card-inner:not(.flipped) .flip-card-back {
+    opacity: 0;
+    pointer-events: none;
   }
 }
