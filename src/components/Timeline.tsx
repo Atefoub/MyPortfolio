@@ -45,7 +45,7 @@ export default function Timeline() {
         {/* ── En-tête compact ── */}
         <div className="timeline-header-row">
           <SectionHeader
-            icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />}
+            icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-foreground" />}
             title="Mon Histoire"
             subtitle="De la comptabilité au code — une reconversion portée par la passion de créer."
           />

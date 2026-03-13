@@ -821,9 +821,10 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
+/* FIX CONTRASTE : texte foreground au lieu de muted-foreground */
 .timeline-filter-inactive {
   background: var(--color-muted);
-  color: var(--color-muted-foreground);
+  color: var(--color-foreground);
   border: 1.5px solid var(--color-border);
 }
 
@@ -904,23 +905,33 @@ img { max-width: 100%; height: auto; }
   );
 }
 
+/* FIX CONTRASTE : texte foreground + border accent renforcée */
 .timeline-short-desc {
-  border-left: 3px solid rgba(153, 198, 196, 0.4);
+  border-left: 3px solid rgba(153, 198, 196, 0.7);
   padding-left: 0.75rem;
+  color: var(--color-foreground);
 }
 
+/* FIX CONTRASTE : year badge avec teinte accent au lieu de gris neutre */
 .timeline-year-badge {
-  background: var(--color-muted);
-  color: var(--color-muted-foreground);
-  border: 1px solid var(--color-border);
+  background: rgba(153, 198, 196, 0.15);
+  color: #2a5452;
+  border: 1.5px solid rgba(153, 198, 196, 0.5);
+}
+
+.dark .timeline-year-badge {
+  background: rgba(153, 198, 196, 0.12);
+  color: #99c6c4;
+  border-color: rgba(153, 198, 196, 0.4);
 }
 
 .timeline-detail-block {
   background: rgba(232, 237, 233, 0.5);
 }
 
+/* FIX CONTRASTE : fond légèrement plus opaque en mode sombre */
 .dark .timeline-detail-block {
-  background: rgba(66, 70, 60, 0.6);
+  background: rgba(55, 60, 48, 0.8);
 }
 
 /* ── Formation (vert sage) ── */
@@ -931,17 +942,24 @@ img { max-width: 100%; height: auto; }
 .timeline-formation.timeline-detail-bar,
 .timeline-formation.timeline-bullet,
 .timeline-formation.timeline-check      { background-color: #83a08b; }
+
+/* FIX CONTRASTE : texte plus sombre + fond + border plus visibles */
 .timeline-formation.timeline-skill-tag  {
-  background-color: rgba(131, 160, 139, 0.12);
-  color: #6a8a71;
-  border-color: rgba(131, 160, 139, 0.3);
+  background-color: rgba(131, 160, 139, 0.18);
+  color: #3d6645;
+  border-color: rgba(131, 160, 139, 0.5);
 }
 .timeline-formation.timeline-achievement {
   background: linear-gradient(135deg, rgba(131, 160, 139, 0.06), rgba(153, 198, 196, 0.04));
   border-color: rgba(131, 160, 139, 0.25);
 }
 
-.dark .timeline-formation.timeline-skill-tag { color: #a8c5ae; }
+/* FIX CONTRASTE : texte plus clair en mode sombre */
+.dark .timeline-formation.timeline-skill-tag {
+  background-color: rgba(131, 160, 139, 0.22);
+  color: #c8e0cc;
+  border-color: rgba(131, 160, 139, 0.5);
+}
 
 /* ── Expérience (vert olive) ── */
 .timeline-experience.timeline-card-band  { background: linear-gradient(90deg, #738b69, #5a6e51); }
@@ -951,17 +969,24 @@ img { max-width: 100%; height: auto; }
 .timeline-experience.timeline-detail-bar,
 .timeline-experience.timeline-bullet,
 .timeline-experience.timeline-check      { background-color: #738b69; }
+
+/* FIX CONTRASTE : texte plus sombre + fond + border plus visibles */
 .timeline-experience.timeline-skill-tag  {
-  background-color: rgba(115, 139, 105, 0.12);
-  color: #5e7355;
-  border-color: rgba(115, 139, 105, 0.3);
+  background-color: rgba(115, 139, 105, 0.18);
+  color: #374d2d;
+  border-color: rgba(115, 139, 105, 0.5);
 }
 .timeline-experience.timeline-achievement {
   background: linear-gradient(135deg, rgba(115, 139, 105, 0.06), rgba(79, 77, 70, 0.04));
   border-color: rgba(115, 139, 105, 0.25);
 }
 
-.dark .timeline-experience.timeline-skill-tag { color: #9db090; }
+/* FIX CONTRASTE : texte plus clair en mode sombre */
+.dark .timeline-experience.timeline-skill-tag {
+  background-color: rgba(115, 139, 105, 0.22);
+  color: #bdd4b0;
+  border-color: rgba(115, 139, 105, 0.5);
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    RESPONSIVE UTILITAIRES COMPLÉMENTAIRES
