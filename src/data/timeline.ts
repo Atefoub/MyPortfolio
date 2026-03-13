@@ -17,7 +17,7 @@ export const timeline: TimelineItem[] = [
     title: "Concepteur Développeur d'Applications",
     organization: "Ada Tech School - Nantes",
     type: "formation",
-    shortDescription: "Formation intensive RNCP niveau 6 (9 mois) axée sur le développement full-stack avec pédagogie par projets.",
+    shortDescription: "Après 15 ans en comptabilité, j'ai réalisé que ce qui m'animait vraiment, c'était de construire — pas seulement d'analyser. Automatiser des processus avec Python et VBA chez Saunier Duval m'a donné un premier aperçu de ce que le code permet de créer : des outils concrets, utiles, qui changent le quotidien des équipes. Cette révélation m'a convaincu de franchir le pas et d'intégrer l'Ada Tech School de Nantes pour une formation intensive en développement full-stack. J'y apporte une rigueur et une culture du résultat forgées en entreprise, combinées à une vraie appétence technique acquise sur le terrain. Mon objectif : rejoindre une équipe où je peux contribuer immédiatement, tout en continuant à progresser vite.",
     detailedDescription: "Formation intensive en développement web et mobile avec une approche pratique et collaborative. Méthodologies agiles, travail en équipe, et projets concrets du début à la fin.",
     skills: [
       "JavaScript",
