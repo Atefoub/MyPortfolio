@@ -78,10 +78,10 @@ export default function Timeline() {
           </div>
         </div>
 
-        {/* ── Layout master-detail ── */}
+        {/* ── Layout : colonne sur mobile, master-detail sur desktop ── */}
         <div className="timeline-master-detail">
 
-          {/* ── Colonne gauche : liste ── */}
+          {/* ── Liste ── */}
           <nav className="timeline-list scrollbar-hide" aria-label="Parcours">
             <div className="timeline-list-line" />
             <div className="space-y-2">
@@ -91,14 +91,28 @@ export default function Timeline() {
                   item={item}
                   index={index}
                   isSelected={item.id === selectedItem?.id}
-                  onSelect={() => setSelectedId(item.id)}
+                  onSelect={() => {
+                    setSelectedId(item.id);
+                    // Sur mobile, on scroll doucement vers le détail
+                    if (window.innerWidth < 768) {
+                      setTimeout(() => {
+                        document.getElementById('timeline-detail-mobile')?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                        });
+                      }, 50);
+                    }
+                  }}
                 />
               ))}
             </div>
           </nav>
 
-          {/* ── Colonne droite : détail ── */}
-          <div className="timeline-detail scrollbar-hide">
+          {/* ── Détail ── */}
+          <div
+            id="timeline-detail-mobile"
+            className="timeline-detail scrollbar-hide"
+          >
             {selectedItem && <TimelineDetail item={selectedItem} />}
           </div>
 
@@ -107,10 +121,6 @@ export default function Timeline() {
     </section>
   );
 }
-
-/* ────────────────────────────────────────────────
-   Entrée dans la liste (colonne gauche)
-──────────────────────────────────────────────── */
 
 interface ListItemProps {
   item: TimelineItem;
@@ -132,7 +142,6 @@ function TimelineListItem({ item, index, isSelected, onSelect }: ListItemProps) 
         isSelected ? 'timeline-list-item-selected' : 'timeline-list-item-idle',
       )}
     >
-      {/* Pastille */}
       <div className="relative shrink-0">
         <div className={cn(
           'timeline-list-dot',
@@ -146,7 +155,6 @@ function TimelineListItem({ item, index, isSelected, onSelect }: ListItemProps) 
         </div>
       </div>
 
-      {/* Texte */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <span className={cn(
@@ -169,7 +177,6 @@ function TimelineListItem({ item, index, isSelected, onSelect }: ListItemProps) 
         </p>
       </div>
 
-      {/* Flèche active */}
       <ArrowRight className={cn(
         'shrink-0 w-3.5 h-3.5 transition-all duration-200',
         isSelected ? 'text-accent opacity-100' : 'opacity-0',
@@ -177,10 +184,6 @@ function TimelineListItem({ item, index, isSelected, onSelect }: ListItemProps) 
     </button>
   );
 }
-
-/* ────────────────────────────────────────────────
-   Panneau de détail (colonne droite)
-──────────────────────────────────────────────── */
 
 interface DetailProps {
   item: TimelineItem;
@@ -198,12 +201,10 @@ function TimelineDetail({ item }: DetailProps) {
         isFormation ? 'timeline-card-formation' : 'timeline-card-experience',
       )}
     >
-      {/* Bande colorée */}
       <div className={cn('h-1 rounded-t-2xl', typeClass, 'timeline-card-band')} />
 
-      <div className="p-4 sm:p-6 h-full overflow-y-auto scrollbar-hide space-y-4 sm:space-y-5">
+      <div className="p-4 sm:p-6 overflow-y-auto scrollbar-hide space-y-4 sm:space-y-5">
 
-        {/* Badges */}
         <div className="flex flex-wrap items-center gap-2">
           <span className={cn(
             'timeline-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white shadow-sm',
@@ -221,7 +222,6 @@ function TimelineDetail({ item }: DetailProps) {
           </span>
         </div>
 
-        {/* Titre */}
         <div>
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-foreground mb-2">
             {item.title}
@@ -232,14 +232,12 @@ function TimelineDetail({ item }: DetailProps) {
           </div>
         </div>
 
-        {/* Description courte */}
         {item.shortDescription && (
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed timeline-short-desc italic">
             {item.shortDescription}
           </p>
         )}
 
-        {/* Skills */}
         {item.skills && item.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {item.skills.map((skill) => (
@@ -256,7 +254,6 @@ function TimelineDetail({ item }: DetailProps) {
           </div>
         )}
 
-        {/* Détails */}
         {item.detailedDescription && (
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -282,7 +279,6 @@ function TimelineDetail({ item }: DetailProps) {
           </div>
         )}
 
-        {/* Réalisations */}
         {item.achievements && item.achievements.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-2">
