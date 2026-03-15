@@ -83,7 +83,7 @@ export default function Navigation({ activeView, onNavigate }: NavigationProps) 
 
               <a
                 href={CV_PATH}
-                download="CV - Antoine Mourin.pdf"
+                download="CV_Antoine_Mourin.pdf"
                 className="cv-btn-desktop"
                 aria-label="Télécharger mon CV"
               >
@@ -139,7 +139,7 @@ export default function Navigation({ activeView, onNavigate }: NavigationProps) 
 
                 <a
                   href={CV_PATH}
-                  download="CV - Antoine Mourin.pdf"
+                  download="CV_Antoine_Mourin.pdf"
                   className="cv-btn-mobile-menu"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -155,7 +155,7 @@ export default function Navigation({ activeView, onNavigate }: NavigationProps) 
       {/* ── FAB mobile ── */}
       <a
         href={CV_PATH}
-        download="CV - Antoine Mourin.pdf"
+        download="CV_Antoine_Mourin.pdf"
         aria-label="Télécharger mon CV"
         className="cv-fab md:hidden cv-fab-visible"
       >

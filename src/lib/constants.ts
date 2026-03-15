@@ -43,10 +43,10 @@ export const SOCIAL_LINKS: ReadonlyArray<{ href: string; icon: SocialIcon; label
  * Endpoint Formspree — défini dans `.env` (VITE_FORMSPREE_ENDPOINT).
  * Ne jamais hardcoder cette valeur ici pour éviter le spam.
  */
-export const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT as string;
+export const FORMSPREE_ENDPOINT = (import.meta.env.VITE_FORMSPREE_ENDPOINT as string) || '';
 
 // Chemin du CV — partagé entre Navigation et Contact
-export const CV_PATH = '/images/projects/CV - Antoine Mourin.pdf';
+export const CV_PATH = '/images/projects/CV_Antoine_Mourin.pdf';
 
 // Délais avant reset du statut du formulaire (ms)
 export const FORM_RESET_DELAYS = {
