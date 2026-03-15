@@ -167,6 +167,16 @@ span[role="button"], .badge-like {
 
 img { max-width: 100%; height: auto; }
 
+/* ✅ CORRECTION : force les images hero à remplir leur conteneur */
+.hero-img-wrap img,
+.hero-img-mobile-wrap img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover;
+  display: block;
+}
+
 .flip-card-front img {
   width: 100% !important;
   height: 100% !important;
@@ -324,7 +334,6 @@ img { max-width: 100%; height: auto; }
 }
 .hero-badge-blue:hover { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2); }
 
-/* Texte dans les badges hero */
 .hero-badge-label {
   flex: 1;
   line-height: 1.4;
@@ -630,7 +639,6 @@ img { max-width: 100%; height: auto; }
    TIMELINE — Layout master-detail viewport-fit
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Section — hauteur libre, scroll naturel sur toutes les tailles */
 .timeline-viewport-section {
   height: auto;
   display: flex;
@@ -645,7 +653,6 @@ img { max-width: 100%; height: auto; }
     var(--color-background);
 }
 
-/* Conteneur interne flex */
 .timeline-viewport-inner {
   display: flex;
   flex-direction: column;
@@ -666,7 +673,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* En-tête compact */
 .timeline-header-row {
   display: flex;
   flex-direction: column;
@@ -683,7 +689,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Layout master-detail */
 .timeline-master-detail {
   display: flex;
   gap: 1rem;
@@ -696,7 +701,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Colonne gauche — liste */
 .timeline-list {
   position: relative;
   width: 240px;
@@ -711,7 +715,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Mobile : liste en haut, détail en bas */
 @media (max-width: 767px) {
   .timeline-master-detail {
     flex-direction: column;
@@ -723,7 +726,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Ligne verticale de la liste */
 .timeline-list-line {
   position: absolute;
   left: 0.35rem;
@@ -741,7 +743,6 @@ img { max-width: 100%; height: auto; }
   opacity: 0.5;
 }
 
-/* Item de liste */
 .timeline-list-item {
   display: flex;
   align-items: center;
@@ -763,7 +764,6 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 2px 12px rgba(212, 160, 23, 0.12);
 }
 
-/* Pastille de la liste */
 .timeline-list-dot {
   width: 1.75rem;
   height: 1.75rem;
@@ -777,7 +777,6 @@ img { max-width: 100%; height: auto; }
   transition: transform 0.2s ease;
 }
 
-/* Colonne droite — détail */
 .timeline-detail {
   flex: 1;
   min-width: 0;
@@ -801,7 +800,6 @@ img { max-width: 100%; height: auto; }
   -webkit-text-fill-color: transparent;
 }
 
-/* Ancienne ligne (conservée pour compat) */
 .timeline-line {
   background: linear-gradient(
     180deg,
@@ -814,7 +812,6 @@ img { max-width: 100%; height: auto; }
   opacity: 0.6;
 }
 
-/* ── Filtres ── */
 .timeline-filter-btn {
   letter-spacing: 0.02em;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -858,7 +855,6 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 4px 16px rgba(115, 139, 105, 0.35);
 }
 
-/* ── Délais ── */
 .timeline-delay-0  { animation-delay:    0ms; }
 .timeline-delay-1  { animation-delay:  100ms; }
 .timeline-delay-2  { animation-delay:  200ms; }
@@ -873,7 +869,6 @@ img { max-width: 100%; height: auto; }
 
 .timeline-expanded { max-height: 800px; }
 
-/* ── Cards ── */
 .timeline-card-enhanced {
   background: var(--color-background);
   -webkit-backdrop-filter: blur(2px);
@@ -929,7 +924,6 @@ img { max-width: 100%; height: auto; }
   background: rgba(55, 60, 48, 0.8);
 }
 
-/* ── Formation (vert sage) ── */
 .timeline-formation.timeline-card-band  { background: linear-gradient(90deg, #83a08b, #99c6c4); }
 .timeline-formation.timeline-ping,
 .timeline-formation.timeline-circle,
@@ -954,7 +948,6 @@ img { max-width: 100%; height: auto; }
   border-color: rgba(131, 160, 139, 0.5);
 }
 
-/* ── Expérience (vert olive) ── */
 .timeline-experience.timeline-card-band  { background: linear-gradient(90deg, #738b69, #5a6e51); }
 .timeline-experience.timeline-ping,
 .timeline-experience.timeline-circle,
@@ -1030,14 +1023,6 @@ img { max-width: 100%; height: auto; }
   transform: rotateY(180deg);
 }
 
-.flip-card-front img {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  object-fit: cover;
-  display: block;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .flip-card-inner {
     transition: none;
@@ -1061,13 +1046,14 @@ img { max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
   overflow: hidden;
-  margin-top: -2.5rem;
+  /* ✅ CORRECTION : suppression du margin-top négatif qui créait la bande blanche */
+  margin-top: 0;
 }
 
 @media (min-width: 640px) {
   .hero-section {
     height: calc(100vh - 64px);
-    margin-top: -2.5rem;
+    margin-top: 0;
   }
 }
 
@@ -1077,18 +1063,10 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* ── Desktop : grid 2 colonnes, mobile masqué ── */
+/* ── Desktop ── */
 .hero-desktop { display: none; }
-
-.hero-mobile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 100%;
-  padding-top: 0;
-}
+.hero-mobile { display: none; }
+.hero-mobile-immersif { display: none; }
 
 @media (min-width: 768px) {
   .hero-desktop {
@@ -1097,10 +1075,154 @@ img { max-width: 100%; height: auto; }
     gap: 3rem;
     align-items: center;
   }
-  .hero-mobile { display: none; }
 }
 
-/* ── Texte desktop ── */
+/* ── Mobile immersif ── */
+@media (max-width: 767px) {
+  .hero-section {
+    padding: 0 !important;
+    overflow: hidden;
+  }
+
+  .hero-section > div {
+    height: 100%;
+    max-width: 100% !important;
+    padding: 0;
+  }
+
+  .hero-mobile-immersif {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.hero-immersif-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-immersif-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--color-background) 0%,
+    color-mix(in srgb, var(--color-background) 80%, transparent) 40%,
+    color-mix(in srgb, var(--color-background) 20%, transparent) 65%,
+    transparent 100%
+  );
+}
+
+.hero-immersif-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hero-immersif-intro {
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.hero-immersif-intro strong {
+  font-weight: 700;
+}
+
+.hero-immersif-name {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-foreground);
+}
+
+.hero-immersif-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+
+.hero-badge-immersif {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 0.65rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero-badge-immersif-green {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: #16a34a;
+}
+.dark .hero-badge-immersif-green {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.18);
+}
+
+.hero-badge-immersif-blue {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #1d4ed8;
+}
+.dark .hero-badge-immersif-blue {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.18);
+}
+
+/* Ancienne classe conservée pour compat */
+.hero-img-mobile-round {
+  width: 90px;
+  height: 90px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 4px 16px rgba(153, 198, 196, 0.35);
+  flex-shrink: 0;
+}
+
+.hero-badge-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-style: solid;
+  width: fit-content;
+}
+
+.hero-badge-compact-green {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.hero-badge-compact-blue {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
 .hero-text-col {
   display: flex;
   flex-direction: column;
@@ -1111,7 +1233,6 @@ img { max-width: 100%; height: auto; }
 .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.5rem); }
 .hero-body     { font-size: clamp(0.875rem, 1.2vw, 1rem); }
 
-/* ── CTA desktop ── */
 .hero-cta {
   display: flex;
   flex-direction: row;
@@ -1120,16 +1241,13 @@ img { max-width: 100%; height: auto; }
   flex-wrap: wrap;
 }
 
-/* ── Badges ── */
 .hero-badges-gap { gap: 0.5rem; }
 
-/* ── Espacement blocs ── */
 .hero-block {
   margin-bottom: clamp(0.5rem, 1.8vh, 1.25rem);
 }
 .hero-block:last-child { margin-bottom: 0; }
 
-/* ── Image desktop ── */
 .hero-img-col {
   display: flex;
   align-items: center;
@@ -1159,23 +1277,50 @@ img { max-width: 100%; height: auto; }
 .hero-glow-tr { top: -12px; right: -12px; width: 64px; height: 64px; }
 .hero-glow-bl { bottom: -12px; left: -12px; width: 48px; height: 48px; }
 
-/* ── Image mobile (carrée centrée) ── */
+/* Ancienne classe conservée pour compat */
 .hero-img-mobile-wrap {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 110px;
+  height: 110px;
 }
 
-@media (min-width: 480px) {
-  .hero-img-mobile-wrap { width: 160px; height: 160px; }
+/* ✅ Nouvelle photo ronde mobile */
+.hero-img-mobile-round {
+  width: 90px;
+  height: 90px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 4px 16px rgba(153, 198, 196, 0.35);
+  flex-shrink: 0;
 }
 
-/* Supprimer le vide au-dessus de la photo sur mobile */
+/* ✅ Badges compacts mobile (dot + texte, pas pill pleine largeur) */
+.hero-badge-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-style: solid;
+  width: fit-content;
+}
+
+.hero-badge-compact-green {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.hero-badge-compact-blue {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
 .hero-mobile > .hero-block:first-child {
   margin-bottom: clamp(0.4rem, 1.2vh, 0.75rem);
 }
 
-/* Colonne texte mobile */
 .hero-mobile-col {
   display: flex;
   flex-direction: column;
@@ -1287,24 +1432,21 @@ img { max-width: 100%; height: auto; }
   transition: transform 0.1s ease;
 }
 
-/* Padding bas sur mobile pour ne pas être caché par la bottom nav */
 @media (max-width: 767px) {
   main {
     padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* FAB CV masqué : le CV est dans la bottom bar */
   .cv-fab {
     display: none !important;
   }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TIMELINE — Spécifique mobile (empilement liste/détail)
+   TIMELINE — Spécifique mobile
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 767px) {
-  /* Empiler liste au-dessus du détail */
   .timeline-master-detail {
     flex-direction: column;
     gap: 1.5rem;
@@ -1431,7 +1573,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Badge non-cliquable (affichage seul) */
 .lang-display-badge {
   display: inline-flex;
   align-items: center;
@@ -1447,7 +1588,6 @@ img { max-width: 100%; height: auto; }
   cursor: default;
 }
 
-/* Label de section */
 .lang-section-label {
   font-size: 0.6rem;
   font-weight: 700;
