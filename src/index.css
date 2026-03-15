@@ -324,6 +324,12 @@ img { max-width: 100%; height: auto; }
 }
 .hero-badge-blue:hover { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2); }
 
+/* Texte dans les badges hero */
+.hero-badge-label {
+  flex: 1;
+  line-height: 1.4;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    CONTACT — Badges de disponibilité
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -1047,6 +1053,40 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   HERO — Viewport-fit (pas de scroll)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.hero-section {
+  height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .hero-section {
+    height: calc(100vh - 64px);
+  }
+}
+
+/* Colonne texte : flex vertical avec espacement auto */
+.hero-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+/* Chaque bloc de contenu avec espacement adaptatif */
+.hero-block {
+  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.hero-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    BOTTOM NAVIGATION BAR — Mobile uniquement
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -1176,5 +1216,156 @@ img { max-width: 100%; height: auto; }
   .timeline-list {
     width: 100%;
     padding-left: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LANGUAGE FILTER — Barre de filtres GitHub
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.lang-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 640px) {
+  .lang-filter-btn {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+  }
+}
+
+.lang-filter-inactive {
+  background: var(--color-background);
+  color: var(--color-muted-foreground);
+}
+
+.lang-filter-inactive:hover {
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  border-color: var(--color-accent);
+}
+
+.lang-filter-active {
+  background: var(--color-muted);
+  color: var(--color-foreground);
+  border-color: var(--color-accent);
+  box-shadow: 0 2px 8px rgba(153, 198, 196, 0.25);
+}
+
+.lang-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lang-percent {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+.lang-filter-skeleton {
+  display: inline-block;
+  width: 64px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--color-muted);
+  animation: pulse-soft 1.5s ease-in-out infinite;
+}
+
+.lang-bar {
+  display: flex;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  gap: 1px;
+  max-width: 100%;
+}
+
+.lang-bar-segment {
+  height: 100%;
+  border-radius: 1px;
+  transition: opacity 0.2s ease;
+  min-width: 2px;
+}
+
+.lang-bar-segment:hover {
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROJECTS SIDEBAR — Panneau latéral langages (desktop)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.projects-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding-right: 0.75rem;
+  border-right: 1px solid var(--color-border);
+  scrollbar-width: none;
+}
+
+.projects-sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .projects-sidebar {
+    width: 220px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .projects-sidebar {
+    width: 240px;
+  }
+}
+
+/* Badge non-cliquable (affichage seul) */
+.lang-display-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* Label de section */
+.lang-section-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted-foreground);
+  margin-bottom: 6px;
+}
+
+@media (min-width: 640px) {
+  .lang-display-badge {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+  }
+  .lang-section-label {
+    font-size: 0.65rem;
   }
 }

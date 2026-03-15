@@ -55,7 +55,7 @@ export const FORM_RESET_DELAYS = {
 } as const;
 
 export const CAROUSEL_CONFIG = {
-  itemsPerView: { mobile: 1, tablet: 2, desktop: 3 },
+  itemsPerView: { mobile: 1, tablet: 2, desktop: 2 },
 } as const;
 
 // Breakpoints utilisés par useResponsiveItemsCount et useIsMobile (px)
