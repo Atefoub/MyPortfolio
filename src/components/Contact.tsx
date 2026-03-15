@@ -30,7 +30,7 @@ const AVAILABILITY = [
 const CONTACT_LINKS = [
   { icon: Github, href: 'https://github.com/Atefoub', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', label: 'LinkedIn' },
-  { icon: FileText, href: '/images/projects/CV - Antoine Mourin.pdf', label: 'CV' },
+  { icon: FileText, href: '/images/projects/CV_Antoine_Mourin.pdf', label: 'CV' },
 ];
 
 export default function Contact() {
