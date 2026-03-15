@@ -821,7 +821,6 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-/* FIX CONTRASTE : texte foreground au lieu de muted-foreground */
 .timeline-filter-inactive {
   background: var(--color-muted);
   color: var(--color-foreground);
@@ -905,14 +904,12 @@ img { max-width: 100%; height: auto; }
   );
 }
 
-/* FIX CONTRASTE : texte foreground + border accent renforcée */
 .timeline-short-desc {
   border-left: 3px solid rgba(153, 198, 196, 0.7);
   padding-left: 0.75rem;
   color: var(--color-foreground);
 }
 
-/* FIX CONTRASTE : year badge avec teinte accent au lieu de gris neutre */
 .timeline-year-badge {
   background: rgba(153, 198, 196, 0.15);
   color: #2a5452;
@@ -929,7 +926,6 @@ img { max-width: 100%; height: auto; }
   background: rgba(232, 237, 233, 0.5);
 }
 
-/* FIX CONTRASTE : fond légèrement plus opaque en mode sombre */
 .dark .timeline-detail-block {
   background: rgba(55, 60, 48, 0.8);
 }
@@ -943,7 +939,6 @@ img { max-width: 100%; height: auto; }
 .timeline-formation.timeline-bullet,
 .timeline-formation.timeline-check      { background-color: #83a08b; }
 
-/* FIX CONTRASTE : texte plus sombre + fond + border plus visibles */
 .timeline-formation.timeline-skill-tag  {
   background-color: rgba(131, 160, 139, 0.18);
   color: #3d6645;
@@ -954,7 +949,6 @@ img { max-width: 100%; height: auto; }
   border-color: rgba(131, 160, 139, 0.25);
 }
 
-/* FIX CONTRASTE : texte plus clair en mode sombre */
 .dark .timeline-formation.timeline-skill-tag {
   background-color: rgba(131, 160, 139, 0.22);
   color: #c8e0cc;
@@ -970,7 +964,6 @@ img { max-width: 100%; height: auto; }
 .timeline-experience.timeline-bullet,
 .timeline-experience.timeline-check      { background-color: #738b69; }
 
-/* FIX CONTRASTE : texte plus sombre + fond + border plus visibles */
 .timeline-experience.timeline-skill-tag  {
   background-color: rgba(115, 139, 105, 0.18);
   color: #374d2d;
@@ -981,7 +974,6 @@ img { max-width: 100%; height: auto; }
   border-color: rgba(115, 139, 105, 0.25);
 }
 
-/* FIX CONTRASTE : texte plus clair en mode sombre */
 .dark .timeline-experience.timeline-skill-tag {
   background-color: rgba(115, 139, 105, 0.22);
   color: #bdd4b0;
@@ -1058,5 +1050,163 @@ img { max-width: 100%; height: auto; }
   .flip-card-inner:not(.flipped) .flip-card-back {
     opacity: 0;
     pointer-events: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOTTOM NAVIGATION BAR — Mobile uniquement
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.bottom-nav {
+  background: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.bottom-nav-item {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 4px 8px;
+  min-height: 56px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted-foreground);
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-item:active {
+  transform: scale(0.93);
+  transition: transform 0.1s ease, color 0.2s ease;
+}
+
+.bottom-nav-item-active {
+  color: var(--color-accent);
+}
+
+.bottom-nav-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 28px;
+  border-radius: 14px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bottom-nav-item-active .bottom-nav-icon-wrap {
+  background: rgba(153, 198, 196, 0.18);
+}
+
+.dark .bottom-nav-item-active .bottom-nav-icon-wrap {
+  background: rgba(153, 198, 196, 0.15);
+}
+
+.bottom-nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.bottom-nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--color-accent);
+}
+
+.bottom-nav-cv {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 4px 8px;
+  min-height: 56px;
+  text-decoration: none;
+  color: var(--color-muted-foreground);
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-cv .bottom-nav-icon-wrap {
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+.bottom-nav-cv .bottom-nav-label {
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+
+.bottom-nav-cv:active {
+  transform: scale(0.93);
+  transition: transform 0.1s ease;
+}
+
+/* Padding bas sur mobile pour ne pas être caché par la bottom nav */
+@media (max-width: 767px) {
+  main {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* FAB CV masqué : le CV est dans la bottom bar */
+  .cv-fab {
+    display: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIMELINE — Scroll naturel sur mobile
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Hauteur libre, scroll naturel de la page */
+  .timeline-viewport-section {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .timeline-viewport-inner {
+    height: auto !important;
+    padding-bottom: 1.5rem;
+  }
+
+  /* La liste affiche tout sans limite de hauteur */
+  .timeline-list {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+
+  /* Le détail prend sa hauteur naturelle */
+  .timeline-detail {
+    overflow-y: visible !important;
+  }
+
+  .timeline-detail-panel {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .timeline-detail-panel > div {
+    overflow-y: visible !important;
+  }
+
+  /* Séparation visuelle entre liste et détail */
+  .timeline-master-detail {
+    gap: 1.5rem;
   }
 }

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Download } from 'lucide-react';
+import { useEffect } from 'react';
+import { Download, Home, BookOpen, FolderOpen, Mail } from 'lucide-react';
 import {
   NAV_LINKS,
   CV_PATH,
-  NAV_MOBILE_BREAKPOINT,
 } from '../lib/constants';
 import type { ViewId } from '../lib/constants';
 import { useDateTime } from '../lib/hooks';
@@ -16,32 +15,31 @@ interface NavigationProps {
   onNavigate: (view: ViewId) => void;
 }
 
+// Icônes pour la bottom bar mobile
+const VIEW_ICONS: Record<ViewId, typeof Home> = {
+  hero:     Home,
+  parcours: BookOpen,
+  projects: FolderOpen,
+  contact:  Mail,
+};
+
 export default function Navigation({ activeView, onNavigate }: NavigationProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const { date, time } = useDateTime();
 
+  // Plus besoin de bloquer le scroll pour le menu mobile
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= NAV_MOBILE_BREAKPOINT) setMenuOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [menuOpen]);
+  }, []);
 
   const handleNavClick = (view: ViewId) => {
-    setMenuOpen(false);
     onNavigate(view);
   };
 
   return (
     <>
+      {/* ── Navbar desktop (inchangée) ── */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
           <div className="flex items-center justify-between h-14 sm:h-16">
@@ -94,74 +92,53 @@ export default function Navigation({ activeView, onNavigate }: NavigationProps) 
               <ThemeToggle />
             </div>
 
-            {/* ── Droite Mobile ── */}
+            {/* ── Droite Mobile : uniquement ThemeToggle ── */}
             <div className="flex md:hidden items-center gap-1.5 sm:gap-2">
               <ThemeToggle />
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2 rounded-lg text-muted-foreground hover:text-accent hover:bg-muted transition-all duration-200"
-                aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-              >
-                {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
             </div>
           </div>
         </div>
-
-        {/* ── Menu mobile ── */}
-        {menuOpen && (
-          <>
-            <div
-              className="fixed inset-0 top-14 sm:top-16 z-30 bg-foreground/20 backdrop-blur-sm md:hidden"
-              onClick={() => setMenuOpen(false)}
-              aria-hidden="true"
-            />
-            <div className="absolute top-14 sm:top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden animate-slide-up">
-              <div className="flex flex-col px-4 py-3 gap-1">
-                {NAV_LINKS.map(({ view, label }) => {
-                  const isActive = activeView === view;
-                  return (
-                    <button
-                      key={view}
-                      onClick={() => handleNavClick(view)}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={cn(
-                        'text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-200',
-                        isActive
-                          ? 'text-accent bg-accent/10'
-                          : 'text-muted-foreground hover:text-accent hover:bg-muted',
-                      )}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-
-                <a
-                  href={CV_PATH}
-                  download="CV_Antoine_Mourin.pdf"
-                  className="cv-btn-mobile-menu"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <Download className="w-4 h-4" />
-                  Télécharger mon CV
-                </a>
-              </div>
-            </div>
-          </>
-        )}
       </nav>
 
-      {/* ── FAB mobile ── */}
-      <a
-        href={CV_PATH}
-        download="CV_Antoine_Mourin.pdf"
-        aria-label="Télécharger mon CV"
-        className="cv-fab md:hidden cv-fab-visible"
+      {/* ── Bottom Navigation Bar (mobile uniquement) ── */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bottom-nav"
+        aria-label="Navigation principale"
       >
-        <Download className="w-5 h-5" />
-        <span className="cv-fab-label">CV</span>
-      </a>
+        <div className="flex items-stretch">
+          {NAV_LINKS.map(({ view, label }) => {
+            const isActive = activeView === view;
+            const Icon = VIEW_ICONS[view];
+            return (
+              <button
+                key={view}
+                onClick={() => handleNavClick(view)}
+                aria-current={isActive ? 'page' : undefined}
+                className={cn('bottom-nav-item', isActive && 'bottom-nav-item-active')}
+              >
+                <span className={cn('bottom-nav-icon-wrap', isActive && 'bottom-nav-icon-active')}>
+                  <Icon className="w-5 h-5" />
+                </span>
+                <span className="bottom-nav-label">{label}</span>
+                {isActive && <span className="bottom-nav-indicator" />}
+              </button>
+            );
+          })}
+
+          {/* Bouton CV compact */}
+          <a
+            href={CV_PATH}
+            download="CV_Antoine_Mourin.pdf"
+            aria-label="Télécharger mon CV"
+            className="bottom-nav-cv"
+          >
+            <span className="bottom-nav-icon-wrap">
+              <Download className="w-5 h-5" />
+            </span>
+            <span className="bottom-nav-label">CV</span>
+          </a>
+        </div>
+      </nav>
     </>
   );
 }
