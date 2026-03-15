@@ -1,4 +1,3 @@
-import { ArrowDown } from 'lucide-react';
 import { ANIMATION_DELAYS, type ViewId } from '../lib/constants';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
@@ -6,6 +5,8 @@ import SocialLinks from './SocialLinks';
 interface HeroProps {
   onNavigate: (view: ViewId) => void;
 }
+
+const STACK = ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'];
 
 export default function Hero({ onNavigate }: HeroProps) {
   return (
@@ -29,22 +30,40 @@ export default function Hero({ onNavigate }: HeroProps) {
                 Antoine Mourin
               </h1>
               <p className="text-base sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground font-light">
-                Développeur Full-Stack en formation
+                Développeur Full-Stack · 12 ans d'expérience en entreprise
               </p>
             </div>
 
             <div className={`space-y-2 sm:space-y-3 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
               <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
-                Apprenant développeur en formation{' '}
+                En formation{' '}
                 <span className="text-foreground font-medium">
-                  Concepteur Développeur d'Applications
+                  Concepteur Développeur d'Applications (RNCP 6)
                 </span>{' '}
-                (RNCP niveau 6) à l'Ada Tech School de Nantes.
+                à l'Ada Tech School de Nantes — je construis des applications full-stack
+                avec React, TypeScript et Node.js.
               </p>
               <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
-                <span className="text-foreground font-medium">Recherche active</span> : Stage de 2 mois
-                (juin 2026) et alternance 24 mois (sept. 2026)
+                Mon métier de comptable m'a appris la{' '}
+                <span className="text-foreground font-medium">rigueur</span>,
+                le{' '}
+                <span className="text-foreground font-medium">respect des délais</span>{' '}
+                et le{' '}
+                <span className="text-foreground font-medium">travail en équipe</span>.
+                Je cherche à les mettre au service d'une équipe tech.
               </p>
+            </div>
+
+            {/* Stack tags */}
+            <div className={`flex flex-wrap gap-1.5 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+              {STACK.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 text-xs font-medium rounded-lg bg-muted text-muted-foreground border border-border"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
 
             <div
@@ -68,7 +87,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                   <span className="status-dot status-dot-green" />
                 </span>
                 <span className="hero-badge-label">
-                  Stage 8 semaines · 08 juin – 24 juillet 2026
+                  Stage · 8 semaines · 08 juin – 24 juillet 2026
                 </span>
               </div>
 
@@ -77,7 +96,9 @@ export default function Hero({ onNavigate }: HeroProps) {
                   <span className="status-ping status-ping-blue" />
                   <span className="status-dot status-dot-blue" />
                 </span>
-                <span className="hero-badge-label">Alternance · sept. 2026 – 24 mois</span>
+                <span className="hero-badge-label">
+                  Alternance · sept. 2026 · 24 mois · RNCP 6
+                </span>
               </div>
             </div>
           </div>
