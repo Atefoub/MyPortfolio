@@ -62,12 +62,16 @@ export default function Projects() {
       className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-16 bg-muted overflow-hidden"
       style={{ height: 'calc(100vh - 56px)' }}
     >
-      <style>{`@media (min-width: 640px) { #projects { height: calc(100vh - 64px); } }`}</style>
+      <style>{`
+        @media (max-width: 767px) { #projects { height: calc(100vh - 56px - 56px - 4rem); } }
+        @media (min-width: 640px) and (max-width: 767px) { #projects { height: calc(100vh - 56px - 56px - 4rem); } }
+        @media (min-width: 768px) { #projects { height: calc(100vh - 64px); } }
+      `}</style>
 
-      <div className="max-w-7xl w-full mx-auto flex flex-col flex-1 min-h-0 py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl w-full mx-auto flex flex-col flex-1 min-h-0 py-2 sm:py-4 md:py-8">
 
         <div className="shrink-0">
-          <SectionHeader title="Projets" className="mb-3 sm:mb-4 md:mb-5" />
+          <SectionHeader title="Projets" className="mb-2 sm:mb-3 md:mb-5" />
         </div>
 
         {/* Layout : panneau latéral gauche (desktop) + carousel */}
@@ -119,27 +123,27 @@ export default function Projects() {
               </div>
 
               {/* Boutons mobile */}
-              <div className="flex sm:hidden justify-center gap-4 mt-3 shrink-0">
+              <div className="flex sm:hidden justify-center gap-4 mt-2 shrink-0">
                 <button
                   onClick={goToPrev}
                   disabled={currentIndex === 0}
                   aria-label="Projet précédent"
-                  className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
+                  className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={goToNext}
                   disabled={currentIndex >= maxIndex}
                   aria-label="Projet suivant"
-                  className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
+                  className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Barre de progression */}
-              <div className="shrink-0 mt-2 sm:mt-3">
+              <div className="shrink-0 mt-1.5 sm:mt-3">
                 <ScrollBar currentIndex={currentIndex} maxIndex={maxIndex} onDotClick={setCurrentIndex} />
               </div>
             </div>
