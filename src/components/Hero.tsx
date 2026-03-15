@@ -76,87 +76,67 @@ export default function Hero({ onNavigate }: HeroProps) {
           </div>
         </div>
 
-        {/* ── Mobile : tout centré ── */}
-        <div className="hero-mobile w-full animate-fade-in">
+        {/* ── Mobile : full immersif ── */}
+        <div className="hero-mobile-immersif animate-fade-in">
 
-          {/* Nom + sous-titre */}
-          <div style={{ marginBottom: 'clamp(0.4rem, 1.2vh, 0.75rem)' }}>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
+          {/* Photo plein écran en fond */}
+          <img
+            src="./images/hero.jpg"
+            alt="Antoine Mourin"
+            className="hero-immersif-photo"
+          />
+
+          {/* Dégradé bas → haut */}
+          <div className="hero-immersif-gradient" />
+
+          {/* Contenu ancré en bas */}
+          <div className="hero-immersif-content">
+
+            {/* Intro */}
+            <p className={`hero-immersif-intro animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+              En formation <strong>CDA (RNCP 6)</strong> · Ada Tech School de Nantes
+            </p>
+
+            {/* Nom */}
+            <h1 className="hero-immersif-name animate-fade-in">
               Antoine Mourin
             </h1>
-            <p className="text-sm text-muted-foreground font-light mt-1">
-              Développeur Full-Stack · 12 ans d'expérience en entreprise
+
+            {/* Sous-titre */}
+            <p className="hero-immersif-subtitle">
+              Développeur Full-Stack · 12 ans d'expérience
             </p>
-          </div>
 
-          {/* Photo */}
-          <div style={{ marginBottom: 'clamp(0.4rem, 1.2vh, 0.75rem)' }}>
-            <HeroImageMobile />
-          </div>
-
-          {/* Texte */}
-          <div className={`hero-block animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              En formation <span className="text-foreground font-medium">CDA (RNCP 6)</span>{' '}
-              à l'Ada Tech School de Nantes.
-            </p>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mt-1.5">
-              Mon métier de comptable m'a appris la{' '}
-              <span className="text-foreground font-medium">rigueur</span>,
-              le <span className="text-foreground font-medium">respect des délais</span>{' '}
-              et le <span className="text-foreground font-medium">travail en équipe</span>.
-            </p>
-          </div>
-
-          {/* CTA */}
-          <div className={`hero-block flex flex-col items-center gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
-            <Button variant="primary" size="lg" onClick={() => onNavigate('projects')}>
-              Voir mes projets
-            </Button>
-            <SocialLinks size="sm" />
-          </div>
-
-          {/* Badges */}
-          <div className={`flex flex-col gap-1.5 w-full animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-            <div className="hero-badge hero-badge-green">
-              <span className="status-dot-wrap">
-                <span className="status-ping status-ping-green" />
-                <span className="status-dot status-dot-green" />
-              </span>
-              <span className="hero-badge-label">Stage · 8 sem. · 08 juin – 24 juil. 2026</span>
+            {/* Badges sur une ligne */}
+            <div className={`flex flex-row gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
+              <div className="hero-badge-immersif hero-badge-immersif-green">
+                <span className="status-dot-wrap">
+                  <span className="status-ping status-ping-green" />
+                  <span className="status-dot status-dot-green" />
+                </span>
+                <span>Stage · juin 2026</span>
+              </div>
+              <div className="hero-badge-immersif hero-badge-immersif-blue">
+                <span className="status-dot-wrap">
+                  <span className="status-ping status-ping-blue" />
+                  <span className="status-dot status-dot-blue" />
+                </span>
+                <span>Alternance · sept. 2026</span>
+              </div>
             </div>
-            <div className="hero-badge hero-badge-blue">
-              <span className="status-dot-wrap">
-                <span className="status-ping status-ping-blue" />
-                <span className="status-dot status-dot-blue" />
-              </span>
-              <span className="hero-badge-label">Alternance · sept. 2026 · 24 mois · RNCP 6</span>
-            </div>
-          </div>
 
+            {/* Bouton */}
+            <div className={`animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
+              <Button variant="primary" size="md" onClick={() => onNavigate('projects')}>
+                Voir mes projets
+              </Button>
+            </div>
+
+          </div>
         </div>
 
       </div>
     </section>
-  );
-}
-
-/* Photo mobile — carrée avec coins arrondis, style desktop réduit */
-function HeroImageMobile() {
-  return (
-    <div className="hero-img-mobile-wrap">
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="absolute w-full h-full rounded-full opacity-20 animate-pulse-soft bg-[radial-gradient(circle,var(--color-accent)_0%,transparent_70%)]" />
-      </div>
-      <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-accent/30 shadow-xl">
-        <img
-          src="./images/hero.jpg"
-          alt="Antoine Mourin"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background opacity-30 pointer-events-none" />
-      </div>
-    </div>
   );
 }
 
