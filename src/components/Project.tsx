@@ -15,6 +15,7 @@ import { useCarousel, useResponsiveItemsCount } from '../lib/hooks';
 import { cn } from '../lib/utils';
 import Button from './Button';
 import SectionHeader from './SectionHeader';
+import LanguageFilter from './LanguageFilter';
 
 const CARD_WIDTH_BY_ITEMS_COUNT: Record<1 | 2 | 3, string> = {
   1: 'w-full',
@@ -24,6 +25,7 @@ const CARD_WIDTH_BY_ITEMS_COUNT: Record<1 | 2 | 3, string> = {
 
 export default function Projects() {
   const sortedProjects = getSortedProjects();
+
   const itemsToShow = useResponsiveItemsCount(CAROUSEL_CONFIG.itemsPerView);
   const { currentIndex, setCurrentIndex, goToNext, goToPrev, maxIndex } = useCarousel(
     sortedProjects,
@@ -68,68 +70,81 @@ export default function Projects() {
           <SectionHeader title="Projets" className="mb-3 sm:mb-4 md:mb-5" />
         </div>
 
-        <div className="relative flex flex-col flex-1 min-h-0">
+        {/* Layout : panneau latéral gauche (desktop) + carousel */}
+        <div className="flex flex-1 min-h-0 gap-4 lg:gap-6">
 
-          {/* Boutons latéraux desktop */}
-          <Button
-            variant="primary"
-            size="md"
-            icon={<ChevronLeft />}
-            onClick={goToPrev}
-            disabled={currentIndex === 0}
-            aria-label="Projet précédent"
-            className="hidden sm:inline-flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10"
-          />
-          <Button
-            variant="primary"
-            size="md"
-            icon={<ChevronRight />}
-            onClick={goToNext}
-            disabled={currentIndex >= maxIndex}
-            aria-label="Projet suivant"
-            className="hidden sm:inline-flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10"
-          />
+          {/* ── Panneau langages — desktop uniquement ── */}
+          <aside className="projects-sidebar hidden md:flex flex-col">
+            <LanguageFilter />
+          </aside>
 
-          {/* Carousel */}
-          <div
-            className="overflow-hidden scrollbar-hide flex-1 min-h-0"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            <div
-              className="flex gap-3 sm:gap-4 transition-transform duration-500 h-full"
-              style={{ transform: `translateX(${translateX})` }}
-            >
-              {sortedProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} itemsToShow={itemsToShow} />
-              ))}
+          {/* ── Carousel ── */}
+          <div className="flex flex-col flex-1 min-h-0 min-w-0">
+            <div className="relative flex flex-col flex-1 min-h-0">
+
+              {/* Boutons latéraux desktop */}
+              <Button
+                variant="primary"
+                size="md"
+                icon={<ChevronLeft />}
+                onClick={goToPrev}
+                disabled={currentIndex === 0}
+                aria-label="Projet précédent"
+                className="hidden sm:inline-flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10"
+              />
+              <Button
+                variant="primary"
+                size="md"
+                icon={<ChevronRight />}
+                onClick={goToNext}
+                disabled={currentIndex >= maxIndex}
+                aria-label="Projet suivant"
+                className="hidden sm:inline-flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10"
+              />
+
+              {/* Carousel track */}
+              <div
+                className="overflow-hidden scrollbar-hide flex-1 min-h-0"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
+                <div
+                  className="flex gap-3 sm:gap-4 transition-transform duration-500 h-full"
+                  style={{ transform: `translateX(${translateX})` }}
+                >
+                  {sortedProjects.map((project) => (
+                    <ProjectCard key={project.id} project={project} itemsToShow={itemsToShow} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Boutons mobile */}
+              <div className="flex sm:hidden justify-center gap-4 mt-3 shrink-0">
+                <button
+                  onClick={goToPrev}
+                  disabled={currentIndex === 0}
+                  aria-label="Projet précédent"
+                  className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={goToNext}
+                  disabled={currentIndex >= maxIndex}
+                  aria-label="Projet suivant"
+                  className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Barre de progression */}
+              <div className="shrink-0 mt-2 sm:mt-3">
+                <ScrollBar currentIndex={currentIndex} maxIndex={maxIndex} onDotClick={setCurrentIndex} />
+              </div>
             </div>
           </div>
 
-          {/* Boutons mobile */}
-          <div className="flex sm:hidden justify-center gap-4 mt-3 shrink-0">
-            <button
-              onClick={goToPrev}
-              disabled={currentIndex === 0}
-              aria-label="Projet précédent"
-              className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={goToNext}
-              disabled={currentIndex >= maxIndex}
-              aria-label="Projet suivant"
-              className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-opacity active:scale-95"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Barre de progression */}
-          <div className="shrink-0 mt-2 sm:mt-3">
-            <ScrollBar currentIndex={currentIndex} maxIndex={maxIndex} onDotClick={setCurrentIndex} />
-          </div>
         </div>
       </div>
     </section>
@@ -151,7 +166,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
     <div className={cn('flip-card shrink-0 h-full', cardWidthClass)}>
       <div className={cn('flip-card-inner', isFlipped && 'flipped')}>
 
-        {/* ── FACE AVANT : image plein cadre ── */}
+        {/* ── FACE AVANT ── */}
         <div
           className={cn(
             'flip-card-front rounded-lg border overflow-hidden cursor-pointer',
@@ -174,36 +189,27 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
                 <span className="text-muted-foreground text-xs">Aucune image</span>
               </div>
             )}
-
-            {/* Overlay dégradé */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
-
-            {/* Badge */}
             <ProjectBadge inProgress={project.inProgress} featured={project.featured} />
-
-            {/* Titre superposé en bas */}
             <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
               <h3 className="text-white font-bold text-xs sm:text-sm md:text-base leading-snug drop-shadow">
                 {project.title}
               </h3>
               <p className="text-white/70 text-[9px] sm:text-[10px] mt-0.5">{project.date}</p>
             </div>
-
-            {/* Hint */}
             <div className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm text-white text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded-full font-medium">
               Cliquer pour les détails
             </div>
           </div>
         </div>
 
-        {/* ── FACE ARRIÈRE : contenu complet ── */}
+        {/* ── FACE ARRIÈRE ── */}
         <div
           className={cn(
             'flip-card-back rounded-lg border overflow-hidden bg-background',
             borderClass,
           )}
         >
-          {/* Bouton retour */}
           <button
             onClick={() => setIsFlipped(false)}
             className="absolute top-1.5 right-1.5 z-10 w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center hover:scale-110 transition-transform shadow-md"
@@ -212,10 +218,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
             <RotateCcw className="w-3 h-3" />
           </button>
 
-          {/* Contenu — scrollable si nécessaire */}
           <div className="h-full overflow-y-auto scrollbar-hide p-2 sm:p-3 flex flex-col gap-1.5 sm:gap-2">
-
-            {/* Titre + date */}
             <div className="pr-7">
               <h3 className="text-[11px] sm:text-xs md:text-sm font-bold leading-snug text-foreground">
                 {project.title}
@@ -223,7 +226,6 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
               <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5">{project.date}</p>
             </div>
 
-            {/* Badges statut */}
             <div className="flex flex-wrap gap-1">
               {project.inProgress && (
                 <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-full text-[8px] sm:text-[9px] font-semibold">
@@ -239,12 +241,10 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
               )}
             </div>
 
-            {/* Description */}
             <p className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground leading-relaxed">
               {project.description}
             </p>
 
-            {/* Tags technos */}
             <div className="flex flex-wrap gap-0.5 sm:gap-1">
               {project.technologies.map((tech) => (
                 <span
@@ -256,14 +256,12 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
               ))}
             </div>
 
-            {/* Collaboration */}
             {project.collaboration && (
               <p className="text-[8px] sm:text-[9px] italic text-muted-foreground border-l-2 border-accent/40 pl-1.5">
                 {project.collaboration}
               </p>
             )}
 
-            {/* Liens */}
             <div className="flex gap-2 mt-auto pt-1">
               {project.github && (
                 <a
