@@ -9,7 +9,7 @@ import {
   Calendar,
   Briefcase,
 } from 'lucide-react';
-import { FORMSPREE_ENDPOINT, ANIMATION_DELAYS } from '../lib/constants';
+import { FORMSPREE_ENDPOINT, ANIMATION_DELAYS, CV_PATH } from '../lib/constants';
 import { useFormSubmit } from '../lib/hooks';
 
 const AVAILABILITY = [
@@ -30,7 +30,7 @@ const AVAILABILITY = [
 const CONTACT_LINKS = [
   { icon: Github, href: 'https://github.com/Atefoub', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', label: 'LinkedIn' },
-  { icon: FileText, href: '/images/projects/CV_Antoine_Mourin.pdf', label: 'CV' },
+  { icon: FileText, href: CV_PATH, label: 'CV' },
 ];
 
 export default function Contact() {
@@ -143,7 +143,7 @@ function ContactInfo() {
       <div className="flex flex-wrap gap-2">
         {CONTACT_LINKS.map(({ icon: Icon, href, label }) => (
           <a
-            key={href}
+            key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"

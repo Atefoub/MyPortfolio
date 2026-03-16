@@ -45,8 +45,12 @@ export const SOCIAL_LINKS: ReadonlyArray<{ href: string; icon: SocialIcon; label
  */
 export const FORMSPREE_ENDPOINT = (import.meta.env.VITE_FORMSPREE_ENDPOINT as string) || '';
 
-// Chemin du CV — partagé entre Navigation et Contact
-export const CV_PATH = '/images/projects/CV_Antoine_Mourin.pdf';
+/**
+ * Chemin du CV — résolu dynamiquement pour fonctionner en local et sur GitHub Pages.
+ * On utilise import.meta.env.BASE_URL qui vaut "/" en dev et "/MyPortfolio/" en prod.
+ */
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+export const CV_PATH = `${base}/images/projects/CV_Antoine_Mourin.pdf`;
 
 // Délais avant reset du statut du formulaire (ms)
 export const FORM_RESET_DELAYS = {

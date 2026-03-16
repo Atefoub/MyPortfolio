@@ -1,4 +1,5 @@
 import { ANIMATION_DELAYS, type ViewId } from '../lib/constants';
+import { assetPath } from '../lib/utils';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
 
@@ -81,7 +82,7 @@ export default function Hero({ onNavigate }: HeroProps) {
 
           {/* Photo plein écran en fond */}
           <img
-            src="./images/hero.jpg"
+            src={assetPath('images/hero.jpg')}
             alt="Antoine Mourin"
             className="hero-immersif-photo"
           />
@@ -150,7 +151,7 @@ function HeroImage() {
       </div>
       <div className="relative w-full h-full hero-img-frame overflow-hidden border-accent/30 shadow-2xl transition-all duration-500 hover:scale-105 hover:border-accent/50">
         <img
-          src="./images/hero.jpg"
+          src={assetPath('images/hero.jpg')}
           alt="Antoine Mourin"
           className="w-full h-full object-cover"
         />

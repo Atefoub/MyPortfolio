@@ -1,3 +1,5 @@
+import { assetPath } from '../lib/utils';
+
 export interface Project {
   id: number;
   title: string;
@@ -25,7 +27,7 @@ export const projects: Project[] = [
     ],
     date: "Janvier 2026 - En cours",
     github: "https://github.com/Atefoub/JuggleFlow",
-    image: "/images/projects/juggleflow.png",
+    image: assetPath('images/projects/juggleflow.png'),
     featured: true,
     inProgress: true,
   },
@@ -39,7 +41,7 @@ export const projects: Project[] = [
     date: "Janvier 2026",
     github: "https://github.com/Atefoub/adaopte",
     demo: "https://adaopte-blue.vercel.app",
-    image: "/images/projects/screenshot_exercice_11_Adaopte.jpg",
+    image: assetPath('images/projects/screenshot_exercice_11_Adaopte.jpg'),
     featured: true,
     collaboration: "Projet réalisé en collaboration avec Maëlle Aucher et Antoine Boinot (Promo Grace Hopper)",
   },
@@ -51,7 +53,7 @@ export const projects: Project[] = [
     date: "Nov-Déc 2025",
     github: "https://github.com/Atefoub/projet-dataviz",
     demo: "https://projet-dataviz-davanto.vercel.app/",
-    image: "/images/projects/screenshot_exercice_9_projet_Dataviz.jpg",
+    image: assetPath('images/projects/screenshot_exercice_9_projet_Dataviz.jpg'),
     featured: true,
     collaboration: "Projet réalisé en collaboration avec David",
   },
@@ -63,7 +65,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/quiz_objets_insolites",
     demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
-    image: "/images/projects/screenshot_exercice_5_quiz.jpg",
+    image: assetPath('images/projects/screenshot_exercice_5_quiz.jpg'),
     featured: true,
     collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
   },
@@ -77,7 +79,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/01_bonjour_javascript.md",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/bonjour_javascript",
-    image: "/images/projects/screenshot_exercice_1_bonjour_javascript.jpg",
+    image: assetPath('images/projects/screenshot_exercice_1_bonjour_javascript.jpg'),
   },
   {
     id: 2,
@@ -87,7 +89,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/02_guess_a_number.md",
     demo: "https://guess-a-number-atefoub.netlify.app/",
-    image: "/images/projects/screenshot_exercice_2_guess_a_number.jpg",
+    image: assetPath('images/projects/screenshot_exercice_2_guess_a_number.jpg'),
   },
   {
     id: 3,
@@ -97,7 +99,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
-    image: "/images/projects/screenshot_exercice_3_paw_models.jpg",
+    image: assetPath('images/projects/screenshot_exercice_3_paw_models.jpg'),
   },
   {
     id: 4,
@@ -107,7 +109,7 @@ export const projects: Project[] = [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
     demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
-    image: "/images/projects/screenshot_exercice_4_flexbox_galery.jpg",
+    image: assetPath('images/projects/screenshot_exercice_4_flexbox_galery.jpg'),
   },
   {
     id: 5,
@@ -117,7 +119,7 @@ export const projects: Project[] = [
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/parlez_vous_le_morse",
     demo: "https://atefoub.github.io/parlez_vous_le_morse/",
-    image: "/images/projects/screenshot_exercice_6_parlez_vous_le_morse.jpg",
+    image: assetPath('images/projects/screenshot_exercice_6_parlez_vous_le_morse.jpg'),
   },
   {
     id: 6,
@@ -127,7 +129,7 @@ export const projects: Project[] = [
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/Paradoxe_Syracuse",
     demo: "https://atefoub.github.io/Paradoxe_Syracuse",
-    image: "/images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg",
+    image: assetPath('images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg'),
   },
   {
     id: 7,
@@ -136,7 +138,7 @@ export const projects: Project[] = [
     technologies: ["Python", "Tkinter", "FPDF", "PyInstaller"],
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/generateur-attestation-licence",
-    image: "/images/projects/screenshot_exercice_8_attestation_licence.jpg",
+    image: assetPath('images/projects/screenshot_exercice_8_attestation_licence.jpg'),
   },
   {
     id: 8,
@@ -146,6 +148,6 @@ export const projects: Project[] = [
     date: "Décembre 2025",
     github: "https://github.com/Atefoub/mini_station_meteo",
     demo: "https://atefoub.github.io/mini_station_meteo/",
-    image: "/images/projects/screenshot_exercice_10_mini_station_meteo.jpg",
+    image: assetPath('images/projects/screenshot_exercice_10_mini_station_meteo.jpg'),
   },
 ];
