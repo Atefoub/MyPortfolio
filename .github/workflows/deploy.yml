@@ -1,7 +1,9 @@
-name: Deploy to GitHub Pages
+name: CI/CD — Build & Deploy
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -14,14 +16,19 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# ─────────────────────────────────────────
+# JOB 1 — CI : vérifie que le code est sain
+# Tourne sur push ET sur pull_request
+# ─────────────────────────────────────────
 jobs:
-  build:
+  ci:
+    name: ✅ CI — TypeScript + Lint + Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -30,25 +37,37 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: TypeScript check
+        run: npx tsc -b --noEmit
+
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
         env:
           VITE_FORMSPREE_ENDPOINT: ${{ secrets.VITE_FORMSPREE_ENDPOINT }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
+      - name: Upload build artifact
+        # On sauvegarde le dist uniquement sur push vers main (pas sur PR)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
+# ─────────────────────────────────────────
+# JOB 2 — CD : déploie sur GitHub Pages
+# Tourne UNIQUEMENT après un push sur main
+# ─────────────────────────────────────────
   deploy:
+    name: 🚀 CD — Deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: ci
+    # Ne se déclenche que sur push vers main (pas sur PR)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
