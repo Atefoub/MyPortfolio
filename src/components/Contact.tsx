@@ -87,9 +87,11 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Grid contact — flex-1 pour occuper l'espace restant */}
+        {/* Conteneur principal :
+            - mobile  : flex-col, chaque bloc prend sa hauteur naturelle
+            - desktop : grid 2 colonnes, flex-1 pour occuper l'espace restant */}
         <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3 flex-1 min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
+          className={`flex flex-col gap-2 sm:grid sm:grid-cols-1 lg:grid-cols-2 sm:gap-3 sm:flex-1 sm:min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
         >
           <ContactInfo />
           <ContactForm
@@ -108,29 +110,24 @@ export default function Contact() {
 
 function ContactInfo() {
   return (
-    <div className="flex flex-col gap-2 bg-muted rounded-xl p-2.5 sm:p-3 justify-center">
+    <div className="flex flex-col gap-1.5 bg-muted rounded-xl p-2 sm:p-3 sm:h-full sm:justify-center">
+
+      {/* Email — masqué sur mobile */}
       <a
         href="mailto:antoinem1pro@gmail.com"
-        className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs w-fit"
+        className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs w-fit"
       >
         <Mail className="w-3.5 h-3.5" />
         antoinem1pro@gmail.com
       </a>
 
-      <div className="flex items-start gap-2 px-2 py-1.5 text-muted-foreground">
+      {/* Localisation — masquée sur mobile */}
+      <div className="hidden sm:flex items-start gap-2 px-2 py-1.5 text-muted-foreground">
         <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         <div>
           <div className="font-medium text-foreground text-xs">Anetz (44150)</div>
@@ -138,16 +135,18 @@ function ContactInfo() {
         </div>
       </div>
 
-      <div className="border-t border-border" />
+      {/* Séparateur — masqué sur mobile */}
+      <div className="hidden sm:block border-t border-border" />
 
-      <div className="flex flex-wrap gap-2">
+      {/* Boutons GitHub / LinkedIn / CV */}
+      <div className="flex flex-wrap gap-1.5">
         {CONTACT_LINKS.map(({ icon: Icon, href, label }) => (
           <a
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-1 flex-1 min-w-14 p-2 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
+            className="flex flex-col items-center gap-0.5 flex-1 min-w-14 p-1.5 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
           >
             <Icon className="w-4 h-4" />
             <span className="text-[9px] sm:text-[10px] font-medium">{label}</span>
@@ -182,13 +181,13 @@ function ContactForm({
   }
 
   return (
-    <div className="bg-muted rounded-xl p-2.5 sm:p-3 flex flex-col">
+    <div className="bg-muted rounded-xl p-2.5 sm:p-3 flex flex-col sm:flex-1 sm:min-h-0">
       <h3 className="text-xs sm:text-sm font-semibold mb-0.5">Envoyer un message</h3>
       <p className="text-[10px] text-muted-foreground mb-1.5 sm:mb-2">
         Tous les champs sont obligatoires.
       </p>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-1.5 flex-1" noValidate>
+      <form onSubmit={onSubmit} className="flex flex-col gap-1.5 sm:flex-1" noValidate>
         <FormField
           id="name"
           label="Nom"
@@ -214,7 +213,7 @@ function ContactForm({
           onChange={onChange}
           disabled={status === 'sending'}
           placeholder="Parlez-moi de votre projet..."
-          rows={3}
+          rows={8}
         />
 
         {status === 'error' && (
@@ -268,7 +267,7 @@ function FormField({
     'px-2.5 py-1.5 rounded-lg bg-background border border-border text-xs placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 transition-shadow duration-200';
 
   return (
-    <div className={`flex flex-col gap-0.5 ${type === 'textarea' ? 'flex-1' : ''}`}>
+    <div className={`flex flex-col gap-0.5 ${type === 'textarea' ? 'sm:flex-1' : ''}`}>
       <label htmlFor={id} className="text-[10px] font-medium">
         {label}
       </label>
@@ -282,7 +281,7 @@ function FormField({
           rows={rows}
           disabled={disabled}
           placeholder={placeholder}
-          className={`${baseClasses} flex-1 resize-none`}
+          className={`${baseClasses} resize-none sm:flex-1`}
         />
       ) : (
         <input
