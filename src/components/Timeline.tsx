@@ -8,10 +8,9 @@ import {
   Award,
   Sparkles,
   ArrowRight,
+  Leaf,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-
-import SectionHeader from './SectionHeader';
 
 type FilterType = 'all' | 'formation' | 'experience';
 
@@ -42,13 +41,9 @@ export default function Timeline() {
     >
       <div className="timeline-viewport-inner">
 
-        {/* ── En-tête compact ── */}
+        {/* ── En-tête organique ── */}
         <div className="timeline-header-row">
-          <SectionHeader
-            icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-foreground" />}
-            title="Mon Histoire"
-            subtitle="Comptable hier, développeur aujourd'hui — même rigueur, nouveau terrain."
-          />
+          <TimelineHeader />
 
           {/* Filtres */}
           <div className="flex flex-wrap gap-2 animate-slide-up animation-delay-200">
@@ -93,7 +88,6 @@ export default function Timeline() {
                   isSelected={item.id === selectedItem?.id}
                   onSelect={() => {
                     setSelectedId(item.id);
-                    // Sur mobile, on scroll doucement vers le détail
                     if (window.innerWidth < 768) {
                       setTimeout(() => {
                         document.getElementById('timeline-detail-mobile')?.scrollIntoView({
@@ -119,6 +113,56 @@ export default function Timeline() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ── Nouvel en-tête organique ── */
+function TimelineHeader() {
+  return (
+    <div className="timeline-organic-header animate-fade-in">
+
+      {/* Badge pill */}
+      <div className="timeline-organic-badge">
+        <Sparkles className="w-3 h-3 text-accent-foreground" />
+        <span>Mon Histoire</span>
+        <Leaf className="w-2.5 h-2.5 text-sage opacity-70" />
+      </div>
+
+      {/* Phrase d'accroche */}
+      <p className="timeline-organic-tagline">
+        Comptable{' '}
+        <span className="timeline-organic-em">hier</span>
+        {', '}
+        développeur{' '}
+        <span className="timeline-organic-em">aujourd'hui</span>
+        {' — même '}
+        <span className="timeline-organic-strong">rigueur</span>
+        {', nouveau '}
+        <span className="timeline-organic-strong">terrain</span>
+        .
+      </p>
+
+      {/* Séparateur décoratif */}
+      <div className="timeline-organic-divider" aria-hidden="true">
+        <svg viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="timeline-organic-wave">
+          <path
+            d="M0 6 C20 0, 40 12, 60 6 C80 0, 100 12, 120 6 C140 0, 160 12, 180 6 C190 3, 196 5, 200 6"
+            stroke="url(#waveGrad)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <defs>
+            <linearGradient id="waveGrad" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="var(--color-sage)" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="var(--color-olive)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+    </div>
   );
 }
 

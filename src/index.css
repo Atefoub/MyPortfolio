@@ -689,6 +689,96 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIMELINE — En-tête organique
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.timeline-organic-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Badge pill "Mon Histoire" */
+.timeline-organic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 9999px;
+  background: rgba(153, 198, 196, 0.12);
+  border: 1.5px solid rgba(153, 198, 196, 0.3);
+  box-shadow: 0 2px 12px rgba(153, 198, 196, 0.12);
+  width: fit-content;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-foreground);
+  background-color: var(--color-accent);
+  transition: box-shadow 0.3s ease;
+}
+
+.timeline-organic-badge:hover {
+  box-shadow: 0 4px 18px rgba(153, 198, 196, 0.3);
+}
+
+@media (min-width: 640px) {
+  .timeline-organic-badge {
+    font-size: 0.75rem;
+    padding: 7px 16px 7px 12px;
+  }
+}
+
+/* Phrase d'accroche */
+.timeline-organic-tagline {
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  color: var(--color-muted-foreground);
+  line-height: 1.5;
+  max-width: 42ch;
+  font-weight: 400;
+}
+
+/* Mots en italique doux */
+.timeline-organic-em {
+  font-style: italic;
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* Mots forts avec soulignement accent */
+.timeline-organic-strong {
+  font-weight: 700;
+  color: var(--color-foreground);
+  position: relative;
+  display: inline-block;
+}
+
+.timeline-organic-strong::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-sage));
+  opacity: 0.7;
+}
+
+/* Séparateur vague SVG */
+.timeline-organic-divider {
+  width: 100%;
+  max-width: 200px;
+  margin-top: 0.1rem;
+}
+
+.timeline-organic-wave {
+  width: 100%;
+  height: 12px;
+  overflow: visible;
+}
+
 .timeline-master-detail {
   display: flex;
   gap: 1rem;
