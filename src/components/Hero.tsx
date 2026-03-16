@@ -38,7 +38,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 <span className="text-foreground font-medium">respect des délais</span>{' '}
                 et le{' '}
                 <span className="text-foreground font-medium">travail en équipe</span>.
-                Je cherche à les mettre au service d'une équipe tech.
+                <br />Je cherche à les mettre au service d'une équipe tech.
               </p>
             </div>
 
