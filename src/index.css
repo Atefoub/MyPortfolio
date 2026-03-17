@@ -84,9 +84,14 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
   ::-webkit-scrollbar-track { background: var(--color-muted); }
   ::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 6px; border: 3px solid var(--color-muted); }
   ::-webkit-scrollbar-thumb:hover { background: var(--color-sage); }
-  html { scrollbar-width: thin; scrollbar-color: var(--color-accent) var(--color-muted); }
+  /* Propriétés standard dans @supports pour éviter les faux warnings de compatibilité */
+  @supports (scrollbar-width: thin) {
+    html { scrollbar-width: thin; scrollbar-color: var(--color-accent) var(--color-muted); }
+  }
 }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+/* scrollbar-width est standard (Firefox, Chrome 121+) — masquage webkit via ::-webkit-scrollbar */
+.scrollbar-hide { -ms-overflow-style: none; }
+@supports (scrollbar-width: none) { .scrollbar-hide { scrollbar-width: none; } }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 img { max-width: 100%; height: auto; }
 .hero-img-wrap img, .hero-img-mobile-wrap img,
@@ -373,7 +378,8 @@ img { max-width: 100%; height: auto; }
 .lang-bar-segment:hover { opacity: 0.7; }
 
 /* ══ PROJECTS SIDEBAR ═════════════════════════════════════════════════════ */
-.projects-sidebar { width: 200px; flex-shrink: 0; overflow-y: auto; padding-right: 0.75rem; border-right: 1px solid var(--color-border); scrollbar-width: none; }
+.projects-sidebar { width: 200px; flex-shrink: 0; overflow-y: auto; padding-right: 0.75rem; border-right: 1px solid var(--color-border); }
+@supports (scrollbar-width: none) { .projects-sidebar { scrollbar-width: none; } }
 .projects-sidebar::-webkit-scrollbar { display: none; }
 @media (min-width: 1024px) { .projects-sidebar { width: 220px; } }
 @media (min-width: 1280px) { .projects-sidebar { width: 240px; } }
@@ -644,8 +650,8 @@ img { max-width: 100%; height: auto; }
 .contact-avail-item {
   display: flex; align-items: center; gap: 10px; padding: 8px 12px;
   border-radius: 10px; border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.12);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 .contact-avail-dot-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 10px; height: 10px; flex-shrink: 0; }
 .contact-avail-text { display: flex; flex-direction: column; gap: 1px; }
@@ -662,7 +668,7 @@ img { max-width: 100%; height: auto; }
   font-size: 0.72rem; font-weight: 600;
   border: 1px solid rgba(255,255,255,0.3);
   text-decoration: none; transition: background 0.2s ease, transform 0.2s ease;
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
 .contact-social-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-1px); }
 
@@ -787,7 +793,7 @@ img { max-width: 100%; height: auto; }
   letter-spacing: -0.04em;
   line-height: 1;
   transform: rotate(-2deg);
-  pointer-events: none; user-select: none;
+  pointer-events: none; -webkit-user-select: none; user-select: none;
   white-space: nowrap;
   z-index: 0;
   /* Centré verticalement, légèrement décalé */
@@ -1064,6 +1070,19 @@ img { max-width: 100%; height: auto; }
   text-align: center; letter-spacing: 0.03em;
 }
 @media (min-width: 768px) { .ctv2-footer { text-align: right; padding: 0.625rem 2rem; } }
+
+/* ══ CONTACT (original) — hauteur section ════════════════════════════════ */
+.contact-section { height: calc(100dvh - 56px - 56px); }
+@media (min-width: 640px) { .contact-section { height: calc(100dvh - 64px - 56px); } }
+@media (min-width: 768px) { .contact-section { height: calc(100dvh - 64px); } }
+
+/* ══ PROJECTS — hauteur section ══════════════════════════════════════════ */
+.projects-section { height: calc(100dvh - 56px - 56px); }
+@media (min-width: 640px) and (max-width: 767px) { .projects-section { height: calc(100dvh - 56px - 56px); } }
+@media (min-width: 768px) { .projects-section { height: calc(100dvh - 64px); } }
+
+/* Carousel track — transform appliqué via ref (pas d'inline style) */
+.carousel-track { will-change: transform; }
 
 /* ══ CONTACT V3 — Minimalisme typographique ══════════════════════════════ */
 

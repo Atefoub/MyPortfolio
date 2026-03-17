@@ -28,9 +28,9 @@ const AVAILABILITY = [
 ] as const;
 
 const CONTACT_LINKS = [
-  { icon: Github, href: 'https://github.com/Atefoub', label: 'GitHub' },
+  { icon: Github,   href: 'https://github.com/Atefoub',                            label: 'GitHub'   },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/antoine-mourin-0033ab233/', label: 'LinkedIn' },
-  { icon: FileText, href: CV_PATH, label: 'CV' },
+  { icon: FileText, href: CV_PATH,                                                  label: 'CV'       },
 ];
 
 export default function Contact() {
@@ -49,12 +49,9 @@ export default function Contact() {
 
   return (
     <section
-      className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-16"
-      style={{ height: 'calc(100vh - 56px)' }}
+      className="contact-section flex flex-col px-4 sm:px-6 md:px-8 lg:px-16"
       id="contact"
     >
-      <style>{`@media (min-width: 640px) { #contact { height: calc(100vh - 64px); } }`}</style>
-
       <div className="max-w-5xl mx-auto w-full flex flex-col flex-1 min-h-0 py-3 sm:py-4 md:py-6">
 
         {/* En-tête */}
@@ -87,9 +84,6 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Conteneur principal :
-            - mobile  : flex-col, chaque bloc prend sa hauteur naturelle
-            - desktop : grid 2 colonnes, flex-1 pour occuper l'espace restant */}
         <div
           className={`flex flex-col gap-2 sm:grid sm:grid-cols-1 lg:grid-cols-2 sm:gap-3 sm:flex-1 sm:min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
         >
@@ -112,7 +106,6 @@ function ContactInfo() {
   return (
     <div className="flex flex-col gap-1.5 bg-muted rounded-xl p-2 sm:p-3 sm:h-full sm:justify-center">
 
-      {/* Email — masqué sur mobile */}
       <a
         href="mailto:antoinem1pro@gmail.com"
         className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs w-fit"
@@ -121,7 +114,6 @@ function ContactInfo() {
         antoinem1pro@gmail.com
       </a>
 
-      {/* Localisation — masquée sur mobile */}
       <div className="hidden sm:flex items-start gap-2 px-2 py-1.5 text-muted-foreground">
         <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -135,10 +127,8 @@ function ContactInfo() {
         </div>
       </div>
 
-      {/* Séparateur — masqué sur mobile */}
       <div className="hidden sm:block border-t border-border" />
 
-      {/* Boutons GitHub / LinkedIn / CV */}
       <div className="flex flex-wrap gap-1.5">
         {CONTACT_LINKS.map(({ icon: Icon, href, label }) => (
           <a

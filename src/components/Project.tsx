@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, useEffect } from 'react';
 import { type Project as ProjectType } from '../data/projects';
 import { getSortedProjects } from '../lib/projectHelpers';
 import {
@@ -33,6 +33,13 @@ export default function Projects() {
   );
 
   const translateX = `-${(currentIndex * 100) / itemsToShow}%`;
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(${translateX})`;
+    }
+  }, [translateX]);
 
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
@@ -59,34 +66,23 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="flex flex-col px-4 sm:px-6 md:px-8 lg:px-16 bg-muted overflow-hidden"
-      style={{ height: 'calc(100vh - 56px)' }}
+      className="projects-section flex flex-col px-4 sm:px-6 md:px-8 lg:px-16 bg-muted overflow-hidden"
     >
-      <style>{`
-        @media (max-width: 767px) { #projects { height: calc(100vh - 56px - 56px - 4rem); } }
-        @media (min-width: 640px) and (max-width: 767px) { #projects { height: calc(100vh - 56px - 56px - 4rem); } }
-        @media (min-width: 768px) { #projects { height: calc(100vh - 64px); } }
-      `}</style>
-
       <div className="max-w-7xl w-full mx-auto flex flex-col flex-1 min-h-0 py-2 sm:py-4 md:py-8">
 
         <div className="shrink-0">
           <SectionHeader title="Projets" className="mb-2 sm:mb-3 md:mb-5" />
         </div>
 
-        {/* Layout : panneau latéral gauche (desktop) + carousel */}
         <div className="flex flex-1 min-h-0 gap-4 lg:gap-6">
 
-          {/* ── Panneau langages — desktop uniquement ── */}
           <aside className="projects-sidebar hidden md:flex flex-col">
             <LanguageFilter />
           </aside>
 
-          {/* ── Carousel ── */}
           <div className="flex flex-col flex-1 min-h-0 min-w-0">
             <div className="relative flex flex-col flex-1 min-h-0">
 
-              {/* Boutons latéraux desktop */}
               <Button
                 variant="primary"
                 size="md"
@@ -106,15 +102,14 @@ export default function Projects() {
                 className="hidden sm:inline-flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10"
               />
 
-              {/* Carousel track */}
               <div
                 className="overflow-hidden scrollbar-hide flex-1 min-h-0"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >
                 <div
-                  className="flex gap-3 sm:gap-4 transition-transform duration-500 h-full"
-                  style={{ transform: `translateX(${translateX})` }}
+                  ref={trackRef}
+                  className="carousel-track flex gap-3 sm:gap-4 transition-transform duration-500 h-full"
                 >
                   {sortedProjects.map((project) => (
                     <ProjectCard key={project.id} project={project} itemsToShow={itemsToShow} />
@@ -122,7 +117,6 @@ export default function Projects() {
                 </div>
               </div>
 
-              {/* Boutons mobile */}
               <div className="flex sm:hidden justify-center gap-4 mt-2 shrink-0">
                 <button
                   onClick={goToPrev}
@@ -142,7 +136,6 @@ export default function Projects() {
                 </button>
               </div>
 
-              {/* Barre de progression */}
               <div className="shrink-0 mt-1.5 sm:mt-3">
                 <ScrollBar currentIndex={currentIndex} maxIndex={maxIndex} onDotClick={setCurrentIndex} />
               </div>
@@ -170,7 +163,6 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
     <div className={cn('flip-card shrink-0 h-full', cardWidthClass)}>
       <div className={cn('flip-card-inner', isFlipped && 'flipped')}>
 
-        {/* ── FACE AVANT ── */}
         <div
           className={cn(
             'flip-card-front rounded-lg border overflow-hidden cursor-pointer',
@@ -193,7 +185,7 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
                 <span className="text-muted-foreground text-xs">Aucune image</span>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
             <ProjectBadge inProgress={project.inProgress} featured={project.featured} />
             <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
               <h3 className="text-white font-bold text-xs sm:text-sm md:text-base leading-snug drop-shadow">
@@ -207,7 +199,6 @@ function ProjectCard({ project, itemsToShow }: { project: ProjectType; itemsToSh
           </div>
         </div>
 
-        {/* ── FACE ARRIÈRE ── */}
         <div
           className={cn(
             'flip-card-back rounded-lg border overflow-hidden bg-background',
@@ -334,10 +325,17 @@ function ScrollBar({
   maxIndex: number;
   onDotClick: (index: number) => void;
 }) {
-  if (maxIndex === 0) return null;
+  const thumbRef = useRef<HTMLDivElement>(null);
 
-  const thumbWidth = 100 / (maxIndex + 1);
-  const thumbLeft = (currentIndex / maxIndex) * (100 - thumbWidth);
+  useEffect(() => {
+    if (!thumbRef.current) return;
+    const thumbWidth = 100 / (maxIndex + 1);
+    const thumbLeft = maxIndex > 0 ? (currentIndex / maxIndex) * (100 - thumbWidth) : 0;
+    thumbRef.current.style.width = `${thumbWidth}%`;
+    thumbRef.current.style.left = `${thumbLeft}%`;
+  }, [currentIndex, maxIndex]);
+
+  if (maxIndex === 0) return null;
 
   return (
     <div className="px-2">
@@ -351,11 +349,8 @@ function ScrollBar({
         }}
       >
         <div
+          ref={thumbRef}
           className="absolute top-0 h-full bg-accent rounded-full transition-all duration-300"
-          style={{
-            width: `${thumbWidth}%`,
-            left: `${thumbLeft}%`,
-          }}
         />
       </div>
     </div>
