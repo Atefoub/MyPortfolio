@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { timeline, type TimelineItem } from '../data/timeline';
 import {
   Briefcase,
@@ -7,7 +7,6 @@ import {
   MapPin,
   Award,
   Sparkles,
-  ArrowRight,
   Leaf,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -16,6 +15,7 @@ type FilterType = 'all' | 'formation' | 'experience';
 
 export default function Timeline() {
   const [filter, setFilter] = useState<FilterType>('all');
+  const [animKey, setAnimKey] = useState(0);
 
   const filteredTimeline = timeline.filter((item) =>
     filter === 'all' ? true : item.type === filter,
@@ -23,47 +23,52 @@ export default function Timeline() {
 
   const [selectedId, setSelectedId] = useState<number>(filteredTimeline[0]?.id ?? 1);
 
-  const selectedItem = filteredTimeline.find((item) => item.id === selectedId)
-    ?? filteredTimeline[0];
+  const selectedItem =
+    filteredTimeline.find((item) => item.id === selectedId) ?? filteredTimeline[0];
 
   const handleFilterChange = (newFilter: FilterType) => {
     setFilter(newFilter);
     const first = timeline.find((item) =>
       newFilter === 'all' ? true : item.type === newFilter,
     );
-    if (first) setSelectedId(first.id);
+    if (first) {
+      setSelectedId(first.id);
+      setAnimKey((k) => k + 1);
+    }
+  };
+
+  const handleSelectItem = (id: number) => {
+    if (id !== selectedId) {
+      setSelectedId(id);
+      setAnimKey((k) => k + 1);
+    }
   };
 
   return (
-    <section
-      className="timeline-section px-4 sm:px-6 md:px-8 lg:px-12 timeline-viewport-section"
-      id="parcours"
-    >
-      <div className="timeline-viewport-inner">
+    <section className="tl-root" id="parcours">
+      <div className="tl-inner">
 
-        {/* ── En-tête organique ── */}
-        <div className="timeline-header-row">
+        {/* ── En-tête ── */}
+        <div className="tl-header animate-fade-in">
           <TimelineHeader />
-
-          {/* Filtres */}
-          <div className="flex flex-wrap gap-2 animate-slide-up animation-delay-200">
+          <div className="tl-filters">
             {[
-              { key: 'all',        label: 'Tout',        icon: null },
-              { key: 'formation',  label: 'Formation',   icon: GraduationCap },
-              { key: 'experience', label: 'Expérience',  icon: Briefcase },
+              { key: 'all',        label: 'Tout',       icon: null },
+              { key: 'formation',  label: 'Formation',  icon: GraduationCap },
+              { key: 'experience', label: 'Expérience', icon: Briefcase },
             ].map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
                 onClick={() => handleFilterChange(key as FilterType)}
                 className={cn(
-                  'timeline-filter-btn px-3 sm:px-4 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all duration-300 flex items-center gap-1.5',
+                  'tl-filter-btn',
                   filter === key
                     ? key === 'all'
-                      ? 'timeline-filter-active-all'
+                      ? 'tl-filter-all'
                       : key === 'formation'
-                        ? 'timeline-filter-active-formation'
-                        : 'timeline-filter-active-experience'
-                    : 'timeline-filter-inactive',
+                        ? 'tl-filter-formation'
+                        : 'tl-filter-experience'
+                    : 'tl-filter-idle',
                 )}
               >
                 {Icon && <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
@@ -73,41 +78,30 @@ export default function Timeline() {
           </div>
         </div>
 
-        {/* ── Layout : colonne sur mobile, master-detail sur desktop ── */}
-        <div className="timeline-master-detail">
+        {/* ── Master-detail ── */}
+        <div className="tl-body">
 
-          {/* ── Liste ── */}
-          <nav className="timeline-list scrollbar-hide" aria-label="Parcours">
-            <div className="timeline-list-line" />
-            <div className="space-y-2">
+          {/* Liste */}
+          <nav className="tl-list scrollbar-hide" aria-label="Parcours">
+            <div className="tl-list-line" />
+            <div className="tl-list-items">
               {filteredTimeline.map((item, index) => (
-                <TimelineListItem
+                <ListItem
                   key={item.id}
                   item={item}
                   index={index}
                   isSelected={item.id === selectedItem?.id}
-                  onSelect={() => {
-                    setSelectedId(item.id);
-                    if (window.innerWidth < 768) {
-                      setTimeout(() => {
-                        document.getElementById('timeline-detail-mobile')?.scrollIntoView({
-                          behavior: 'smooth',
-                          block: 'start',
-                        });
-                      }, 50);
-                    }
-                  }}
+                  onSelect={() => handleSelectItem(item.id)}
                 />
               ))}
             </div>
           </nav>
 
-          {/* ── Détail ── */}
-          <div
-            id="timeline-detail-mobile"
-            className="timeline-detail scrollbar-hide"
-          >
-            {selectedItem && <TimelineDetail item={selectedItem} />}
+          {/* Détail */}
+          <div className="tl-detail scrollbar-hide">
+            {selectedItem && (
+              <DetailPanel key={animKey} item={selectedItem} />
+            )}
           </div>
 
         </div>
@@ -116,44 +110,36 @@ export default function Timeline() {
   );
 }
 
-/* ── Nouvel en-tête organique ── */
+/* ── En-tête organique ── */
 function TimelineHeader() {
   return (
-    <div className="timeline-organic-header animate-fade-in">
-
-      {/* Badge pill */}
-      <div className="timeline-organic-badge">
+    <div className="tl-organic animate-fade-in">
+      <div className="tl-organic-badge">
         <Sparkles className="w-3 h-3 text-accent-foreground" />
         <span>Mon Histoire</span>
         <Leaf className="w-2.5 h-2.5 text-sage opacity-70" />
       </div>
-
-      {/* Phrase d'accroche */}
-      <p className="timeline-organic-tagline">
+      <p className="tl-organic-tagline">
         Comptable{' '}
-        <span className="timeline-organic-em">hier</span>
-        {', '}
-        développeur{' '}
-        <span className="timeline-organic-em">aujourd'hui</span>
+        <span className="tl-em">hier</span>
+        {', '}développeur{' '}
+        <span className="tl-em">aujourd'hui</span>
         {' — même '}
-        <span className="timeline-organic-strong">rigueur</span>
+        <span className="tl-strong">rigueur</span>
         {', nouveau '}
-        <span className="timeline-organic-strong">terrain</span>
-        .
+        <span className="tl-strong">terrain</span>.
       </p>
-
-      {/* Séparateur décoratif */}
-      <div className="timeline-organic-divider" aria-hidden="true">
-        <svg viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="timeline-organic-wave">
+      <div className="tl-organic-divider" aria-hidden="true">
+        <svg viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="tl-wave">
           <path
             d="M0 6 C20 0, 40 12, 60 6 C80 0, 100 12, 120 6 C140 0, 160 12, 180 6 C190 3, 196 5, 200 6"
-            stroke="url(#waveGrad)"
+            stroke="url(#waveGrad2)"
             strokeWidth="2"
             strokeLinecap="round"
             fill="none"
           />
           <defs>
-            <linearGradient id="waveGrad" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+            <linearGradient id="waveGrad2" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.8" />
               <stop offset="50%" stopColor="var(--color-sage)" stopOpacity="0.6" />
               <stop offset="100%" stopColor="var(--color-olive)" stopOpacity="0" />
@@ -161,11 +147,11 @@ function TimelineHeader() {
           </defs>
         </svg>
       </div>
-
     </div>
   );
 }
 
+/* ── Item de liste ── */
 interface ListItemProps {
   item: TimelineItem;
   index: number;
@@ -173,85 +159,78 @@ interface ListItemProps {
   onSelect: () => void;
 }
 
-function TimelineListItem({ item, index, isSelected, onSelect }: ListItemProps) {
+function ListItem({ item, index, isSelected, onSelect }: ListItemProps) {
+  const ref = useRef<HTMLButtonElement>(null);
   const isFormation = item.type === 'formation';
-  const typeClass = isFormation ? 'timeline-formation' : 'timeline-experience';
+
+  // Auto-scroll l'item actif dans la liste (desktop/tablette)
+  useEffect(() => {
+    if (isSelected && ref.current) {
+      ref.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [isSelected]);
 
   return (
     <button
+      ref={ref}
       onClick={onSelect}
       className={cn(
-        'timeline-list-item animate-slide-up w-full text-left',
+        'tl-item animate-slide-up',
         `timeline-delay-${Math.min(index, 10)}`,
-        isSelected ? 'timeline-list-item-selected' : 'timeline-list-item-idle',
+        isSelected ? 'tl-item-active' : 'tl-item-idle',
       )}
     >
-      <div className="relative shrink-0">
-        <div className={cn(
-          'timeline-list-dot',
-          typeClass,
-          isSelected ? 'scale-110' : '',
-        )}>
-          {isFormation
-            ? <GraduationCap className="w-3 h-3 text-white" />
-            : <Briefcase className="w-3 h-3 text-white" />
-          }
-        </div>
+      {/* Indicateur actif */}
+      {isSelected && <span className="tl-item-bar" />}
+
+      {/* Dot */}
+      <div className={cn(
+        'tl-dot',
+        isFormation ? 'timeline-formation' : 'timeline-experience',
+        isSelected && 'scale-110',
+      )}>
+        {isFormation
+          ? <GraduationCap className="w-3 h-3 text-white" />
+          : <Briefcase className="w-3 h-3 text-white" />
+        }
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-0.5">
-          <span className={cn(
-            'text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md',
-            isFormation
-              ? 'bg-sage/15 text-sage'
-              : 'bg-olive/15 text-olive',
-          )}>
-            {item.year}
-          </span>
-        </div>
-        <p className={cn(
-          'text-xs sm:text-sm font-semibold leading-tight truncate transition-colors duration-200',
-          isSelected ? 'text-accent' : 'text-foreground',
+      {/* Texte */}
+      <div className="tl-item-text">
+        <span className={cn(
+          'tl-item-year',
+          isFormation ? 'tl-year-formation' : 'tl-year-experience',
         )}>
+          {item.year}
+        </span>
+        <p className={cn('tl-item-title', isSelected && 'text-accent')}>
           {item.title}
         </p>
-        <p className="text-[10px] sm:text-xs text-muted-foreground truncate mt-0.5">
-          {item.organization}
-        </p>
+        <p className="tl-item-org">{item.organization}</p>
       </div>
-
-      <ArrowRight className={cn(
-        'shrink-0 w-3.5 h-3.5 transition-all duration-200',
-        isSelected ? 'text-accent opacity-100' : 'opacity-0',
-      )} />
     </button>
   );
 }
 
-interface DetailProps {
-  item: TimelineItem;
-}
-
-function TimelineDetail({ item }: DetailProps) {
+/* ── Panneau détail ── */
+function DetailPanel({ item }: { item: TimelineItem }) {
   const isFormation = item.type === 'formation';
   const typeClass = isFormation ? 'timeline-formation' : 'timeline-experience';
 
   return (
-    <div
-      key={item.id}
-      className={cn(
-        'timeline-detail-panel animate-fade-in',
-        isFormation ? 'timeline-card-formation' : 'timeline-card-experience',
-      )}
-    >
-      <div className={cn('h-1 rounded-t-2xl', typeClass, 'timeline-card-band')} />
+    <div className={cn(
+      'tl-detail-panel tl-detail-anim',
+      isFormation ? 'timeline-card-formation' : 'timeline-card-experience',
+    )}>
+      {/* Bande couleur haut */}
+      <div className={cn('tl-band', typeClass)} />
 
-      <div className="p-4 sm:p-6 overflow-y-auto scrollbar-hide space-y-4 sm:space-y-5">
+      <div className="tl-detail-content">
 
+        {/* Badges type + année */}
         <div className="flex flex-wrap items-center gap-2">
           <span className={cn(
-            'timeline-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white shadow-sm',
+            'tl-badge-type text-white shadow-sm',
             typeClass,
           )}>
             {isFormation
@@ -260,37 +239,35 @@ function TimelineDetail({ item }: DetailProps) {
             }
             {isFormation ? 'Formation' : 'Expérience'}
           </span>
-          <span className="timeline-year-badge inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold">
+          <span className="tl-badge-year">
             <Calendar className="w-3 h-3" />
             {item.year}
           </span>
         </div>
 
+        {/* Titre + lieu */}
         <div>
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight text-foreground mb-2">
-            {item.title}
-          </h2>
-          <div className="flex items-center gap-1.5 text-muted-foreground">
+          <h2 className="tl-detail-title">{item.title}</h2>
+          <div className="flex items-center gap-1.5 text-muted-foreground mt-1">
             <MapPin className="w-3.5 h-3.5 shrink-0 text-accent" />
             <span className="text-xs sm:text-sm font-medium">{item.organization}</span>
           </div>
         </div>
 
+        {/* Description courte */}
         {item.shortDescription && (
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed timeline-short-desc italic">
+          <p className="tl-short-desc">
             {item.shortDescription}
           </p>
         )}
 
+        {/* Skills */}
         {item.skills && item.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {item.skills.map((skill) => (
               <span
                 key={skill}
-                className={cn(
-                  'timeline-skill-tag px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold rounded-lg border transition-all duration-200 hover:scale-105',
-                  typeClass,
-                )}
+                className={cn('tl-skill', typeClass)}
               >
                 {skill}
               </span>
@@ -298,22 +275,23 @@ function TimelineDetail({ item }: DetailProps) {
           </div>
         )}
 
+        {/* Détails */}
         {item.detailedDescription && (
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <div className={cn('timeline-detail-bar w-1 h-4 rounded-full', typeClass)} />
+              <div className={cn('w-1 h-4 rounded-full', typeClass, 'timeline-detail-bar')} />
               <h4 className="font-bold text-[10px] sm:text-xs uppercase tracking-wider text-foreground">
                 Détails
               </h4>
             </div>
-            <div className="timeline-detail-block rounded-xl p-3 sm:p-4 border border-border/30 space-y-1.5">
+            <div className="tl-detail-block">
               {item.detailedDescription.split('•').map((point, i) => {
                 const trimmed = point.trim();
                 if (!trimmed) return null;
                 return (
                   <p key={i} className="flex items-start gap-2 text-xs sm:text-sm text-muted-foreground">
                     {i > 0 && (
-                      <span className={cn('timeline-bullet w-1.5 h-1.5 rounded-full mt-1.5 shrink-0', typeClass)} />
+                      <span className={cn('w-1.5 h-1.5 rounded-full mt-1.5 shrink-0', typeClass, 'timeline-bullet')} />
                     )}
                     <span className="flex-1">{trimmed}</span>
                   </p>
@@ -323,10 +301,11 @@ function TimelineDetail({ item }: DetailProps) {
           </div>
         )}
 
+        {/* Réalisations */}
         {item.achievements && item.achievements.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <div className={cn('timeline-detail-bar w-1 h-4 rounded-full', typeClass)} />
+              <div className={cn('w-1 h-4 rounded-full', typeClass, 'timeline-detail-bar')} />
               <Award className="w-3.5 h-3.5 text-muted-foreground" />
               <h4 className="font-bold text-[10px] sm:text-xs uppercase tracking-wider text-foreground">
                 Réalisations clés
@@ -336,17 +315,12 @@ function TimelineDetail({ item }: DetailProps) {
               {item.achievements.map((achievement, i) => (
                 <div
                   key={i}
-                  className={cn(
-                    'timeline-achievement flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-xl border transition-all duration-200 hover:scale-[1.01]',
-                    typeClass,
-                  )}
+                  className={cn('tl-achievement', typeClass)}
                 >
                   <span className={cn(
-                    'timeline-check inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full shrink-0 font-bold text-[9px] sm:text-xs text-white',
+                    'tl-check text-white',
                     typeClass,
-                  )}>
-                    ✓
-                  </span>
+                  )}>✓</span>
                   <span className="flex-1 text-[10px] sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                     {achievement}
                   </span>

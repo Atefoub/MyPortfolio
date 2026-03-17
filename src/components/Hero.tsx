@@ -15,34 +15,38 @@ export default function Hero({ onNavigate }: HeroProps) {
         {/* ── Desktop : 2 colonnes côte à côte ── */}
         <div className="hero-desktop w-full animate-fade-in">
           <div className="hero-text-col">
+
+            {/* Bloc 1 — Nom + sous-titre */}
             <div className="hero-block">
               <h1 className="hero-title font-bold tracking-tight leading-tight">
                 Antoine Mourin
               </h1>
-              <p className="hero-subtitle text-muted-foreground font-light mt-1.5">
+              <p className="hero-subtitle font-light mt-3">
                 Développeur Full-Stack · 12 ans d'expérience en entreprise
               </p>
             </div>
 
+            {/* Bloc 2 — Corps */}
             <div className={`hero-block animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-              <p className="hero-body text-muted-foreground leading-relaxed">
+              <p className="hero-body leading-relaxed">
                 En formation{' '}
-                <span className="text-foreground font-medium">
+                <span className="text-foreground font-semibold">
                   Concepteur Développeur d'Applications (RNCP 6)
                 </span>{' '}
                 à l'Ada Tech School de Nantes.
               </p>
-              <p className="hero-body text-muted-foreground leading-relaxed mt-2">
+              <p className="hero-body leading-relaxed mt-3">
                 Mon métier de comptable m'a appris la{' '}
-                <span className="text-foreground font-medium">rigueur</span>,
-                le{' '}
-                <span className="text-foreground font-medium">respect des délais</span>{' '}
+                <span className="text-foreground font-semibold">rigueur</span>
+                {', '}le{' '}
+                <span className="text-foreground font-semibold">respect des délais</span>{' '}
                 et le{' '}
-                <span className="text-foreground font-medium">travail en équipe</span>.
+                <span className="text-foreground font-semibold">travail en équipe</span>.
                 <br />Je cherche à les mettre au service d'une équipe tech.
               </p>
             </div>
 
+            {/* Bloc 3 — CTA */}
             <div className={`hero-block hero-cta animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
               <Button variant="primary" size="lg" onClick={() => onNavigate('projects')}>
                 Voir mes projets
@@ -50,7 +54,8 @@ export default function Hero({ onNavigate }: HeroProps) {
               <SocialLinks />
             </div>
 
-            <div className={`hero-block flex flex-col hero-badges-gap animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
+            {/* Bloc 4 — Badges */}
+            <div className={`hero-block hero-badges animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
               <div className="hero-badge hero-badge-green">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-green" />
@@ -70,6 +75,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 </span>
               </div>
             </div>
+
           </div>
 
           <div className="hero-img-col">
@@ -79,36 +85,22 @@ export default function Hero({ onNavigate }: HeroProps) {
 
         {/* ── Mobile : full immersif ── */}
         <div className="hero-mobile-immersif animate-fade-in">
-
-          {/* Photo plein écran en fond */}
           <img
             src={assetPath('images/hero.jpg')}
             alt="Antoine Mourin"
             className="hero-immersif-photo"
           />
-
-          {/* Dégradé bas → haut */}
           <div className="hero-immersif-gradient" />
-
-          {/* Contenu ancré en bas */}
           <div className="hero-immersif-content">
-
-            {/* Intro */}
             <p className={`hero-immersif-intro animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
               En formation <strong>CDA (RNCP 6)</strong> · Ada Tech School de Nantes
             </p>
-
-            {/* Nom */}
             <h1 className="hero-immersif-name animate-fade-in">
               Antoine Mourin
             </h1>
-
-            {/* Sous-titre */}
             <p className="hero-immersif-subtitle">
               Développeur Full-Stack · 12 ans d'expérience
             </p>
-
-            {/* Badges sur une ligne */}
             <div className={`flex flex-row gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
               <div className="hero-badge-immersif hero-badge-immersif-green">
                 <span className="status-dot-wrap">
@@ -125,14 +117,11 @@ export default function Hero({ onNavigate }: HeroProps) {
                 <span>Alternance · sept. 2026</span>
               </div>
             </div>
-
-            {/* Bouton */}
             <div className={`animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
               <Button variant="primary" size="md" onClick={() => onNavigate('projects')}>
                 Voir mes projets
               </Button>
             </div>
-
           </div>
         </div>
 
@@ -141,7 +130,6 @@ export default function Hero({ onNavigate }: HeroProps) {
   );
 }
 
-/* Photo desktop */
 function HeroImage() {
   return (
     <div className="hero-img-wrap">
