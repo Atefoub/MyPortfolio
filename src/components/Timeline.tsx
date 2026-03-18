@@ -7,9 +7,9 @@ import {
   MapPin,
   Award,
   Sparkles,
-  Leaf,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import SectionHeader from './SectionHeader';
 
 type FilterType = 'all' | 'formation' | 'experience';
 
@@ -50,7 +50,11 @@ export default function Timeline() {
 
         {/* ── En-tête ── */}
         <div className="tl-header animate-fade-in">
-          <TimelineHeader />
+          <SectionHeader
+            title="Mon Parcours"
+            icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+            className="shrink-0"
+          />
           <div className="tl-filters">
             {[
               { key: 'all',        label: 'Tout',       icon: null },
@@ -110,47 +114,6 @@ export default function Timeline() {
   );
 }
 
-/* ── En-tête organique ── */
-function TimelineHeader() {
-  return (
-    <div className="tl-organic animate-fade-in">
-      <div className="tl-organic-badge">
-        <Sparkles className="w-3 h-3 text-accent-foreground" />
-        <span>Mon Histoire</span>
-        <Leaf className="w-2.5 h-2.5 text-sage opacity-70" />
-      </div>
-      <p className="tl-organic-tagline">
-        Comptable{' '}
-        <span className="tl-em">hier</span>
-        {', '}développeur{' '}
-        <span className="tl-em">aujourd'hui</span>
-        {' — même '}
-        <span className="tl-strong">rigueur</span>
-        {', nouveau '}
-        <span className="tl-strong">terrain</span>.
-      </p>
-      <div className="tl-organic-divider" aria-hidden="true">
-        <svg viewBox="0 0 200 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="tl-wave">
-          <path
-            d="M0 6 C20 0, 40 12, 60 6 C80 0, 100 12, 120 6 C140 0, 160 12, 180 6 C190 3, 196 5, 200 6"
-            stroke="url(#waveGrad2)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <defs>
-            <linearGradient id="waveGrad2" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.8" />
-              <stop offset="50%" stopColor="var(--color-sage)" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="var(--color-olive)" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-  );
-}
-
 /* ── Item de liste ── */
 interface ListItemProps {
   item: TimelineItem;
@@ -163,7 +126,6 @@ function ListItem({ item, index, isSelected, onSelect }: ListItemProps) {
   const ref = useRef<HTMLButtonElement>(null);
   const isFormation = item.type === 'formation';
 
-  // Auto-scroll l'item actif dans la liste (desktop/tablette)
   useEffect(() => {
     if (isSelected && ref.current) {
       ref.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -180,10 +142,8 @@ function ListItem({ item, index, isSelected, onSelect }: ListItemProps) {
         isSelected ? 'tl-item-active' : 'tl-item-idle',
       )}
     >
-      {/* Indicateur actif */}
       {isSelected && <span className="tl-item-bar" />}
 
-      {/* Dot */}
       <div className={cn(
         'tl-dot',
         isFormation ? 'timeline-formation' : 'timeline-experience',
@@ -195,7 +155,6 @@ function ListItem({ item, index, isSelected, onSelect }: ListItemProps) {
         }
       </div>
 
-      {/* Texte */}
       <div className="tl-item-text">
         <span className={cn(
           'tl-item-year',
@@ -222,17 +181,12 @@ function DetailPanel({ item }: { item: TimelineItem }) {
       'tl-detail-panel tl-detail-anim',
       isFormation ? 'timeline-card-formation' : 'timeline-card-experience',
     )}>
-      {/* Bande couleur haut */}
       <div className={cn('tl-band', typeClass)} />
 
       <div className="tl-detail-content">
 
-        {/* Badges type + année */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className={cn(
-            'tl-badge-type text-white shadow-sm',
-            typeClass,
-          )}>
+          <span className={cn('tl-badge-type text-white shadow-sm', typeClass)}>
             {isFormation
               ? <GraduationCap className="w-3 h-3" />
               : <Briefcase className="w-3 h-3" />
@@ -245,7 +199,6 @@ function DetailPanel({ item }: { item: TimelineItem }) {
           </span>
         </div>
 
-        {/* Titre + lieu */}
         <div>
           <h2 className="tl-detail-title">{item.title}</h2>
           <div className="flex items-center gap-1.5 text-muted-foreground mt-1">
@@ -254,28 +207,20 @@ function DetailPanel({ item }: { item: TimelineItem }) {
           </div>
         </div>
 
-        {/* Description courte */}
         {item.shortDescription && (
-          <p className="tl-short-desc">
-            {item.shortDescription}
-          </p>
+          <p className="tl-short-desc">{item.shortDescription}</p>
         )}
 
-        {/* Skills */}
         {item.skills && item.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5">
             {item.skills.map((skill) => (
-              <span
-                key={skill}
-                className={cn('tl-skill', typeClass)}
-              >
+              <span key={skill} className={cn('tl-skill', typeClass)}>
                 {skill}
               </span>
             ))}
           </div>
         )}
 
-        {/* Détails */}
         {item.detailedDescription && (
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -301,7 +246,6 @@ function DetailPanel({ item }: { item: TimelineItem }) {
           </div>
         )}
 
-        {/* Réalisations */}
         {item.achievements && item.achievements.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -313,14 +257,8 @@ function DetailPanel({ item }: { item: TimelineItem }) {
             </div>
             <div className="grid gap-1.5 sm:gap-2">
               {item.achievements.map((achievement, i) => (
-                <div
-                  key={i}
-                  className={cn('tl-achievement', typeClass)}
-                >
-                  <span className={cn(
-                    'tl-check text-white',
-                    typeClass,
-                  )}>✓</span>
+                <div key={i} className={cn('tl-achievement', typeClass)}>
+                  <span className={cn('tl-check text-white', typeClass)}>✓</span>
                   <span className="flex-1 text-[10px] sm:text-xs md:text-sm text-muted-foreground leading-relaxed">
                     {achievement}
                   </span>

@@ -9,6 +9,7 @@ import {
   Star,
   Loader2,
   RotateCcw,
+  FolderOpen,
 } from 'lucide-react';
 import { CAROUSEL_CONFIG, SWIPE_THRESHOLD } from '../lib/constants';
 import { useCarousel, useResponsiveItemsCount } from '../lib/hooks';
@@ -70,8 +71,11 @@ export default function Projects() {
     >
       <div className="max-w-7xl w-full mx-auto flex flex-col flex-1 min-h-0 py-2 sm:py-4 md:py-8">
 
-        <div className="shrink-0">
-          <SectionHeader title="Projets" className="mb-2 sm:mb-3 md:mb-5" />
+        <div className="shrink-0 mb-2 sm:mb-3 md:mb-5">
+          <SectionHeader
+            title="Projets"
+            icon={<FolderOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+          />
         </div>
 
         <div className="flex flex-1 min-h-0 gap-4 lg:gap-6">
