@@ -8,21 +8,25 @@ import {
   CheckCircle,
   Calendar,
   Briefcase,
+  MapPin,
+  Navigation,
+  Phone,
 } from 'lucide-react';
 import { FORMSPREE_ENDPOINT, ANIMATION_DELAYS, CV_PATH } from '../lib/constants';
 import { useFormSubmit } from '../lib/hooks';
+import SectionHeader from './SectionHeader';
 
 const AVAILABILITY = [
   {
     icon: Calendar,
-    title: 'Stage - 2 mois',
-    subtitle: 'Disponible à partir de juin 2026',
+    title: 'Stage · 8 semaines',
+    subtitle: '08 juin – 24 juillet 2026',
     color: 'green',
   },
   {
     icon: Briefcase,
-    title: 'Alternance - 24 mois',
-    subtitle: 'Dès septembre 2026 (RNCP niveau 7)',
+    title: 'Alternance · 24 mois',
+    subtitle: 'Dès sept. 2026 · Nantes / Ancenis / Angers · Remote possible',
     color: 'blue',
   },
 ] as const;
@@ -55,12 +59,12 @@ export default function Contact() {
       <div className="max-w-5xl mx-auto w-full flex flex-col flex-1 min-h-0 py-3 sm:py-4 md:py-6">
 
         {/* En-tête */}
-        <div className="shrink-0 mb-2 sm:mb-3 animate-fade-in">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1.5">Contact</h2>
-          <div className="w-12 sm:w-16 h-1 bg-accent mb-1.5 sm:mb-2" />
-          <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-            Vous avez un projet en tête, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter&nbsp;!
-          </p>
+        <div className="shrink-0 mb-2 sm:mb-3">
+          <SectionHeader
+            title="Contact"
+            icon={<Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+            className="mb-1.5"
+          />
         </div>
 
         {/* Badges dispo */}
@@ -84,8 +88,9 @@ export default function Contact() {
           ))}
         </div>
 
+        {/* Grille 2 colonnes desktop */}
         <div
-          className={`flex flex-col gap-2 sm:grid sm:grid-cols-1 lg:grid-cols-2 sm:gap-3 sm:flex-1 sm:min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
+          className={`grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-3 flex-1 min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
         >
           <ContactInfo />
           <ContactForm
@@ -102,47 +107,97 @@ export default function Contact() {
   );
 }
 
+const LINK_COLORS: Record<string, { border: string; text: string; bg: string; hover: string }> = {
+  GitHub:   { border: 'border-foreground/30',  text: 'text-foreground',                  bg: 'bg-background',                  hover: 'hover:border-foreground hover:bg-foreground hover:text-background' },
+  LinkedIn: { border: 'border-blue-400/50',    text: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/30', hover: 'hover:border-blue-500 hover:bg-blue-500 hover:text-white' },
+  CV:       { border: 'border-accent/60',      text: 'text-accent-foreground',           bg: 'bg-accent/10',                   hover: 'hover:bg-accent hover:text-accent-foreground hover:border-accent' },
+};
+
 function ContactInfo() {
   return (
-    <div className="flex flex-col gap-1.5 bg-muted rounded-xl p-2 sm:p-3 sm:h-full sm:justify-center">
+    <div className="flex flex-col bg-muted rounded-xl p-4 sm:p-5 gap-4">
 
-      <a
-        href="mailto:antoinem1pro@gmail.com"
-        className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-accent text-accent-foreground rounded-full font-medium hover:scale-105 transition-transform duration-300 text-xs w-fit"
-      >
-        <Mail className="w-3.5 h-3.5" />
-        antoinem1pro@gmail.com
-      </a>
+      <div className="flex flex-col gap-3">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          Informations
+        </p>
 
-      <div className="hidden sm:flex items-start gap-2 px-2 py-1.5 text-muted-foreground">
-        <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <div>
-          <div className="font-medium text-foreground text-xs">Anetz (44150)</div>
-          <div className="text-[10px]">Région Pays de la Loire</div>
+        {/* Email */}
+        <a
+          href="mailto:antoinem1pro@gmail.com"
+          className="group flex items-center gap-2.5 p-2.5 rounded-lg bg-background border border-border hover:border-accent hover:bg-accent/5 transition-all duration-200"
+        >
+          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-accent/15 text-accent shrink-0">
+            <Mail className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Email</span>
+            <span className="text-xs font-medium text-foreground truncate">antoinem1pro@gmail.com</span>
+          </div>
+        </a>
+
+        {/* Téléphone */}
+        <a
+          href="tel:+33613036351"
+          className="group flex items-center gap-2.5 p-2.5 rounded-lg bg-background border border-border hover:border-accent hover:bg-accent/5 transition-all duration-200"
+        >
+          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-accent/15 text-accent shrink-0">
+            <Phone className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Téléphone</span>
+            <span className="text-xs font-medium text-foreground truncate">06 13 03 63 51</span>
+          </div>
+        </a>
+
+        {/* Localisation */}
+        <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-background border border-border">
+          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-accent/15 text-accent shrink-0">
+            <MapPin className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Localisation</span>
+            <span className="text-xs font-medium text-foreground">Anetz (44150) · Pays de la Loire</span>
+          </div>
+        </div>
+
+        {/* Mobilité */}
+        <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-background border border-border">
+          <div className="flex items-center justify-center w-7 h-7 rounded-md bg-accent/15 text-accent shrink-0">
+            <Navigation className="w-3.5 h-3.5" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-semibold">Mobilité</span>
+            <span className="text-xs font-medium text-foreground">Nantes · Ancenis · Angers</span>
+          </div>
         </div>
       </div>
 
-      <div className="hidden sm:block border-t border-border" />
-
-      <div className="flex flex-wrap gap-1.5">
-        {CONTACT_LINKS.map(({ icon: Icon, href, label }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-0.5 flex-1 min-w-14 p-1.5 rounded-lg bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-300"
-          >
-            <Icon className="w-4 h-4" />
-            <span className="text-[9px] sm:text-[10px] font-medium">{label}</span>
-          </a>
-        ))}
+      {/* Grandes icônes liens */}
+      <div className="flex flex-col gap-2">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          Retrouvez-moi sur
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {CONTACT_LINKS.map(({ icon: Icon, href, label }) => {
+            const colors = LINK_COLORS[label];
+            return (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex flex-col items-center justify-center gap-1.5 p-4 rounded-xl border bg-background transition-all duration-200 hover:scale-105 ${colors.border} ${colors.hover}`}
+                title={label}
+              >
+                <Icon className="w-8 h-8" />
+                <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
+              </a>
+            );
+          })}
+        </div>
       </div>
+
     </div>
   );
 }
@@ -171,13 +226,13 @@ function ContactForm({
   }
 
   return (
-    <div className="bg-muted rounded-xl p-2.5 sm:p-3 flex flex-col sm:flex-1 sm:min-h-0">
+    <div className="bg-muted rounded-xl p-2.5 sm:p-3 flex flex-col min-h-0">
       <h3 className="text-xs sm:text-sm font-semibold mb-0.5">Envoyer un message</h3>
       <p className="text-[10px] text-muted-foreground mb-1.5 sm:mb-2">
         Tous les champs sont obligatoires.
       </p>
 
-      <form onSubmit={onSubmit} className="flex flex-col gap-1.5 sm:flex-1" noValidate>
+      <form onSubmit={onSubmit} className="flex flex-col gap-1.5 flex-1" noValidate>
         <FormField
           id="name"
           label="Nom"
@@ -203,7 +258,7 @@ function ContactForm({
           onChange={onChange}
           disabled={status === 'sending'}
           placeholder="Parlez-moi de votre projet..."
-          rows={8}
+          rows={6}
         />
 
         {status === 'error' && (
@@ -257,7 +312,7 @@ function FormField({
     'px-2.5 py-1.5 rounded-lg bg-background border border-border text-xs placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 transition-shadow duration-200';
 
   return (
-    <div className={`flex flex-col gap-0.5 ${type === 'textarea' ? 'sm:flex-1' : ''}`}>
+    <div className={`flex flex-col gap-0.5 ${type === 'textarea' ? 'flex-1' : ''}`}>
       <label htmlFor={id} className="text-[10px] font-medium">
         {label}
       </label>
@@ -271,7 +326,7 @@ function FormField({
           rows={rows}
           disabled={disabled}
           placeholder={placeholder}
-          className={`${baseClasses} resize-none sm:flex-1`}
+          className={`${baseClasses} resize-none flex-1`}
         />
       ) : (
         <input

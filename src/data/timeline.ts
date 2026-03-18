@@ -68,6 +68,48 @@ export const timeline: TimelineItem[] = [
     ]
   },
   {
+    id: 2,
+    year: "2007 - 2012",
+    title: "Assistant Comptable",
+    organization: "Groupe Moninvest - Vertou",
+    type: "experience",
+    shortDescription: "Contrat de professionnalisation de 10 mois (Pigier Nantes) suivi d'un CDI au sein d'un groupe multi-sociétés. Prise en charge complète de la comptabilité fournisseurs et clients sur plusieurs entités.",
+    detailedDescription: "Comptabilité fournisseurs et clients sur plusieurs sociétés du groupe : enregistrement de factures, règlements, rapprochements bancaires, relances clients, gestion des LCR et créances Dailly. • Paramétrage de la comptabilité d'une nouvelle société. • Création et alimentation de tableaux Excel pour l'analyse de l'activité. • Établissement des déclarations de TVA et contrôle annuel. • Suivi mensuel de l'activité d'une société du groupe : gestion du stock, des entrées matières et des en-cours de fabrication. • Établissement des déclarations d'échange de biens. • Préparation au bilan.",
+    skills: [
+      "SAGE 100 Comptabilité",
+      "SAGE Moyens de paiement",
+      "Excel avancé",
+      "Comptabilité multi-sociétés",
+      "Déclarations TVA",
+      "Rapprochements bancaires",
+      "Gestion des LCR",
+      "DEB"
+    ],
+    achievements: [
+      "Paramétrage complet de la comptabilité d'une nouvelle société du groupe",
+      "Gestion autonome de la comptabilité fournisseurs et clients sur plusieurs entités",
+      "Mise en place de tableaux de bord Excel pour le suivi mensuel de l'activité",
+      "Évolution d'un contrat de professionnalisation vers un CDI"
+    ]
+  },
+  {
+    id: 3,
+    year: "2007",
+    title: "Formation Comptabilité & Informatique",
+    organization: "Pigier - Nantes",
+    type: "formation",
+    shortDescription: "Contrat de professionnalisation de 10 mois pour approfondir mes compétences en comptabilité et en informatique de gestion, en alternance avec le Groupe Moninvest à Vertou.",
+    skills: [
+      "Comptabilité générale",
+      "Comptabilité fournisseurs",
+      "Comptabilité clients",
+      "Excel",
+      "Word",
+      "Access",
+      "SAGE 100"
+    ]
+  },
+  {
     id: 5,
     year: "2006 - 2007",
     title: "BTS Comptabilité et Gestion des Organisations",
