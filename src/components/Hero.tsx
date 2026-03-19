@@ -71,7 +71,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                   <span className="status-dot status-dot-blue" />
                 </span>
                 <span className="hero-badge-label">
-                  Alternance · sept. 2026 · 24 mois · RNCP 6
+                  Alternance · sept. 2026 · 24 mois · RNCP 7
                 </span>
               </div>
             </div>
@@ -101,20 +101,26 @@ export default function Hero({ onNavigate }: HeroProps) {
             <p className="hero-immersif-subtitle">
               Développeur Full-Stack · 12 ans d'expérience
             </p>
-            <div className={`flex flex-row gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
+            <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
               <div className="hero-badge-immersif hero-badge-immersif-green">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-green" />
                   <span className="status-dot status-dot-green" />
                 </span>
-                <span>Stage · juin 2026</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-semibold">Stage · 8 semaines</span>
+                  <span className="hero-badge-immersif-sub">08 juin – 24 juillet 2026</span>
+                </div>
               </div>
               <div className="hero-badge-immersif hero-badge-immersif-blue">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-blue" />
                   <span className="status-dot status-dot-blue" />
                 </span>
-                <span>Alternance · sept. 2026</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-semibold">Alternance · 24 mois · RNCP 7</span>
+                  <span className="hero-badge-immersif-sub">Dès sept. 2026 · Nantes / Ancenis / Angers</span>
+                </div>
               </div>
             </div>
             <div className={`animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
