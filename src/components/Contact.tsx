@@ -88,11 +88,11 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* Grille 2 colonnes desktop */}
+        {/* Grille 2 colonnes desktop — colonne info masquée sur mobile */}
         <div
           className={`grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-3 flex-1 min-h-0 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}
         >
-          <ContactInfo />
+          <ContactInfo className="hidden md:flex" />
           <ContactForm
             formData={formData}
             status={status}
@@ -113,9 +113,9 @@ const LINK_COLORS: Record<string, { border: string; text: string; bg: string; ho
   CV:       { border: 'border-accent/60',      text: 'text-accent-foreground',           bg: 'bg-accent/10',                   hover: 'hover:bg-accent hover:text-accent-foreground hover:border-accent' },
 };
 
-function ContactInfo() {
+function ContactInfo({ className = '' }: { className?: string }) {
   return (
-    <div className="flex flex-col bg-muted rounded-xl p-4 sm:p-5 gap-4">
+    <div className={`flex-col bg-muted rounded-xl p-4 sm:p-5 gap-4 ${className}`}>
 
       <div className="flex flex-col gap-3">
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
