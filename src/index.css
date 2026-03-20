@@ -126,22 +126,14 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .dark .glass-effect { background: rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.08); }
 
 /* ══ STATUS DOTS ══════════════════════════════════════════════════════════ */
-.status-dot-wrap {
-  position: relative; display: flex; align-items: center;
-  justify-content: center; width: 10px; height: 10px; flex-shrink: 0;
-}
+.status-dot-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 10px; height: 10px; flex-shrink: 0; }
 .status-ping { position: absolute; inset: 0; border-radius: 9999px; animation: status-ping 1.8s ease-out infinite; }
 .status-dot  { position: relative; width: 10px; height: 10px; border-radius: 9999px; }
 .status-ping-green, .status-dot-green { background: #22c55e; }
 .status-ping-blue,  .status-dot-blue  { background: #3b82f6; }
 
 /* ══ HERO — BADGES ════════════════════════════════════════════════════════ */
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px;
-  border-radius: 9999px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em;
-  border: 1.5px solid; transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: default; white-space: normal; word-break: break-word; max-width: 100%; width: fit-content;
-}
+.hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 9999px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em; border: 1.5px solid; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: default; white-space: normal; word-break: break-word; max-width: 100%; width: fit-content; }
 @media (min-width: 480px) { .hero-badge { padding: 11px 20px; font-size: 0.875rem; white-space: nowrap; } }
 .hero-badge:hover { transform: translateY(-2px); }
 .hero-badge-label { flex: 1; line-height: 1.4; }
@@ -153,12 +145,7 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .hero-badge-blue:hover  { box-shadow: 0 4px 20px rgba(59,130,246,0.25); }
 
 /* ══ CONTACT — BADGES DISPO ═══════════════════════════════════════════════ */
-.avail-badge {
-  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-  border-radius: 14px; border: 1.5px solid;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: default; width: 100%; position: relative;
-}
+.avail-badge { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid; transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: default; width: 100%; position: relative; }
 @media (min-width: 640px) { .avail-badge { padding: 12px 18px 12px 14px; min-width: 260px; width: auto; } }
 .avail-badge:hover { transform: translateY(-2px); }
 .avail-badge-green { background: rgba(34,197,94,0.07); border-color: rgba(34,197,94,0.35); }
@@ -204,53 +191,13 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .popup-gradient { background: linear-gradient(135deg, var(--color-muted), var(--color-background)); opacity: 0.95; }
 .iframe-no-interaction { pointer-events: none; -webkit-user-select: none; user-select: none; }
 
-/* ══ PROJET — FLIP CARD ═══════════════════════════════════════════════════
-   .pcard-root    → conteneur de largeur fixe (définie en px via style inline)
-                    hauteur = 100% de son parent flex (le track)
-   .pcard-inner   → perspective + transform-style, rempli son parent
-   .pcard-face    → position:absolute inset:0 sur les deux faces
-   .pcard-img     → image en object-cover, remplit la face
-   ═══════════════════════════════════════════════════════════════════════ */
-.pcard-root {
-  flex-shrink: 0;
-  position: relative;
-  perspective: 1200px;
-}
-
-.pcard-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-}
-
-.pcard-inner.pcard-flipped {
-  transform: rotateY(180deg);
-}
-
-.pcard-face {
-  position: absolute;
-  inset: 0;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.pcard-back {
-  transform: rotateY(180deg);
-}
-
-/* Image : remplit la face avant en object-cover */
-.pcard-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-}
-
+/* ══ PROJET — FLIP CARD DESKTOP ═══════════════════════════════════════════ */
+.pcard-root { flex-shrink: 0; position: relative; perspective: 1200px; }
+.pcard-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s ease; }
+.pcard-inner.pcard-flipped { transform: rotateY(180deg); }
+.pcard-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.pcard-back { transform: rotateY(180deg); }
+.pcard-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .pcard-inner { transition: none; }
   .pcard-inner.pcard-flipped .pcard-face:not(.pcard-back) { opacity: 0; pointer-events: none; }
@@ -439,7 +386,16 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 @media (min-width: 640px) { .contact-section { height: calc(100dvh - 56px - 56px); } }
 @media (min-width: 768px) { .contact-section { height: calc(100dvh - 64px); } }
 
-/* ══ PROJECTS ══════════════════════════════════════════════════════════════ */
+/* ══ PROJECTS — Desktop : hauteur fixe ═══════════════════════════════════ */
 .projects-section { height: calc(100dvh - 56px - 56px); }
 @media (min-width: 640px) and (max-width: 767px) { .projects-section { height: calc(100dvh - 56px - 56px); } }
 @media (min-width: 768px) { .projects-section { height: calc(100dvh - 64px); } }
+
+/* ══ PROJECTS — Mobile : hauteur naturelle, scroll vertical permis ════════
+   La section prend la hauteur de son contenu.
+   Le scroll global de la page permet de voir l'image + tout le texte.
+   ═══════════════════════════════════════════════════════════════════════ */
+.projects-section-mobile {
+  min-height: calc(100dvh - 56px - 56px);
+  padding-bottom: 1rem;
+}
