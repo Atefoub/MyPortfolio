@@ -22,7 +22,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 Antoine Mourin
               </h1>
               <p className="hero-subtitle font-light mt-3">
-                Développeur Full-Stack · 15 ans d'expérience en entreprise
+                Développeur Full-Stack · 17 ans d'expérience en entreprise
               </p>
             </div>
 
@@ -99,7 +99,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               Antoine Mourin
             </h1>
             <p className="hero-immersif-subtitle">
-              Développeur Full-Stack · 12 ans d'expérience
+              Développeur Full-Stack · 17 ans d'expérience
             </p>
             <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
               <div className="hero-badge-immersif hero-badge-immersif-green">
