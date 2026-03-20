@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Antoine Mourin - Portfolio</title>
+    <script>
+      var base = '/MyPortfolio';
+      var path = window.location.pathname;
+      var route = path.startsWith(base) ? path.slice(base.length) : path;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      window.location.replace(
+        window.location.origin +
+          base +
+          '/?p=' +
+          encodeURIComponent(route + search) +
+          hash,
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

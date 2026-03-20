@@ -1,13 +1,12 @@
-import { ANIMATION_DELAYS, type ViewId } from '../lib/constants';
+import { useNavigate } from 'react-router';
+import { ANIMATION_DELAYS } from '../lib/constants';
 import { assetPath } from '../lib/utils';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
 
-interface HeroProps {
-  onNavigate: (view: ViewId) => void;
-}
+export default function Hero() {
+  const navigate = useNavigate();
 
-export default function Hero({ onNavigate }: HeroProps) {
   return (
     <section className="hero-section px-4 sm:px-6 md:px-8 lg:px-16" id="hero">
       <div className="max-w-7xl w-full mx-auto h-full flex items-center">
@@ -48,7 +47,7 @@ export default function Hero({ onNavigate }: HeroProps) {
 
             {/* Bloc 3 — CTA */}
             <div className={`hero-block hero-cta animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
-              <Button variant="primary" size="lg" onClick={() => onNavigate('projects')}>
+              <Button variant="primary" size="lg" onClick={() => navigate('/projets')}>
                 Voir mes projets
               </Button>
               <SocialLinks />
@@ -124,7 +123,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               </div>
             </div>
             <div className={`animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-              <Button variant="primary" size="md" onClick={() => onNavigate('projects')}>
+              <Button variant="primary" size="md" onClick={() => navigate('/projets')}>
                 Voir mes projets
               </Button>
             </div>
