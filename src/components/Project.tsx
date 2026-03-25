@@ -318,7 +318,7 @@ export default function Projects() {
   );
 }
 
-/* ─── Carte mobile (inchangée) ───────────────────────────────────────────── */
+/* ─── Carte mobile ───────────────────────────────────────────────────────── */
 function MobileCard({ project }: { project: ProjectType }) {
   const borderClass = project.inProgress
     ? 'border-blue-500'
@@ -329,7 +329,8 @@ function MobileCard({ project }: { project: ProjectType }) {
   return (
     <div className={cn('rounded-xl border overflow-hidden bg-background', borderClass)}>
       {project.image ? (
-        <div className="w-full" style={{ aspectRatio: '16/9' }}>
+        /* Remplace style={{ aspectRatio: '16/9' }} → classe Tailwind */
+        <div className="w-full aspect-video">
           <img
             src={project.image}
             alt={project.title}
@@ -338,7 +339,8 @@ function MobileCard({ project }: { project: ProjectType }) {
           />
         </div>
       ) : (
-        <div className="w-full bg-muted flex items-center justify-center" style={{ aspectRatio: '16/9' }}>
+        /* Idem */
+        <div className="w-full aspect-video bg-muted flex items-center justify-center">
           <span className="text-muted-foreground text-xs">Aucune image</span>
         </div>
       )}
