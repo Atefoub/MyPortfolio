@@ -15,7 +15,7 @@ const VIEW_ICONS: Record<ViewId, typeof Home> = {
 
 function desktopClass(isActive: boolean): string {
   return cn(
-    'relative text-sm font-medium transition-all duration-300 group',
+    'relative text-sm font-medium transition-all duration-300 group flex items-center self-center',
     isActive ? 'text-accent' : 'text-muted-foreground hover:text-accent',
   );
 }
@@ -44,7 +44,7 @@ export default function Navigation() {
               <Logo />
             </div>
 
-            {/* Droite Desktop */}
+            {/* Droite Desktop : liens + CV + toggle — tout sur la même ligne */}
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
               {NAV_LINKS.map(({ to, label }) => (
                 <NavLink
@@ -77,7 +77,10 @@ export default function Navigation() {
                 <span>Mon CV</span>
               </a>
 
-              <ThemeToggle />
+              {/* ThemeToggle sans min-height imposé par Button */}
+              <div className="flex items-center self-center">
+                <ThemeToggle />
+              </div>
             </div>
 
             {/* Droite Mobile : uniquement ThemeToggle */}

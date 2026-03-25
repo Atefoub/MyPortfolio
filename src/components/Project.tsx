@@ -34,6 +34,8 @@ export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const [animating, setAnimating] = useState(false);
+  // Garde l'ancien projet pendant l'animation de sortie
+  const [exitIndex, setExitIndex] = useState<number | null>(null);
 
   const isMobile = useIsMobileView();
 
@@ -50,10 +52,13 @@ export default function Projects() {
       if (next === currentIndex) return;
       setDirection(dir);
       setAnimating(true);
+      setExitIndex(currentIndex);
+      setCurrentIndex(next);
+      // On laisse 380ms pour que la vague se referme avant de nettoyer
       setTimeout(() => {
-        setCurrentIndex(next);
+        setExitIndex(null);
         setAnimating(false);
-      }, 320);
+      }, 420);
     },
     [animating, currentIndex, total],
   );
@@ -66,10 +71,12 @@ export default function Projects() {
       if (i === currentIndex || animating) return;
       setDirection(i > currentIndex ? 'next' : 'prev');
       setAnimating(true);
+      setExitIndex(currentIndex);
+      setCurrentIndex(i);
       setTimeout(() => {
-        setCurrentIndex(i);
+        setExitIndex(null);
         setAnimating(false);
-      }, 320);
+      }, 420);
     },
     [animating, currentIndex],
   );
@@ -94,6 +101,7 @@ export default function Projects() {
   );
 
   const project = sortedProjects[currentIndex];
+  const exitProject = exitIndex !== null ? sortedProjects[exitIndex] : null;
 
   /* ── Mobile : carousel simple, une carte à la fois ── */
   if (isMobile) {
@@ -142,18 +150,21 @@ export default function Projects() {
     );
   }
 
-  /* ── Desktop : diapo deux colonnes ── */
-  const borderClass = project.inProgress
-    ? 'border-blue-500'
-    : project.featured
-      ? 'border-accent'
-      : 'border-border';
+  /* ── Desktop : diapo deux colonnes avec liquid morph ── */
+  const enterClass = direction === 'next'
+    ? 'project-liquid-enter-next'
+    : 'project-liquid-enter-prev';
 
-  const slideClass = animating
-    ? direction === 'next'
-      ? 'project-slide-exit-left'
-      : 'project-slide-exit-right'
-    : 'project-slide-enter';
+  const exitClass = direction === 'next'
+    ? 'project-liquid-exit-next'
+    : 'project-liquid-exit-prev';
+
+  const borderClass = (p: ProjectType) =>
+    p.inProgress
+      ? 'border-blue-500'
+      : p.featured
+        ? 'border-accent'
+        : 'border-border';
 
   return (
     <section
@@ -177,7 +188,7 @@ export default function Projects() {
 
         {/* Zone carousel */}
         <div
-          className="relative flex-1 min-h-0 flex flex-col"
+          className="project-liquid-stage"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -201,14 +212,51 @@ export default function Projects() {
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* Diapo deux colonnes */}
+          {/* Carte qui sort (superposée au-dessus pendant l'animation) */}
+          {exitProject && (
+            <div
+              className={cn(
+                'rounded-xl border overflow-hidden bg-background',
+                'grid grid-cols-[45%_55%]',
+                borderClass(exitProject),
+                exitClass,
+              )}
+            >
+              <div className="project-slide-img-col">
+                {exitProject.image ? (
+                  <img
+                    src={exitProject.image}
+                    alt={exitProject.title}
+                    className="w-full h-full object-contain"
+                    loading="eager"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-muted-foreground text-sm">Aucune image</span>
+                  </div>
+                )}
+              </div>
+              <div className="project-slide-content-col overflow-y-auto scrollbar-hide p-6 md:p-8 flex flex-col gap-4">
+                <div>
+                  <h2 className="text-2xl font-bold leading-tight text-foreground">
+                    {exitProject.title}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1.5">{exitProject.date}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Carte entrante (le nouveau projet) */}
           <div
             key={currentIndex}
             className={cn(
               'flex-1 min-h-0 rounded-xl border overflow-hidden bg-background',
               'grid grid-cols-[45%_55%]',
-              borderClass,
-              slideClass,
+              borderClass(project),
+              animating ? enterClass : '',
+              // Quand pas d'animation : occupe toute la hauteur du stage
+              !animating ? 'absolute inset-0' : 'absolute inset-0',
             )}
           >
             {/* Colonne gauche — image */}
@@ -307,10 +355,12 @@ export default function Projects() {
             </div>
           </div>
 
-          {/* Scrollbar / pagination */}
-          <div className="shrink-0 mt-3">
-            <ScrollBar currentIndex={currentIndex} total={total} onSeek={goTo} />
-          </div>
+          {/* Scrollbar / pagination — en dessous du stage */}
+        </div>
+
+        {/* Scrollbar hors du stage pour ne pas être clippée */}
+        <div className="shrink-0 mt-3">
+          <ScrollBar currentIndex={currentIndex} total={total} onSeek={goTo} />
         </div>
 
       </div>
@@ -329,7 +379,6 @@ function MobileCard({ project }: { project: ProjectType }) {
   return (
     <div className={cn('rounded-xl border overflow-hidden bg-background', borderClass)}>
       {project.image ? (
-        /* Remplace style={{ aspectRatio: '16/9' }} → classe Tailwind */
         <div className="w-full aspect-video">
           <img
             src={project.image}
@@ -339,7 +388,6 @@ function MobileCard({ project }: { project: ProjectType }) {
           />
         </div>
       ) : (
-        /* Idem */
         <div className="w-full aspect-video bg-muted flex items-center justify-center">
           <span className="text-muted-foreground text-xs">Aucune image</span>
         </div>
