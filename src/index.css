@@ -224,7 +224,7 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 }
 .hero-immersif-photo { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: auto; height: 75%; max-width: none; object-fit: contain; object-position: center top; }
 .hero-immersif-gradient { position: absolute; inset: 0; background: linear-gradient(to top, var(--color-background) 0%, color-mix(in srgb, var(--color-background) 95%, transparent) 40%, color-mix(in srgb, var(--color-background) 60%, transparent) 58%, color-mix(in srgb, var(--color-background) 10%, transparent) 72%, transparent 100%); }
-.hero-immersif-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; top: 58%; justify-content: flex-start; }
+.hero-immersif-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; top: calc(58% - 1rem); justify-content: flex-start; }
 .hero-immersif-intro { font-size: 0.7rem; color: var(--color-accent); font-weight: 500; letter-spacing: 0.03em; }
 .hero-immersif-intro strong { font-weight: 700; }
 .hero-immersif-name { font-size: 2rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--color-foreground); }
