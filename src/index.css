@@ -66,6 +66,24 @@
 @keyframes fab-pulse { 0% { transform: scale(1); opacity: 0.6; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 @keyframes tl-detail-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ── Animations diapo projet ─────────────────────────────────────────────── */
+@keyframes project-slide-in-right {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes project-slide-in-left {
+  from { opacity: 0; transform: translateX(-48px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes project-slide-out-left {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-48px); }
+}
+@keyframes project-slide-out-right {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(48px); }
+}
+
 /* ══ BASE ══════════════════════════════════════════════════════════════════ */
 * { border-color: var(--color-border); }
 body {
@@ -191,19 +209,6 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .popup-gradient { background: linear-gradient(135deg, var(--color-muted), var(--color-background)); opacity: 0.95; }
 .iframe-no-interaction { pointer-events: none; -webkit-user-select: none; user-select: none; }
 
-/* ══ PROJET — FLIP CARD DESKTOP ═══════════════════════════════════════════ */
-.pcard-root { flex-shrink: 0; position: relative; perspective: 1200px; }
-.pcard-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s ease; }
-.pcard-inner.pcard-flipped { transform: rotateY(180deg); }
-.pcard-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.pcard-back { transform: rotateY(180deg); }
-.pcard-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-@media (prefers-reduced-motion: reduce) {
-  .pcard-inner { transition: none; }
-  .pcard-inner.pcard-flipped .pcard-face:not(.pcard-back) { opacity: 0; pointer-events: none; }
-  .pcard-inner:not(.pcard-flipped) .pcard-back { opacity: 0; pointer-events: none; }
-}
-
 /* ══ HERO — LAYOUT ════════════════════════════════════════════════════════ */
 .hero-section { height: calc(100dvh - 56px - 56px); display: flex; align-items: center; overflow: hidden; margin-top: 0; }
 @media (min-width: 640px) { .hero-section { height: calc(100dvh - 56px - 56px); } }
@@ -283,7 +288,7 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .lang-bar-segment { height: 100%; border-radius: 1px; transition: opacity 0.2s ease; min-width: 2px; }
 .lang-bar-segment:hover { opacity: 0.7; }
 
-/* ══ PROJECTS SIDEBAR ═════════════════════════════════════════════════════ */
+/* ══ PROJECTS SIDEBAR (conservé pour ne pas casser d'éventuelles refs) ═══ */
 .projects-sidebar { width: 200px; flex-shrink: 0; overflow-y: auto; padding-right: 0.75rem; border-right: 1px solid var(--color-border); }
 @supports (scrollbar-width: none) { .projects-sidebar { scrollbar-width: none; } }
 .projects-sidebar::-webkit-scrollbar { display: none; }
@@ -292,6 +297,78 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .lang-display-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; border: 1.5px solid var(--color-border); background: var(--color-background); color: var(--color-muted-foreground); white-space: nowrap; cursor: default; }
 .lang-section-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted-foreground); margin-bottom: 6px; }
 @media (min-width: 640px) { .lang-display-badge { font-size: 0.75rem; padding: 4px 12px; } .lang-section-label { font-size: 0.65rem; } }
+
+/* ══ PROJECTS — section hauteur viewport ═════════════════════════════════ */
+.projects-section { height: calc(100dvh - 56px - 56px); }
+@media (min-width: 640px) and (max-width: 767px) { .projects-section { height: calc(100dvh - 56px - 56px); } }
+@media (min-width: 768px) { .projects-section { height: calc(100dvh - 64px); } }
+
+/* ══ PROJECTS — Diapo desktop deux colonnes ══════════════════════════════ */
+
+/* Bouton de navigation flèche */
+.project-nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(153,198,196,0.4);
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.project-nav-btn:hover:not(:disabled) {
+  transform: scale(1.12);
+  box-shadow: 0 4px 20px rgba(153,198,196,0.55);
+}
+.project-nav-btn:active:not(:disabled) { transform: scale(0.95); }
+.project-nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Colonne image */
+.project-slide-img-col {
+  background: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-right: 1px solid var(--color-border);
+}
+
+/* Colonne contenu */
+.project-slide-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+}
+
+/* Animations de transition entre diapos */
+.project-slide-enter {
+  animation: project-slide-in-right 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.project-slide-exit-left {
+  animation: project-slide-out-left 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.project-slide-exit-right {
+  animation: project-slide-in-left 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-slide-enter,
+  .project-slide-exit-left,
+  .project-slide-exit-right { animation: none; }
+}
+
+/* ══ PROJECTS — Mobile : hauteur naturelle, scroll vertical permis ════════ */
+.projects-section-mobile {
+  min-height: calc(100dvh - 56px - 56px);
+  padding-bottom: 1rem;
+}
 
 /* ══ TIMELINE ════════════════════════════════════════════════════════════ */
 .tl-root { min-height: calc(100dvh - 112px); display: flex; flex-direction: column; overflow: visible; background: radial-gradient(ellipse 80% 50% at 10% 20%, rgba(153,198,196,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 90% 80%, rgba(131,160,139,0.06) 0%, transparent 60%), var(--color-background); padding: 0 1rem; }
@@ -385,17 +462,3 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .contact-section { height: calc(100dvh - 56px - 56px); }
 @media (min-width: 640px) { .contact-section { height: calc(100dvh - 56px - 56px); } }
 @media (min-width: 768px) { .contact-section { height: calc(100dvh - 64px); } }
-
-/* ══ PROJECTS — Desktop : hauteur fixe ═══════════════════════════════════ */
-.projects-section { height: calc(100dvh - 56px - 56px); }
-@media (min-width: 640px) and (max-width: 767px) { .projects-section { height: calc(100dvh - 56px - 56px); } }
-@media (min-width: 768px) { .projects-section { height: calc(100dvh - 64px); } }
-
-/* ══ PROJECTS — Mobile : hauteur naturelle, scroll vertical permis ════════
-   La section prend la hauteur de son contenu.
-   Le scroll global de la page permet de voir l'image + tout le texte.
-   ═══════════════════════════════════════════════════════════════════════ */
-.projects-section-mobile {
-  min-height: calc(100dvh - 56px - 56px);
-  padding-bottom: 1rem;
-}
