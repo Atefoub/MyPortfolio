@@ -20,11 +20,11 @@ export const projects: Project[] = [
     id: 100,
     title: "JuggleFlow - Application d'Apprentissage du Jonglage",
     description: "Progressive Web App (PWA) complète pour l'apprentissage structuré du jonglage. Parcours progressif avec système de gamification (badges, statistiques), animations en temps réel via l'API Juggling Lab, et mode hors ligne. Architecture full-stack pour les établissements scolaires avec conformité RGPD renforcée. Le projet s'appuie sur des recherches scientifiques démontrant les bienfaits cognitifs du jonglage.",
-    technologies: [
-      "React", "TypeScript", "Vite", "Node.js", "Express", "PostgreSQL",
-      "Prisma", "PWA", "Workbox", "JWT", "Tailwind CSS", "API Juggling Lab",
-      "Vitest", "Playwright"
-    ],
+technologies: [
+  "React", "TypeScript", "Vite", "Java", "Spring Boot", "Maven", "PostgreSQL",
+  "PWA", "Workbox", "JWT", "Tailwind CSS", "API Juggling Lab",
+  "Podman", "Vitest", "Playwright"
+],
     date: "Janvier 2026 - En cours",
     github: "https://github.com/Atefoub/JuggleFlow",
     image: assetPath('images/projects/juggleflow.webp'),
