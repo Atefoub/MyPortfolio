@@ -14,10 +14,40 @@ function jugglingUrl(code: string) {
   return `https://jugglinglab.org/anim?pattern=${code};width=${JUGGLING_POPUP.WIDTH};height=${JUGGLING_POPUP.HEIGHT};fps=30;slowdown=2.0;border=0;showground=false;startpaused=false`;
 }
 
+/* ── Sous-composant isolé : gère son propre état loading ── */
+function IframeWithSkeleton({ src, pattern }: { src: string; pattern: typeof PATTERNS[0] }) {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <div className="popup-iframe-wrap">
+      {loading && (
+        <div className="popup-skeleton">
+          <div className="popup-skeleton-arc" />
+          <div className="popup-skeleton-ball popup-skeleton-ball-1" />
+          <div className="popup-skeleton-ball popup-skeleton-ball-2" />
+          <div className="popup-skeleton-ball popup-skeleton-ball-3" />
+          <div className="popup-skeleton-label">Chargement…</div>
+        </div>
+      )}
+      <iframe
+        src={src}
+        title={`Juggling pattern ${pattern.code}`}
+        width={JUGGLING_POPUP.WIDTH}
+        height={JUGGLING_POPUP.HEIGHT}
+        className="popup-iframe"
+        style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.4s ease' }}
+        loading="eager"
+        sandbox="allow-scripts allow-same-origin"
+        scrolling="no"
+        onLoad={() => setLoading(false)}
+      />
+    </div>
+  );
+}
+
 export default function Logo() {
   const [isOpen, setIsOpen]             = useState(false);
   const [patternIndex, setPatternIndex] = useState(0);
-  const [loading, setLoading]           = useState(true);
   const isMobile = useIsMobile(CAROUSEL_BREAKPOINTS.MOBILE);
 
   const preloadRefs = useRef<Record<string, HTMLIFrameElement | null>>({});
@@ -32,11 +62,6 @@ export default function Logo() {
     document.head.appendChild(link);
     return () => { document.head.removeChild(link); };
   }, []);
-
-  // Reset skeleton à chaque changement de pattern
-  useEffect(() => {
-    setLoading(true);
-  }, [patternIndex]);
 
   const handleNextPattern = () => {
     setPatternIndex((prev) => {
@@ -125,35 +150,12 @@ export default function Logo() {
                   </svg>
                 </button>
 
-                {/* Zone iframe + skeleton superposés */}
-                <div className="popup-iframe-wrap">
-
-                  {/* Skeleton animé pendant le chargement */}
-                  {loading && (
-                    <div className="popup-skeleton">
-                      <div className="popup-skeleton-arc" />
-                      <div className="popup-skeleton-ball popup-skeleton-ball-1" />
-                      <div className="popup-skeleton-ball popup-skeleton-ball-2" />
-                      <div className="popup-skeleton-ball popup-skeleton-ball-3" />
-                      <div className="popup-skeleton-label">Chargement…</div>
-                    </div>
-                  )}
-
-                  {/* iframe visible uniquement une fois chargée */}
-                  <iframe
-                    key={currentPattern.code}
-                    src={jugglingUrl(currentPattern.code)}
-                    title={`Juggling pattern ${currentPattern.code}`}
-                    width={JUGGLING_POPUP.WIDTH}
-                    height={JUGGLING_POPUP.HEIGHT}
-                    className="popup-iframe"
-                    style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.4s ease' }}
-                    loading="eager"
-                    sandbox="allow-scripts allow-same-origin"
-                    scrolling="no"
-                    onLoad={() => setLoading(false)}
-                  />
-                </div>
+                {/* Zone iframe + skeleton — remonté à chaque changement de pattern via key */}
+                <IframeWithSkeleton
+                  key={currentPattern.code}
+                  src={jugglingUrl(currentPattern.code)}
+                  pattern={currentPattern}
+                />
 
                 {/* Légende */}
                 <div className="popup-legend">
