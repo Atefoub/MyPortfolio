@@ -34,7 +34,6 @@ export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const [animating, setAnimating] = useState(false);
-  // Garde l'ancien projet pendant l'animation de sortie
   const [exitIndex, setExitIndex] = useState<number | null>(null);
 
   const isMobile = useIsMobileView();
@@ -42,7 +41,6 @@ export default function Projects() {
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
-  // Ref pour le debounce du scroll wheel (500ms entre deux navigations)
   const wheelCooldownRef = useRef(false);
 
   const navigate = useCallback(
@@ -57,7 +55,6 @@ export default function Projects() {
       setAnimating(true);
       setExitIndex(currentIndex);
       setCurrentIndex(next);
-      // On laisse 420ms pour que la vague se referme avant de nettoyer
       setTimeout(() => {
         setExitIndex(null);
         setAnimating(false);
@@ -106,32 +103,29 @@ export default function Projects() {
   const project = sortedProjects[currentIndex];
   const exitProject = exitIndex !== null ? sortedProjects[exitIndex] : null;
 
-  // ── Ref sur la section desktop pour le listener wheel ──────────────────
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Refs stables pour éviter de recréer le listener à chaque render
   const goToNextRef = useRef(goToNext);
   const goToPrevRef = useRef(goToPrev);
   useEffect(() => { goToNextRef.current = goToNext; }, [goToNext]);
   useEffect(() => { goToPrevRef.current = goToPrev; }, [goToPrev]);
 
   useEffect(() => {
-    // Sur mobile, le swipe tactile est déjà géré — pas de listener wheel
     if (isMobile) return;
 
     const section = sectionRef.current;
     if (!section) return;
 
     const handleWheel = (e: WheelEvent) => {
-      // Priorité deltaX (trackpad horizontal) puis deltaY (molette verticale)
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
 
-      // Seuil : on ignore les micro-scrolls accidentels (< 30px)
       if (Math.abs(delta) <= 30) return;
 
-      // Debounce : on bloque les déclenchements répétés pendant 500ms
       if (wheelCooldownRef.current) return;
+
+      // Bloque le scroll natif de la page
       e.preventDefault();
+
       wheelCooldownRef.current = true;
       setTimeout(() => { wheelCooldownRef.current = false; }, 500);
 
@@ -142,7 +136,7 @@ export default function Projects() {
       }
     };
 
-    // passive: true — ne bloque jamais le thread principal
+    // passive: false — nécessaire pour pouvoir appeler e.preventDefault()
     section.addEventListener('wheel', handleWheel, { passive: false });
     return () => section.removeEventListener('wheel', handleWheel);
   }, [isMobile]);
@@ -216,7 +210,7 @@ export default function Projects() {
       id="projects"
       className="projects-section flex flex-col px-6 md:px-8 lg:px-16 bg-muted overflow-hidden"
     >
-      <div className="max-w-7xl w-full mx-auto flex flex-col flex-1 min-h-0 py-4 md:py-6">
+      <div className="max-w-7xl 2xl:max-w-screen-2xl w-full mx-auto flex flex-col flex-1 min-h-0 py-4 md:py-6">
 
         {/* En-tête */}
         <div className="shrink-0 mb-4 flex items-center justify-between">
@@ -257,12 +251,12 @@ export default function Projects() {
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* Carte qui sort (superposée au-dessus pendant l'animation) */}
+          {/* Carte qui sort */}
           {exitProject && (
             <div
               className={cn(
                 'rounded-xl border overflow-hidden bg-background',
-                'grid grid-cols-[45%_55%]',
+                'grid grid-cols-[45%_55%] xl:grid-cols-[50%_50%] 2xl:grid-cols-[55%_45%]',
                 borderClass(exitProject),
                 exitClass,
               )}
@@ -272,7 +266,7 @@ export default function Projects() {
                   <img
                     src={exitProject.image}
                     alt={exitProject.title}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain xl:object-cover"
                     loading="eager"
                   />
                 ) : (
@@ -292,12 +286,12 @@ export default function Projects() {
             </div>
           )}
 
-          {/* Carte entrante (le nouveau projet) */}
+          {/* Carte entrante */}
           <div
             key={currentIndex}
             className={cn(
               'flex-1 min-h-0 rounded-xl border overflow-hidden bg-background',
-              'grid grid-cols-[45%_55%]',
+              'grid grid-cols-[45%_55%] xl:grid-cols-[50%_50%] 2xl:grid-cols-[55%_45%]',
               borderClass(project),
               animating ? enterClass : '',
               !animating ? 'absolute inset-0' : 'absolute inset-0',
@@ -309,7 +303,7 @@ export default function Projects() {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain xl:object-cover"
                   loading="eager"
                 />
               ) : (
@@ -401,7 +395,7 @@ export default function Projects() {
 
         </div>
 
-        {/* Scrollbar hors du stage pour ne pas être clippée */}
+        {/* Scrollbar */}
         <div className="shrink-0 mt-3">
           <ScrollBar currentIndex={currentIndex} total={total} onSeek={goTo} />
         </div>
