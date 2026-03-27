@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { CAROUSEL_BREAKPOINTS, FORM_RESET_DELAYS } from './constants';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router';
+import { CAROUSEL_BREAKPOINTS, FORM_RESET_DELAYS, NAV_LINKS } from './constants';
 
 // ═══════════════════════════════════════════════════════════════
 // CUSTOM HOOKS
@@ -143,4 +144,79 @@ export function useFormSubmit(endpoint: string) {
   );
 
   return { status, submit };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// useKeyboardNav
+// ═══════════════════════════════════════════════════════════════
+
+/** Tags HTML qui captent le focus et ne doivent pas déclencher la navigation clavier. */
+const INTERACTIVE_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A']);
+
+/**
+ * Retourne true si le focus courant est dans un élément interactif
+ * (champ, bouton, lien, ou contenteditable) — auquel cas on ne doit
+ * pas intercepter les flèches pour la navigation entre routes.
+ */
+function isFocusInInteractiveElement(): boolean {
+  const el = document.activeElement;
+  if (!el) return false;
+  if (INTERACTIVE_TAGS.has(el.tagName)) return true;
+  if (el.getAttribute('contenteditable') !== null) return true;
+  return false;
+}
+
+/**
+ * Navigation clavier entre les routes via ← / →.
+ *
+ * - Suit l'ordre de NAV_LINKS défini dans constants.ts
+ * - Ne se déclenche pas si le focus est dans un élément interactif
+ * - Ignore les combinaisons avec Alt / Ctrl / Meta (raccourcis navigateur)
+ * - Respecte prefers-reduced-motion : la media query dans index.css
+ *   réduit déjà les animations à 0.01ms, aucune logique JS supplémentaire requise
+ * - Nettoyage complet du listener au démontage
+ *
+ * À appeler une seule fois dans App.tsx.
+ */
+export function useKeyboardNav(): void {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // Stabiliser pathname dans une ref pour éviter de recréer le listener
+  // à chaque changement de route (évite les doublons d'écoute).
+  const pathnameRef = useRef(pathname);
+  useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
+
+  useEffect(() => {
+    const routes = NAV_LINKS.map((link) => link.to);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if (isFocusInInteractiveElement()) return;
+      // Ne pas interférer avec les raccourcis navigateur / OS
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+
+      const current = pathnameRef.current;
+      // Normalise en retirant le trailing slash éventuel, sauf pour "/"
+      const normalized = current === '/' ? '/' : current.replace(/\/$/, '');
+      const currentIdx = routes.indexOf(normalized);
+
+      // Route inconnue — on ne fait rien
+      if (currentIdx === -1) return;
+
+      if (e.key === 'ArrowRight' && currentIdx < routes.length - 1) {
+        e.preventDefault();
+        void navigate(routes[currentIdx + 1]);
+      } else if (e.key === 'ArrowLeft' && currentIdx > 0) {
+        e.preventDefault();
+        void navigate(routes[currentIdx - 1]);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+    // `navigate` est une référence stable garantie par react-router
+  }, [navigate]);
 }

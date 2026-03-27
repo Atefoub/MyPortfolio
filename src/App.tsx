@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from 'react-router';
 import Navigation from './components/Navigation';
 import ScrollToTop from './components/ScrollToTop';
+import { useKeyboardNav } from './lib/hooks';
 
-// On mappe chaque pathname à un index stable pour la clé d'animation
 const PATH_KEYS: Record<string, number> = {};
 let keyCounter = 0;
 
@@ -15,6 +15,8 @@ function getAnimKey(pathname: string): number {
 
 export default function App() {
   const { pathname } = useLocation();
+
+  useKeyboardNav();
 
   return (
     <div className="min-h-screen">

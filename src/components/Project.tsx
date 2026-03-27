@@ -42,6 +42,9 @@ export default function Projects() {
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
+  // Ref pour le debounce du scroll wheel (500ms entre deux navigations)
+  const wheelCooldownRef = useRef(false);
+
   const navigate = useCallback(
     (dir: 'next' | 'prev') => {
       if (animating) return;
@@ -54,7 +57,7 @@ export default function Projects() {
       setAnimating(true);
       setExitIndex(currentIndex);
       setCurrentIndex(next);
-      // On laisse 380ms pour que la vague se referme avant de nettoyer
+      // On laisse 420ms pour que la vague se referme avant de nettoyer
       setTimeout(() => {
         setExitIndex(null);
         setAnimating(false);
@@ -102,6 +105,46 @@ export default function Projects() {
 
   const project = sortedProjects[currentIndex];
   const exitProject = exitIndex !== null ? sortedProjects[exitIndex] : null;
+
+  // ── Ref sur la section desktop pour le listener wheel ──────────────────
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Refs stables pour éviter de recréer le listener à chaque render
+  const goToNextRef = useRef(goToNext);
+  const goToPrevRef = useRef(goToPrev);
+  useEffect(() => { goToNextRef.current = goToNext; }, [goToNext]);
+  useEffect(() => { goToPrevRef.current = goToPrev; }, [goToPrev]);
+
+  useEffect(() => {
+    // Sur mobile, le swipe tactile est déjà géré — pas de listener wheel
+    if (isMobile) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Priorité deltaX (trackpad horizontal) puis deltaY (molette verticale)
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+
+      // Seuil : on ignore les micro-scrolls accidentels (< 30px)
+      if (Math.abs(delta) <= 30) return;
+
+      // Debounce : on bloque les déclenchements répétés pendant 500ms
+      if (wheelCooldownRef.current) return;
+      wheelCooldownRef.current = true;
+      setTimeout(() => { wheelCooldownRef.current = false; }, 500);
+
+      if (delta > 0) {
+        goToNextRef.current();
+      } else {
+        goToPrevRef.current();
+      }
+    };
+
+    // passive: true — ne bloque jamais le thread principal
+    section.addEventListener('wheel', handleWheel, { passive: true });
+    return () => section.removeEventListener('wheel', handleWheel);
+  }, [isMobile]);
 
   /* ── Mobile : carousel simple, une carte à la fois ── */
   if (isMobile) {
@@ -168,6 +211,7 @@ export default function Projects() {
 
   return (
     <section
+      ref={sectionRef}
       id="projects"
       className="projects-section flex flex-col px-6 md:px-8 lg:px-16 bg-muted overflow-hidden"
     >
@@ -255,7 +299,6 @@ export default function Projects() {
               'grid grid-cols-[45%_55%]',
               borderClass(project),
               animating ? enterClass : '',
-              // Quand pas d'animation : occupe toute la hauteur du stage
               !animating ? 'absolute inset-0' : 'absolute inset-0',
             )}
           >
@@ -355,7 +398,6 @@ export default function Projects() {
             </div>
           </div>
 
-          {/* Scrollbar / pagination — en dessous du stage */}
         </div>
 
         {/* Scrollbar hors du stage pour ne pas être clippée */}
