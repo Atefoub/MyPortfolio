@@ -59,21 +59,28 @@ interface AccordionItemProps {
   onToggle: () => void;
 }
 
+// Typage explicite pour les CSS custom properties dynamiques.
+// L'injection via style inline est la seule approche viable pour des
+// valeurs calculées à l'exécution — aucune alternative statique possible.
+interface AccordionCssVars extends React.CSSProperties {
+  '--acc-accent': string;
+  '--acc-gradient': string;
+}
+
 function AccordionItem({ item, index, isOpen, isLast, onToggle }: AccordionItemProps) {
-  const isFormation  = item.type === 'formation';
-  const accentColor  = isFormation ? '#83a08b' : '#738b69';
-  const gradientEnd  = isFormation ? '#99c6c4' : '#5a6e51';
+  const isFormation = item.type === 'formation';
+  const accentColor = isFormation ? '#83a08b' : '#738b69';
+  const gradientEnd = isFormation ? '#99c6c4' : '#5a6e51';
 
   const hasDetail = !!(
     item.detailedDescription ||
     (item.achievements && item.achievements.length > 0)
   );
 
-  // CSS custom properties portent les couleurs dynamiques — évite les inline styles bruts
-  const cssVars = {
+  const cssVars: AccordionCssVars = {
     '--acc-accent':   accentColor,
     '--acc-gradient': gradientEnd,
-  } as React.CSSProperties;
+  };
 
   return (
     <div
@@ -106,7 +113,7 @@ function AccordionItem({ item, index, isOpen, isLast, onToggle }: AccordionItemP
         <button
           className="acc-card-header"
           onClick={onToggle}
-          aria-expanded={isOpen ? 'true' : 'false'}
+          aria-expanded={Boolean(isOpen)}
         >
           <div className="acc-card-header-left">
 

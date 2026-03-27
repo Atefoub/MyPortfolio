@@ -25,6 +25,7 @@ export const timeline: TimelineItem[] = [
       "React",
       "Node.js",
       "Express",
+      "Java",
       "PostgreSQL",
       "Git",
       "Docker",
