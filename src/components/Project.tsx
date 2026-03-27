@@ -131,6 +131,7 @@ export default function Projects() {
 
       // Debounce : on bloque les déclenchements répétés pendant 500ms
       if (wheelCooldownRef.current) return;
+      e.preventDefault();
       wheelCooldownRef.current = true;
       setTimeout(() => { wheelCooldownRef.current = false; }, 500);
 
@@ -142,7 +143,7 @@ export default function Projects() {
     };
 
     // passive: true — ne bloque jamais le thread principal
-    section.addEventListener('wheel', handleWheel, { passive: true });
+    section.addEventListener('wheel', handleWheel, { passive: false });
     return () => section.removeEventListener('wheel', handleWheel);
   }, [isMobile]);
 
