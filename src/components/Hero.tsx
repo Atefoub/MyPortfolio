@@ -43,6 +43,12 @@ export default function Hero() {
                 <span className="text-foreground font-semibold">travail en équipe</span>.
                 <br />Je cherche à les mettre au service d'une équipe tech.
               </p>
+              <p className="hero-body leading-relaxed mt-3">
+                <span className="text-foreground font-semibold">
+                  Recherche alternance dès septembre 2026
+                </span>{' '}
+                (24 mois, RNCP 7) - Nantes, Ancenis, Angers.
+              </p>
             </div>
 
             {/* Bloc 3 — CTA */}
@@ -61,7 +67,7 @@ export default function Hero() {
                   <span className="status-dot status-dot-blue" />
                 </span>
                 <span className="hero-badge-label">
-                  Alternance · sept. 2026 · 24 mois · RNCP 7
+                  Recherche alternance · dès sept. 2026 · 24 mois · RNCP 7
                 </span>
               </div>
             </div>
@@ -98,7 +104,7 @@ export default function Hero() {
                   <span className="status-dot status-dot-blue" />
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold">Alternance · 24 mois · RNCP 7</span>
+                  <span className="font-semibold">Recherche alternance · 24 mois · RNCP 7</span>
                   <span className="hero-badge-immersif-sub">Dès sept. 2026 · Nantes / Ancenis / Angers</span>
                 </div>
               </div>
