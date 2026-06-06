@@ -55,15 +55,6 @@ export default function Hero() {
 
             {/* Bloc 4 — Badges */}
             <div className={`hero-block hero-badges animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-              <div className="hero-badge hero-badge-green">
-                <span className="status-dot-wrap">
-                  <span className="status-ping status-ping-green" />
-                  <span className="status-dot status-dot-green" />
-                </span>
-                <span className="hero-badge-label">
-                  Stage · 8 semaines · 08 juin – 24 juillet 2026
-                </span>
-              </div>
               <div className="hero-badge hero-badge-blue">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-blue" />
@@ -101,16 +92,6 @@ export default function Hero() {
               Développeur Full-Stack · 17 ans d'expérience
             </p>
             <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
-              <div className="hero-badge-immersif hero-badge-immersif-green">
-                <span className="status-dot-wrap">
-                  <span className="status-ping status-ping-green" />
-                  <span className="status-dot status-dot-green" />
-                </span>
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold">Stage · 8 semaines</span>
-                  <span className="hero-badge-immersif-sub">08 juin – 24 juillet 2026</span>
-                </div>
-              </div>
               <div className="hero-badge-immersif hero-badge-immersif-blue">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-blue" />

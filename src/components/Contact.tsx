@@ -6,7 +6,6 @@ import {
   FileText,
   Send,
   CheckCircle,
-  Calendar,
   Briefcase,
   MapPin,
   Navigation,
@@ -17,12 +16,6 @@ import { useFormSubmit } from '../lib/hooks';
 import SectionHeader from './SectionHeader';
 
 const AVAILABILITY = [
-  {
-    icon: Calendar,
-    title: 'Stage · 8 semaines',
-    subtitle: '08 juin – 24 juillet 2026',
-    color: 'green',
-  },
   {
     icon: Briefcase,
     title: 'Alternance · 24 mois',
