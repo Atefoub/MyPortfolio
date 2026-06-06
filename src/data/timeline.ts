@@ -12,6 +12,29 @@ export interface TimelineItem {
 
 export const timeline: TimelineItem[] = [
   {
+    id: 7,
+    year: "Juin – Juillet 2026",
+    title: "Stage — Automatisation des convocations",
+    organization: "Audencia - Nantes",
+    type: "experience",
+    shortDescription: "Stage de 8 semaines au sein d'Audencia à Nantes. Objectif : concevoir et développer une solution pour automatiser l'envoi de convocations aux apprenants et aux intervenants, en utilisant un outil d'automatisation de type n8n ou Make connecté aux données de la structure et aux API, afin de réduire les tâches manuelles et optimiser les temps de traitement de l'équipe.",
+    detailedDescription: "Analyse des processus existants et identification des points de friction dans la gestion des convocations. • Conception d'un workflow d'automatisation reliant les sources de données internes aux canaux d'envoi. • Développement et paramétrage de scénarios sur un outil no-code/low-code (n8n ou Make). • Connexion aux API et bases de données de la structure pour alimenter les convocations de manière fiable. • Tests, documentation et transfert de compétences à l'équipe.",
+    skills: [
+      "n8n",
+      "Make (Integromat)",
+      "Automatisation de workflows",
+      "API REST",
+      "Intégration de données",
+      "No-code / Low-code",
+      "Documentation technique"
+    ],
+    achievements: [
+      "Automatisation de l'envoi de convocations aux apprenants et intervenants",
+      "Réduction des tâches manuelles et optimisation des délais de traitement",
+      "Mise en place d'une solution connectée aux données et API de la structure"
+    ]
+  },
+  {
     id: 1,
     year: "2025 - 2026",
     title: "Concepteur Développeur d'Applications",
