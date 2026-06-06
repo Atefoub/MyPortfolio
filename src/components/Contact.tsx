@@ -18,8 +18,8 @@ import SectionHeader from './SectionHeader';
 const AVAILABILITY = [
   {
     icon: Briefcase,
-    title: 'Alternance · 24 mois',
-    subtitle: 'Dès sept. 2026 · Nantes / Ancenis / Angers · Remote possible',
+    title: 'Recherche alternance · 24 mois · RNCP 7',
+    subtitle: 'Dès septembre 2026 · Nantes / Ancenis / Angers · Remote possible',
     color: 'blue',
   },
 ] as const;
