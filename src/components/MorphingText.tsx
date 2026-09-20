@@ -2,29 +2,47 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { usePrefersReducedMotion } from '../lib/motion';
 import { cn } from '../lib/utils';
 
-const HOLD_MS = 4200;
-const MOVE_MS = 720;
-const FADE_MS = 480;
+const HOLD_MS = 3600;
+const MOVE_MS = 760;
+const FADE_MS = 420;
+const MATCH_RADIUS = 8;
 
 type Glyph = { key: string; char: string };
+type Ghost = { key: string; char: string; x: number; y: number };
 
 let glyphSeq = 0;
 
-function tokenize(text: string): Glyph[] {
-  return [...text].map((char) => ({
-    key: `g-${glyphSeq++}`,
-    char: char === ' ' ? '\u00a0' : char,
-  }));
+function toChars(text: string): string[] {
+  return [...text].map((char) => (char === ' ' ? '\u00a0' : char));
 }
 
+function tokenize(text: string): Glyph[] {
+  return toChars(text).map((char) => ({ key: `g-${glyphSeq++}`, char }));
+}
+
+function readText(glyphs: Glyph[]): string {
+  return glyphs.map((g) => (g.char === '\u00a0' ? ' ' : g.char)).join('');
+}
+
+/** Prefer nearby identical letters so the morph stays readable. */
 function nextGlyphs(prev: Glyph[], nextText: string): { keep: Glyph[]; exit: Glyph[] } {
-  const nextChars = [...nextText].map((char) => (char === ' ' ? '\u00a0' : char));
+  const nextChars = toChars(nextText);
   const used = new Set<number>();
-  const keep: Glyph[] = nextChars.map((char) => {
-    const idx = prev.findIndex((g, i) => !used.has(i) && g.char === char);
-    if (idx >= 0) {
-      used.add(idx);
-      return prev[idx];
+  const keep: Glyph[] = nextChars.map((char, newIdx) => {
+    let best = -1;
+    let bestDist = Infinity;
+    for (let i = 0; i < prev.length; i++) {
+      if (used.has(i) || prev[i].char !== char) continue;
+      const dist = Math.abs(i - newIdx);
+      if (dist > MATCH_RADIUS) continue;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    if (best >= 0) {
+      used.add(best);
+      return prev[best];
     }
     return { key: `g-${glyphSeq++}`, char };
   });
@@ -32,7 +50,14 @@ function nextGlyphs(prev: Glyph[], nextText: string): { keep: Glyph[]; exit: Gly
   return { keep, exit };
 }
 
-type Ghost = { key: string; char: string; x: number; y: number };
+function capture(line: HTMLElement | null): Map<string, DOMRect> {
+  const map = new Map<string, DOMRect>();
+  line?.querySelectorAll<HTMLElement>('[data-glyph]').forEach((el) => {
+    const key = el.dataset.glyph;
+    if (key) map.set(key, el.getBoundingClientRect());
+  });
+  return map;
+}
 
 export default function MorphingText({
   phrases,
@@ -47,23 +72,12 @@ export default function MorphingText({
   const [ghosts, setGhosts] = useState<Ghost[]>([]);
   const lineRef = useRef<HTMLDivElement>(null);
   const rectsRef = useRef<Map<string, DOMRect>>(new Map());
-  const firstPaint = useRef(true);
-
-  const snapshot = () => {
-    const map = new Map<string, DOMRect>();
-    lineRef.current?.querySelectorAll<HTMLElement>('[data-glyph]').forEach((el) => {
-      map.set(el.dataset.glyph!, el.getBoundingClientRect());
-    });
-    rectsRef.current = map;
-  };
-
   const glyphsRef = useRef(glyphs);
+  const pendingFlip = useRef(false);
   glyphsRef.current = glyphs;
 
-  const skipMorphOnMount = useRef(true);
-
   useEffect(() => {
-    if (phrases.length < 2) return;
+    if (phrases.length < 2) return undefined;
     const id = window.setInterval(() => {
       setIndex((prev) => (prev + 1) % phrases.length);
     }, HOLD_MS);
@@ -71,72 +85,78 @@ export default function MorphingText({
   }, [phrases.length]);
 
   useEffect(() => {
-    if (skipMorphOnMount.current) {
-      skipMorphOnMount.current = false;
-      return;
-    }
-
     const next = phrases[index] ?? '';
+    if (readText(glyphsRef.current) === next) return;
+
+    rectsRef.current = capture(lineRef.current);
+
     if (reduced) {
-      setGlyphs(tokenize(next));
+      pendingFlip.current = false;
       setGhosts([]);
+      setGlyphs(tokenize(next));
       return;
     }
 
-    snapshot();
     const { keep, exit } = nextGlyphs(glyphsRef.current, next);
-    const line = lineRef.current?.getBoundingClientRect();
+    const box = lineRef.current?.getBoundingClientRect();
+    pendingFlip.current = true;
     setGlyphs(keep);
     setGhosts(
       exit.flatMap((g) => {
         const r = rectsRef.current.get(g.key);
-        if (!r || !line) return [];
-        return [{ key: g.key, char: g.char, x: r.left - line.left, y: r.top - line.top }];
+        if (!r || !box) return [];
+        return [{
+          key: `out-${g.key}-${glyphSeq++}`,
+          char: g.char,
+          x: r.left - box.left,
+          y: r.top - box.top,
+        }];
       }),
     );
   }, [index, phrases, reduced]);
 
   useLayoutEffect(() => {
-    if (reduced || firstPaint.current) {
-      firstPaint.current = false;
-      snapshot();
-      return;
-    }
-
+    if (!pendingFlip.current) return;
+    pendingFlip.current = false;
     const line = lineRef.current;
     if (!line) return;
 
     line.querySelectorAll<HTMLElement>('[data-glyph]').forEach((el) => {
-      const key = el.dataset.glyph!;
+      const key = el.dataset.glyph;
+      if (!key) return;
       const prev = rectsRef.current.get(key);
       const now = el.getBoundingClientRect();
-      el.getAnimations().forEach((a) => a.cancel());
-
-      if (prev) {
-        const dx = prev.left - now.left;
-        const dy = prev.top - now.top;
-        if (dx !== 0 || dy !== 0) {
+      try {
+        el.getAnimations().forEach((a) => a.cancel());
+        if (prev) {
+          const dx = prev.left - now.left;
+          const dy = prev.top - now.top;
+          if (dx !== 0 || dy !== 0) {
+            el.animate(
+              [
+                { transform: `translate(${dx}px, ${dy}px)` },
+                { transform: 'translate(0px, 0px)' },
+              ],
+              { duration: MOVE_MS, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+            );
+          }
+        } else {
           el.animate(
-            [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
-            { duration: MOVE_MS, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+            [
+              { opacity: 0, transform: 'translateY(8px)' },
+              { opacity: 1, transform: 'translate(0px, 0px)' },
+            ],
+            { duration: FADE_MS, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
           );
         }
-      } else {
-        el.animate(
-          [
-            { opacity: 0, filter: 'blur(7px)', transform: 'translateY(10px)' },
-            { opacity: 1, filter: 'blur(0px)', transform: 'none' },
-          ],
-          { duration: FADE_MS, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
-        );
+      } catch {
+        // Some browsers reject WAAPI on detached nodes; the new letters still show.
       }
     });
-
-    snapshot();
-  }, [glyphs, reduced]);
+  }, [glyphs]);
 
   useEffect(() => {
-    if (ghosts.length === 0) return;
+    if (ghosts.length === 0) return undefined;
     const id = window.setTimeout(() => setGhosts([]), FADE_MS);
     return () => window.clearTimeout(id);
   }, [ghosts]);
@@ -144,7 +164,12 @@ export default function MorphingText({
   const longest = phrases.reduce((a, b) => (a.length >= b.length ? a : b), '');
 
   return (
-    <div className={cn('morph-text', className)} aria-live="polite" aria-atomic="true" data-morph-index={index}>
+    <div
+      className={cn('morph-text', className)}
+      aria-live="polite"
+      aria-atomic="true"
+      data-morph-index={index}
+    >
       <span className="morph-text-sizer" aria-hidden="true">
         {longest}
       </span>
