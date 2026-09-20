@@ -11,7 +11,9 @@ import {
   FolderOpen,
 } from 'lucide-react';
 import { SWIPE_THRESHOLD } from '../lib/constants';
+import { MOTION, prefersReducedMotion } from '../lib/motion';
 import { cn } from '../lib/utils';
+import BlockRevealCanvas from './BlockRevealCanvas';
 import SectionHeader from './SectionHeader';
 
 /* ─── Hook : détecte si on est en mobile ────────────────────────────────── */
@@ -43,6 +45,15 @@ export default function Projects() {
 
   const wheelCooldownRef = useRef(false);
 
+  const doneRef = useRef(false);
+
+  const finishTransition = useCallback(() => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    setExitIndex(null);
+    setAnimating(false);
+  }, []);
+
   const navigate = useCallback(
     (dir: 'next' | 'prev') => {
       if (animating) return;
@@ -51,16 +62,17 @@ export default function Projects() {
           ? Math.min(currentIndex + 1, total - 1)
           : Math.max(currentIndex - 1, 0);
       if (next === currentIndex) return;
+      doneRef.current = false;
       setDirection(dir);
       setAnimating(true);
       setExitIndex(currentIndex);
       setCurrentIndex(next);
-      setTimeout(() => {
-        setExitIndex(null);
-        setAnimating(false);
-      }, 420);
+      const fromImg = sortedProjects[currentIndex].image;
+      const toImg = sortedProjects[next].image;
+      const willReveal = Boolean(!prefersReducedMotion() && fromImg && toImg && fromImg !== toImg);
+      window.setTimeout(finishTransition, willReveal ? MOTION.BLOCK_REVEAL_MS + 80 : 0);
     },
-    [animating, currentIndex, total],
+    [animating, currentIndex, finishTransition, sortedProjects, total],
   );
 
   const goToNext = useCallback(() => navigate('next'), [navigate]);
@@ -69,16 +81,17 @@ export default function Projects() {
   const goTo = useCallback(
     (i: number) => {
       if (i === currentIndex || animating) return;
+      doneRef.current = false;
       setDirection(i > currentIndex ? 'next' : 'prev');
       setAnimating(true);
       setExitIndex(currentIndex);
       setCurrentIndex(i);
-      setTimeout(() => {
-        setExitIndex(null);
-        setAnimating(false);
-      }, 420);
+      const fromImg = sortedProjects[currentIndex].image;
+      const toImg = sortedProjects[i].image;
+      const willReveal = Boolean(!prefersReducedMotion() && fromImg && toImg && fromImg !== toImg);
+      window.setTimeout(finishTransition, willReveal ? MOTION.BLOCK_REVEAL_MS + 80 : 0);
     },
-    [animating, currentIndex],
+    [animating, currentIndex, finishTransition, sortedProjects],
   );
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -188,14 +201,10 @@ export default function Projects() {
     );
   }
 
-  /* ── Desktop : diapo deux colonnes avec liquid morph ── */
-  const enterClass = direction === 'next'
-    ? 'project-liquid-enter-next'
-    : 'project-liquid-enter-prev';
-
-  const exitClass = direction === 'next'
-    ? 'project-liquid-exit-next'
-    : 'project-liquid-exit-prev';
+  /* ── Desktop : diapo deux colonnes avec block-reveal ── */
+  const contentEnterClass = direction === 'next'
+    ? 'project-content-enter-next'
+    : 'project-content-enter-prev';
 
   const borderClass = (p: ProjectType) =>
     p.inProgress
@@ -251,70 +260,28 @@ export default function Projects() {
             <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* Carte qui sort */}
-          {exitProject && (
-            <div
-              className={cn(
-                'rounded-xl border overflow-hidden bg-background',
-                'grid grid-cols-[45%_55%] xl:grid-cols-[50%_50%] 2xl:grid-cols-[55%_45%]',
-                borderClass(exitProject),
-                exitClass,
-              )}
-            >
-              <div className="project-slide-img-col">
-                {exitProject.image ? (
-                  <img
-                    src={exitProject.image}
-                    alt={exitProject.title}
-                    className="w-full h-full object-contain xl:object-cover"
-                    loading="eager"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-muted-foreground text-sm">Aucune image</span>
-                  </div>
-                )}
-              </div>
-              <div className="project-slide-content-col overflow-y-auto scrollbar-hide p-6 md:p-8 flex flex-col gap-4">
-                <div>
-                  <h2 className="text-2xl font-bold leading-tight text-foreground">
-                    {exitProject.title}
-                  </h2>
-                  <p className="text-sm text-muted-foreground mt-1.5">{exitProject.date}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Carte entrante */}
           <div
-            key={currentIndex}
             className={cn(
-              'flex-1 min-h-0 rounded-xl border overflow-hidden bg-background',
+              'flex-1 min-h-0 rounded-xl border overflow-hidden bg-background absolute inset-0',
               'grid grid-cols-[45%_55%] xl:grid-cols-[50%_50%] 2xl:grid-cols-[55%_45%]',
               borderClass(project),
-              animating ? enterClass : '',
-              !animating ? 'absolute inset-0' : 'absolute inset-0',
             )}
           >
-            {/* Colonne gauche — image */}
-            <div className="project-slide-img-col">
-              {project.image ? (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-contain xl:object-cover"
-                  loading="eager"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-muted-foreground text-sm">Aucune image</span>
-                </div>
-              )}
-            </div>
+            <ProjectSlideImage
+              src={project.image}
+              alt={project.title}
+              fromSrc={exitProject?.image}
+              animating={animating}
+              onRevealDone={finishTransition}
+            />
 
-            {/* Colonne droite — contenu */}
-            <div className="project-slide-content-col overflow-y-auto scrollbar-hide p-6 md:p-8 flex flex-col gap-4">
+            <div
+              key={currentIndex}
+              className={cn(
+                'project-slide-content-col overflow-y-auto scrollbar-hide p-6 md:p-8 flex flex-col gap-4',
+                animating && contentEnterClass,
+              )}
+            >
 
               {/* Badges statut */}
               <div className="flex flex-wrap gap-2">
@@ -402,6 +369,62 @@ export default function Projects() {
 
       </div>
     </section>
+  );
+}
+
+function useXlCover(): boolean {
+  const [cover, setCover] = useState(() => window.innerWidth >= 1280);
+  useEffect(() => {
+    const onResize = () => setCover(window.innerWidth >= 1280);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return cover;
+}
+
+function ProjectSlideImage({
+  src,
+  alt,
+  fromSrc,
+  animating,
+  onRevealDone,
+}: {
+  src?: string;
+  alt: string;
+  fromSrc?: string;
+  animating: boolean;
+  onRevealDone: () => void;
+}) {
+  const cover = useXlCover();
+  const reduced = prefersReducedMotion();
+  const canReveal = Boolean(animating && fromSrc && src && fromSrc !== src && !reduced);
+
+  return (
+    <div className="project-slide-img-col relative">
+      {src ? (
+        <img
+          src={src}
+          alt={alt}
+          className={cn(
+            'w-full h-full object-contain xl:object-cover',
+            canReveal && 'opacity-0',
+          )}
+          loading="eager"
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center">
+          <span className="text-muted-foreground text-sm">Aucune image</span>
+        </div>
+      )}
+      {canReveal && fromSrc && src && (
+        <BlockRevealCanvas
+          fromSrc={fromSrc}
+          toSrc={src}
+          cover={cover}
+          onComplete={onRevealDone}
+        />
+      )}
+    </div>
   );
 }
 

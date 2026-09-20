@@ -136,13 +136,24 @@
 @keyframes cv-bounce { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(3px); } 70% { transform: translateY(-2px); } }
 @keyframes fab-pulse { 0% { transform: scale(1); opacity: 0.6; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 @keyframes tl-detail-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes project-fade-exit {
-  0%   { opacity: 1;   transform: scale(1);    filter: blur(0px); }
-  100% { opacity: 0;   transform: scale(0.97); filter: blur(3px); }
+@keyframes vt-page-out {
+  to { opacity: 0; filter: blur(8px); }
 }
-@keyframes project-fade-enter {
-  0%   { opacity: 0;   transform: scale(1.02); filter: blur(3px); }
-  100% { opacity: 1;   transform: scale(1);    filter: blur(0px); }
+@keyframes vt-page-in-forward {
+  from { clip-path: circle(0% at 82% 8%); opacity: 0.8; }
+  to   { clip-path: circle(150% at 82% 8%); opacity: 1; }
+}
+@keyframes vt-page-in-back {
+  from { clip-path: circle(0% at 18% 8%); opacity: 0.8; }
+  to   { clip-path: circle(150% at 18% 8%); opacity: 1; }
+}
+@keyframes project-content-in-next {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes project-content-in-prev {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: none; }
 }
 
 /* Skeleton — balles qui rebondissent */
@@ -173,6 +184,28 @@ body {
   margin: 0; padding: 0; touch-action: pan-y;
 }
 html { scroll-behavior: smooth; overflow-x: hidden; }
+
+/* ══ VIEW TRANSITIONS ═════════════════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+.page-shell { view-transition-name: page-shell; }
+.site-nav-desktop { view-transition-name: site-nav; }
+@media (max-width: 767px) {
+  .site-nav-desktop { view-transition-name: none; }
+  .site-nav-mobile { view-transition-name: site-nav; }
+}
+@media (min-width: 768px) {
+  .site-nav-mobile { view-transition-name: none; }
+}
+::view-transition-old(page-shell),
+::view-transition-new(page-shell) {
+  animation-duration: 0.52s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+::view-transition-old(page-shell) { animation-name: vt-page-out; }
+::view-transition-new(page-shell) { animation-name: vt-page-in-forward; }
+html[data-nav-dir="back"] ::view-transition-new(page-shell) { animation-name: vt-page-in-back; }
 button, a, [role="button"] { min-height: 44px; min-width: 44px; }
 span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 @media (min-width: 1024px) {
@@ -530,8 +563,10 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .hero-block:last-child { margin-bottom: 0; }
 .hero-img-col { display: flex; align-items: center; justify-content: center; }
 .hero-img-wrap { position: relative; width: 100%; max-width: 500px; height: min(500px, calc(100vh - 64px - 4rem)); margin: 0 auto; }
-.hero-img-frame { border-radius: 1.5rem; border-width: 4px; border-style: solid; position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-img-frame { border-radius: 1.5rem; border-width: 4px; border-style: solid; position: absolute; inset: 0; width: 100%; height: 100%; view-transition-name: hero-portrait; }
 .hero-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ascii-portrait-wrap { position: absolute; inset: 0; }
+.ascii-portrait-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .hero-pulse-2 { width: 90%; height: 90%; }
 .hero-glow-tr { top: -12px; right: -12px; width: 64px; height: 64px; }
 .hero-glow-bl { bottom: -12px; left: -12px; width: 48px; height: 48px; }
@@ -559,6 +594,9 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 @media (max-width: 639px) { h1, h2, h3 { word-break: break-word; } p { overflow-wrap: break-word; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
 }
 
 /* ══ LANGUAGE FILTER ══════════════════════════════════════════════════════ */
@@ -596,11 +634,11 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .project-slide-img-col { background: var(--color-muted); display: flex; align-items: center; justify-content: center; overflow: hidden; border-right: 1px solid var(--color-border); }
 .project-slide-content-col { display: flex; flex-direction: column; gap: 1rem; padding: 2rem 2.5rem; overflow-y: auto; }
 .project-liquid-stage { position: relative; flex: 1; min-height: 0; }
-.project-liquid-enter-next, .project-liquid-enter-prev { animation: project-fade-enter 0.55s cubic-bezier(0.4, 0, 0.2, 1) both; }
-.project-liquid-exit-next, .project-liquid-exit-prev { animation: project-fade-exit 0.55s cubic-bezier(0.4, 0, 0.2, 1) both; position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+.project-content-enter-next { animation: project-content-in-next 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.project-content-enter-prev { animation: project-content-in-prev 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.block-reveal-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
-  .project-liquid-enter-next, .project-liquid-enter-prev,
-  .project-liquid-exit-next,  .project-liquid-exit-prev { animation: none !important; filter: none !important; }
+  .project-content-enter-next, .project-content-enter-prev { animation: none !important; }
 }
 
 /* ══ PROJECTS — Mobile ════════════════════════════════════════════════════ */
