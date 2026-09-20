@@ -4,7 +4,14 @@ import { useViewNavigate } from '../lib/motion';
 import { assetPath } from '../lib/utils';
 import AsciiPortrait from './AsciiPortrait';
 import Button from './Button';
+import MorphingText from './MorphingText';
 import SocialLinks from './SocialLinks';
+
+const HERO_MORPH_PHRASES = [
+  'Développeur Full-Stack',
+  'Titulaire CDA · RNCP 6',
+  'Alternance 24 mois · RNCP 7',
+] as const;
 
 export default function Hero() {
   const navigate = useViewNavigate();
@@ -22,9 +29,7 @@ export default function Hero() {
               <h1 className="hero-title font-bold tracking-tight leading-tight">
                 Antoine Mourin
               </h1>
-              <p className="hero-subtitle font-light mt-3">
-                Développeur Full-Stack · 17 ans d'expérience en entreprise
-              </p>
+              <MorphingText phrases={HERO_MORPH_PHRASES} className="hero-subtitle font-light mt-3" />
             </div>
 
             {/* Bloc 2 — Corps */}
@@ -102,9 +107,7 @@ export default function Hero() {
             <h1 className="hero-immersif-name animate-fade-in">
               Antoine Mourin
             </h1>
-            <p className="hero-immersif-subtitle">
-              Développeur Full-Stack · 17 ans d'expérience
-            </p>
+            <MorphingText phrases={HERO_MORPH_PHRASES} className="hero-immersif-subtitle" />
             <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
               <div className="hero-badge-immersif hero-badge-immersif-green">
                 <GraduationCap className="w-3.5 h-3.5 shrink-0" />
