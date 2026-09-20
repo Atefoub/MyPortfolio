@@ -37,11 +37,11 @@ export const timeline: TimelineItem[] = [
   {
     id: 1,
     year: "2025 - 2026",
-    title: "Concepteur Développeur d'Applications",
+    title: "Concepteur Développeur d'Applications (RNCP 6)",
     organization: "Ada Tech School - Nantes",
     type: "formation",
-    shortDescription: "Après 17 ans en comptabilité, j'ai réalisé que ce qui m'animait vraiment, c'était de construire - pas seulement d'analyser. Automatiser des processus avec VBA et PowerAutomate chez Saunier Duval m'a donné un premier aperçu de ce que le code permet de créer : des outils concrets, utiles, qui changent le quotidien des équipes. Cette révélation m'a convaincu de franchir le pas et d'intégrer l'Ada Tech School de Nantes pour une formation intensive en développement full-stack. J'y apporte une rigueur et une culture du résultat forgées en entreprise, combinées à une vraie appétence technique acquise sur le terrain. Mon objectif : rejoindre une équipe où je peux contribuer immédiatement, tout en continuant à progresser vite.",
-    detailedDescription: "Formation intensive en développement web et mobile avec une approche pratique et collaborative. Méthodologies agiles, travail en équipe, et projets concrets du début à la fin.",
+    shortDescription: "Après 17 ans en comptabilité, j'ai réalisé que ce qui m'animait vraiment, c'était de construire - pas seulement d'analyser. Automatiser des processus avec VBA et PowerAutomate chez Saunier Duval m'a donné un premier aperçu de ce que le code permet de créer : des outils concrets, utiles, qui changent le quotidien des équipes. Cette révélation m'a convaincu de franchir le pas et d'intégrer l'Ada Tech School de Nantes. J'y ai obtenu le titre de Concepteur Développeur d'Applications (RNCP 6). J'apporte une rigueur et une culture du résultat forgées en entreprise, combinées à une vraie appétence technique acquise sur le terrain. Mon objectif : rejoindre une équipe où je peux contribuer immédiatement, tout en continuant à progresser vite.",
+    detailedDescription: "Formation intensive en développement web et mobile avec une approche pratique et collaborative. Méthodologies agiles, travail en équipe, et projets concrets du début à la fin. Titre professionnel Concepteur Développeur d'Applications (RNCP 6) obtenu en 2026.",
     skills: [
       "JavaScript",
       "TypeScript",
@@ -60,6 +60,7 @@ export const timeline: TimelineItem[] = [
       "Agile/Scrum"
     ],
     achievements: [
+      "Obtention du titre professionnel Concepteur Développeur d'Applications (RNCP 6)",
       "Développement de 10+ projets full-stack de A à Z",
       "Maîtrise des méthodologies agiles et du travail en équipe",
       "Déploiement et maintenance d'applications en production"
