@@ -100,7 +100,9 @@ function AccordionItem({ item, index, isOpen, isLast, onToggle }: AccordionItemP
           }
         </div>
         {!isLast && (
-          <div className="acc-spine-line acc-spine-line-themed" />
+          <div className="acc-spine-line acc-spine-line-themed">
+            <span className="acc-spine-line-ink" aria-hidden="true" />
+          </div>
         )}
       </div>
 
