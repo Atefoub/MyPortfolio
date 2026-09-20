@@ -556,13 +556,13 @@ span[role="button"], .badge-like { min-height: unset; min-width: unset; }
 .hero-text-col  { display: flex; flex-direction: column; justify-content: center; }
 .hero-title    { font-size: clamp(2.75rem, 4.5vw, 4.5rem); letter-spacing: -0.03em; line-height: 1.05; }
 .hero-subtitle { font-size: clamp(1.1rem, 1.8vw, 1.4rem); color: var(--color-foreground); opacity: 0.65; line-height: 1.4; }
-.morph-text { position: relative; display: block; }
+.morph-text { position: relative; display: block; min-height: 1.4em; }
 .morph-text-sizer { visibility: hidden; display: block; white-space: nowrap; pointer-events: none; }
-.morph-text-line { position: absolute; inset: 0; display: flex; flex-wrap: nowrap; align-items: baseline; white-space: nowrap; overflow: visible; }
-.morph-char { display: inline-block; }
+.morph-text-line { position: absolute; inset: 0; z-index: 1; display: flex; flex-wrap: nowrap; align-items: baseline; white-space: nowrap; overflow: visible; }
+.morph-char { display: inline-block; color: inherit; }
 .morph-char-exit {
   position: absolute;
-  animation: morph-exit 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: morph-exit 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
   pointer-events: none;
 }
 @keyframes morph-exit {
