@@ -1,12 +1,13 @@
-import { useNavigate } from 'react-router';
 import { GraduationCap } from 'lucide-react';
 import { ANIMATION_DELAYS } from '../lib/constants';
+import { useViewNavigate } from '../lib/motion';
 import { assetPath } from '../lib/utils';
+import AsciiPortrait from './AsciiPortrait';
 import Button from './Button';
 import SocialLinks from './SocialLinks';
 
 export default function Hero() {
-  const navigate = useNavigate();
+  const navigate = useViewNavigate();
 
   return (
     <section className="hero-section px-4 sm:px-6 md:px-8 lg:px-16" id="hero">
@@ -140,12 +141,8 @@ function HeroImage() {
         <div className="absolute w-full h-full rounded-full opacity-20 animate-pulse-soft bg-[radial-gradient(circle,var(--color-accent)_0%,transparent_70%)]" />
         <div className="hero-pulse-2 absolute rounded-full opacity-10 animate-pulse-soft bg-[radial-gradient(circle,var(--color-sage)_0%,transparent_70%)] [animation-delay:1s]" />
       </div>
-      <div className="relative w-full h-full hero-img-frame overflow-hidden border-accent/30 shadow-2xl transition-all duration-500 hover:scale-105 hover:border-accent/50">
-        <img
-          src={assetPath('images/hero.jpg')}
-          alt="Antoine Mourin"
-          className="w-full h-full object-cover"
-        />
+      <div className="relative w-full h-full hero-img-frame overflow-hidden border-accent/30 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:border-accent/50">
+        <AsciiPortrait src={assetPath('images/hero.jpg')} alt="Antoine Mourin" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background opacity-40 pointer-events-none" />
       </div>
       <div className="hero-glow-tr absolute bg-accent rounded-full opacity-20 blur-xl animate-pulse-soft" />

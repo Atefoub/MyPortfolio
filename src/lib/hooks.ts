@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { CAROUSEL_BREAKPOINTS, FORM_RESET_DELAYS, NAV_LINKS } from './constants';
+import { setNavDirection, viewNavOptions } from './motion';
 
 // ═══════════════════════════════════════════════════════════════
 // CUSTOM HOOKS
@@ -208,10 +209,14 @@ export function useKeyboardNav(): void {
 
       if (e.key === 'ArrowRight' && currentIdx < routes.length - 1) {
         e.preventDefault();
-        void navigate(routes[currentIdx + 1]);
+        const next = routes[currentIdx + 1];
+        setNavDirection(current, next);
+        void navigate(next, viewNavOptions());
       } else if (e.key === 'ArrowLeft' && currentIdx > 0) {
         e.preventDefault();
-        void navigate(routes[currentIdx - 1]);
+        const prev = routes[currentIdx - 1];
+        setNavDirection(current, prev);
+        void navigate(prev, viewNavOptions());
       }
     };
 
