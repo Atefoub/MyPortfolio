@@ -7,6 +7,7 @@ import {
   Send,
   CheckCircle,
   Briefcase,
+  GraduationCap,
   MapPin,
   Navigation,
   Phone,
@@ -17,10 +18,18 @@ import SectionHeader from './SectionHeader';
 
 const AVAILABILITY = [
   {
+    icon: GraduationCap,
+    title: 'Titulaire CDA · RNCP 6',
+    subtitle: 'Ada Tech School · Nantes · 2026',
+    color: 'green',
+    pulse: false,
+  },
+  {
     icon: Briefcase,
     title: 'Recherche alternance · 24 mois · RNCP 7',
     subtitle: 'Dès septembre 2026 · Nantes / Ancenis / Angers · Remote possible',
     color: 'blue',
+    pulse: true,
   },
 ] as const;
 
@@ -64,7 +73,7 @@ export default function Contact() {
         <div
           className={`flex flex-col sm:flex-row flex-wrap gap-1.5 sm:gap-2 mb-2 sm:mb-3 shrink-0 animate-slide-up ${ANIMATION_DELAYS.SHORT}`}
         >
-          {AVAILABILITY.map(({ icon: Icon, title, subtitle, color }) => (
+          {AVAILABILITY.map(({ icon: Icon, title, subtitle, color, pulse }) => (
             <div key={title} className={`avail-badge avail-badge-${color}`}>
               <div className={`avail-badge-icon-wrap avail-icon-${color}`}>
                 <Icon className="w-3.5 h-3.5" />
@@ -74,7 +83,7 @@ export default function Contact() {
                 <div className="avail-badge-subtitle">{subtitle}</div>
               </div>
               <span className="status-dot-wrap">
-                <span className={`status-ping status-ping-${color}`} />
+                {pulse && <span className={`status-ping status-ping-${color}`} />}
                 <span className={`status-dot status-dot-${color}`} />
               </span>
             </div>

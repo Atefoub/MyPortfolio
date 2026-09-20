@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import { GraduationCap } from 'lucide-react';
 import { ANIMATION_DELAYS } from '../lib/constants';
 import { assetPath } from '../lib/utils';
 import Button from './Button';
@@ -28,11 +29,11 @@ export default function Hero() {
             {/* Bloc 2 — Corps */}
             <div className={`hero-block animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
               <p className="hero-body leading-relaxed">
-                En formation{' '}
+                Titulaire du titre de{' '}
                 <span className="text-foreground font-semibold">
                   Concepteur Développeur d'Applications (RNCP 6)
-                </span>{' '}
-                à l'Ada Tech School de Nantes.
+                </span>
+                , obtenu à l'Ada Tech School de Nantes.
               </p>
               <p className="hero-body leading-relaxed mt-3">
                 Mon métier de comptable m'a appris la{' '}
@@ -61,6 +62,12 @@ export default function Hero() {
 
             {/* Bloc 4 — Badges */}
             <div className={`hero-block hero-badges animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
+              <div className="hero-badge hero-badge-green">
+                <GraduationCap className="w-4 h-4 shrink-0" />
+                <span className="hero-badge-label">
+                  Titulaire CDA · RNCP 6
+                </span>
+              </div>
               <div className="hero-badge hero-badge-blue">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-blue" />
@@ -89,7 +96,7 @@ export default function Hero() {
           <div className="hero-immersif-gradient" />
           <div className="hero-immersif-content">
             <p className={`hero-immersif-intro animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-              En formation <strong>CDA (RNCP 6)</strong> · Ada Tech School de Nantes
+              Titulaire <strong>CDA (RNCP 6)</strong> · Ada Tech School de Nantes
             </p>
             <h1 className="hero-immersif-name animate-fade-in">
               Antoine Mourin
@@ -98,6 +105,10 @@ export default function Hero() {
               Développeur Full-Stack · 17 ans d'expérience
             </p>
             <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
+              <div className="hero-badge-immersif hero-badge-immersif-green">
+                <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                <span className="font-semibold">Titulaire CDA · RNCP 6</span>
+              </div>
               <div className="hero-badge-immersif hero-badge-immersif-blue">
                 <span className="status-dot-wrap">
                   <span className="status-ping status-ping-blue" />
