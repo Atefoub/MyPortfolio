@@ -15,23 +15,23 @@ export const timeline: TimelineItem[] = [
     id: 7,
     year: "Juin - Juillet 2026",
     title: "Stage - Automatisation des convocations",
-    organization: "Audencia - Nantes",
+    organization: "Audencia (DTSI) - Nantes",
     type: "experience",
-    shortDescription: "Stage de fin de formation au sein d'Audencia à Nantes. Objectif : concevoir et développer une solution pour automatiser l'envoi de convocations aux apprenants et aux intervenants, en utilisant un outil d'automatisation de type n8n ou Make connecté aux données de la structure et aux API, afin de réduire les tâches manuelles et optimiser les temps de traitement de l'équipe.",
-    detailedDescription: "Analyse des processus existants et identification des points de friction dans la gestion des convocations. • Conception d'un workflow d'automatisation reliant les sources de données internes aux canaux d'envoi. • Développement et paramétrage de scénarios sur un outil no-code/low-code (n8n ou Make). • Connexion aux API et bases de données de la structure pour alimenter les convocations de manière fiable. • Tests, documentation et transfert de compétences à l'équipe.",
+    shortDescription: "Stage de fin de formation à la Direction de la Transformation Digitale (DTSI) d'Audencia, pour la Direction Offres Entreprises. J'ai conçu et développé dans n8n un workflow qui envoie automatiquement les convocations aux participants des programmes Executive Education, à partir des exports Aurion et via l'API Microsoft Graph (Outlook).",
+    detailedDescription: "Analyse du processus manuel existant avec l'équipe Offres Entreprises. • Workflow n8n : lecture des sessions issues d'Aurion, construction des e-mails et envoi via l'API Microsoft Graph, en s'appuyant sur OneDrive / SharePoint. • Envoi automatique à J-7, copie systématique à la boîte de l'équipe, cascade d'e-mails vers les participants et envoi en mode brouillon pour les sessions OPEN INTER. • Suivi des erreurs et mécanisme anti-renvoi dans Google Sheets, choisi plutôt que le nœud Excel de n8n, peu fiable sur un tenant SharePoint d'entreprise. • Correction d'un bug latent lié au nom d'un champ date dans les exports Aurion (Debut / Début). • Tests, documentation et transfert à l'équipe.",
     skills: [
       "n8n",
-      "Make (Integromat)",
+      "API Microsoft Graph",
+      "Aurion",
+      "OneDrive / SharePoint",
+      "Google Sheets",
       "Automatisation de workflows",
-      "API REST",
-      "Intégration de données",
-      "No-code / Low-code",
       "Documentation technique"
     ],
     achievements: [
-      "Automatisation de l'envoi de convocations aux apprenants et intervenants",
-      "Réduction des tâches manuelles et optimisation des délais de traitement",
-      "Mise en place d'une solution connectée aux données et API de la structure"
+      "Workflow de convocations automatiques livré et documenté, en remplacement d'un envoi manuel",
+      "Fiabilité : anti-renvoi, suivi des erreurs et copie systématique à l'équipe",
+      "Projet présenté comme dossier professionnel pour le titre CDA (RNCP 6)"
     ]
   },
   {
@@ -40,18 +40,17 @@ export const timeline: TimelineItem[] = [
     title: "Concepteur Développeur d'Applications (RNCP 6)",
     organization: "Ada Tech School - Nantes",
     type: "formation",
-    shortDescription: "Après 17 ans en comptabilité, j'ai réalisé que ce qui m'animait vraiment, c'était de construire - pas seulement d'analyser. Automatiser des processus avec VBA et PowerAutomate chez Saunier Duval m'a donné un premier aperçu de ce que le code permet de créer : des outils concrets, utiles, qui changent le quotidien des équipes. Cette révélation m'a convaincu de franchir le pas et d'intégrer l'Ada Tech School de Nantes. J'y ai obtenu le titre de Concepteur Développeur d'Applications (RNCP 6). J'apporte une rigueur et une culture du résultat forgées en entreprise, combinées à une vraie appétence technique acquise sur le terrain. Mon objectif : rejoindre une équipe où je peux contribuer immédiatement, tout en continuant à progresser vite.",
+    shortDescription: "Après près de 20 ans en comptabilité, j'ai réalisé que ce qui m'animait vraiment, c'était de construire - pas seulement d'analyser. Automatiser des processus avec VBA et PowerAutomate chez Saunier Duval m'a donné un premier aperçu de ce que le code permet de créer : des outils concrets, utiles, qui changent le quotidien des équipes. Cette révélation m'a convaincu de franchir le pas et d'intégrer l'Ada Tech School de Nantes. J'y ai obtenu le titre de Concepteur Développeur d'Applications (RNCP 6). J'apporte une rigueur et une culture du résultat forgées en entreprise, combinées à une vraie appétence technique acquise sur le terrain. Mon objectif : rejoindre une équipe où je peux contribuer immédiatement, tout en continuant à progresser vite.",
     detailedDescription: "Formation intensive en développement web et mobile avec une approche pratique et collaborative. Méthodologies agiles, travail en équipe, et projets concrets du début à la fin. Titre professionnel Concepteur Développeur d'Applications (RNCP 6) obtenu en 2026.",
     skills: [
       "JavaScript",
       "TypeScript",
       "React",
-      "Node.js",
-      "Express",
       "Java",
+      "Spring Boot",
       "PostgreSQL",
       "Git",
-      "Docker",
+      "Podman (conteneurs)",
       "CI/CD",
       "Tests unitaires",
       "API REST",
@@ -61,18 +60,18 @@ export const timeline: TimelineItem[] = [
     ],
     achievements: [
       "Obtention du titre professionnel Concepteur Développeur d'Applications (RNCP 6)",
-      "Développement de 10+ projets full-stack de A à Z",
+      "Une dizaine de projets web, dont une application full-stack complète (JuggleFlow : React, Spring Boot, PostgreSQL)",
       "Maîtrise des méthodologies agiles et du travail en équipe",
-      "Déploiement et maintenance d'applications en production"
+      "Déploiement d'applications sur GitHub Pages, Netlify et Vercel, avec intégration continue GitHub Actions"
     ]
   },
   {
     id: 4,
-    year: "2012 - 2024",
+    year: "2012 - aujourd'hui",
     title: "Comptable Fournisseurs & Trésorerie",
     organization: "Saunier Duval ECC - Nantes",
     type: "experience",
-    shortDescription: "12 ans d'expérience en gestion comptable et financière avec expertise SAP. Responsable du traitement complet de la comptabilité fournisseurs et trésorerie.",
+    shortDescription: "Plus de 12 ans en comptabilité fournisseurs et trésorerie sur SAP. Formation CDA suivie en 2025-2026 dans le cadre d'une Transition Pro, puis retour en poste.",
     detailedDescription: "Gestion complète du cycle comptable fournisseurs et trésorerie pour une filiale commerciale internationale. Utilisation quotidienne de SAP pour le traitement des factures, paiements, rapprochements bancaires et reporting financier. • Automatisation progressive des processus via le développement de scripts Python, VBA et Power Automate. • Collaboration étroite avec les équipes Finance, Achats et Commerciale pour optimiser les processus financiers. • Contribution active à la transformation digitale du département comptable.",
     skills: [
       "SAP (FI/MM)",

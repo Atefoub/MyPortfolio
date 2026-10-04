@@ -77,8 +77,7 @@ technologies: [
     description: "Consolidation des compétences en JavaScript : manipulation de variables, fonctions avec paramètres, conditions, et intégration dans une page HTML. Utilisation des valeurs de retour pour un code dynamique et interactif.",
     technologies: ["HTML", "CSS", "JavaScript"],
     date: "Octobre 2025",
-    github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/01_bonjour_javascript.md",
-    demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/bonjour_javascript",
+    github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/bonjour_javascript",
     image: assetPath('images/projects/screenshot_exercice_1_bonjour_javascript.jpg'),
   },
   {
@@ -98,7 +97,6 @@ technologies: [
     technologies: ["HTML", "CSS", "Flexbox"],
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
-    demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
     image: assetPath('images/projects/screenshot_exercice_3_paw_models.jpg'),
   },
   {
@@ -108,7 +106,6 @@ technologies: [
     technologies: ["HTML", "CSS", "JavaScript"],
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
-    demo: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
     image: assetPath('images/projects/screenshot_exercice_4_flexbox_galery.jpg'),
   },
   {

@@ -26,8 +26,8 @@ const AVAILABILITY = [
   },
   {
     icon: Briefcase,
-    title: 'Recherche alternance · 24 mois · RNCP 7',
-    subtitle: 'Dès septembre 2026 · Nantes / Ancenis / Angers · Remote possible',
+    title: 'Alternance RNCP 7 (24 mois) ou CDI junior',
+    subtitle: 'Disponible rapidement · Nantes / Ancenis / Angers · Remote possible',
     color: 'blue',
     pulse: true,
   },
