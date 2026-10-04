@@ -9,6 +9,7 @@ import {
   Star,
   Loader2,
   FolderOpen,
+  BookOpen,
 } from 'lucide-react';
 import { SWIPE_THRESHOLD } from '../lib/constants';
 import { MOTION, prefersReducedMotion } from '../lib/motion';
@@ -30,7 +31,11 @@ function useIsMobileView(): boolean {
 
 /* ─── Composant principal ───────────────────────────────────────────────── */
 export default function Projects() {
-  const sortedProjects = getSortedProjects();
+  const allProjects = getSortedProjects();
+  const featuredCount = allProjects.filter((p) => p.featured).length;
+  const exerciseCount = allProjects.length - featuredCount;
+  const [showExercises, setShowExercises] = useState(false);
+  const sortedProjects = showExercises ? allProjects : allProjects.filter((p) => p.featured);
   const total = sortedProjects.length;
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,6 +97,29 @@ export default function Projects() {
       window.setTimeout(finishTransition, willReveal ? MOTION.BLOCK_REVEAL_MS + 80 : 0);
     },
     [animating, currentIndex, finishTransition, sortedProjects],
+  );
+
+  const toggleExercises = () => {
+    if (animating) return;
+    const next = !showExercises;
+    setShowExercises(next);
+    setExitIndex(null);
+    // Les projets phares sont triés en tête : en dépliant, on saute au premier exercice.
+    setCurrentIndex(next ? featuredCount : 0);
+  };
+
+  const exercisesToggle = exerciseCount > 0 && (
+    <button
+      type="button"
+      onClick={toggleExercises}
+      aria-pressed={showExercises}
+      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-border bg-background text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+    >
+      <BookOpen className="w-3.5 h-3.5" />
+      {showExercises
+        ? 'Masquer les exercices de formation'
+        : `Voir les exercices de formation (${exerciseCount})`}
+    </button>
   );
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -195,6 +223,7 @@ export default function Projects() {
               </button>
             </div>
             <ScrollBar currentIndex={currentIndex} total={total} onSeek={goTo} />
+            <div className="flex justify-center pt-1">{exercisesToggle}</div>
           </div>
         </div>
       </section>
@@ -227,11 +256,14 @@ export default function Projects() {
             title="Projets"
             icon={<FolderOpen className="w-4 h-4" />}
           />
-          <span className="text-sm font-semibold text-muted-foreground tabular-nums">
-            <span className="text-foreground">{currentIndex + 1}</span>
-            <span className="mx-1 opacity-40">/</span>
-            {total}
-          </span>
+          <div className="flex items-center gap-4">
+            {exercisesToggle}
+            <span className="text-sm font-semibold text-muted-foreground tabular-nums">
+              <span className="text-foreground">{currentIndex + 1}</span>
+              <span className="mx-1 opacity-40">/</span>
+              {total}
+            </span>
+          </div>
         </div>
 
         {/* Zone carousel */}

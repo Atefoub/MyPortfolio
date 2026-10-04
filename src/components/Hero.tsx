@@ -10,7 +10,7 @@ import SocialLinks from './SocialLinks';
 const HERO_MORPH_PHRASES = [
   'Développeur Full-Stack',
   'Titulaire CDA · RNCP 6',
-  'Alternance 24 mois · RNCP 7',
+  'Alternance RNCP 7 · CDI junior',
 ] as const;
 
 export default function Hero() {
@@ -52,9 +52,9 @@ export default function Hero() {
               </p>
               <p className="hero-body leading-relaxed mt-3">
                 <span className="text-foreground font-semibold">
-                  Recherche alternance dès septembre 2026
+                  Recherche une alternance (24 mois, RNCP 7) ou un premier poste de développeur full-stack junior
                 </span>{' '}
-                (24 mois, RNCP 7) - Nantes, Ancenis, Angers.
+                - Nantes, Ancenis, Angers. Disponible rapidement.
               </p>
             </div>
 
@@ -80,7 +80,7 @@ export default function Hero() {
                   <span className="status-dot status-dot-blue" />
                 </span>
                 <span className="hero-badge-label">
-                  Recherche alternance · dès sept. 2026 · 24 mois · RNCP 7
+                  Alternance RNCP 7 ou CDI junior · Disponible rapidement
                 </span>
               </div>
             </div>
@@ -119,8 +119,8 @@ export default function Hero() {
                   <span className="status-dot status-dot-blue" />
                 </span>
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold">Recherche alternance · 24 mois · RNCP 7</span>
-                  <span className="hero-badge-immersif-sub">Dès sept. 2026 · Nantes / Ancenis / Angers</span>
+                  <span className="font-semibold">Alternance RNCP 7 ou CDI junior</span>
+                  <span className="hero-badge-immersif-sub">Disponible rapidement · Nantes / Ancenis / Angers</span>
                 </div>
               </div>
             </div>
