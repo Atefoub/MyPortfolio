@@ -12,6 +12,11 @@ export interface Project {
   featured?: boolean;
   inProgress?: boolean;
   collaboration?: string;
+  caseStudy?: boolean;
+  exercise?: boolean;
+  lead?: string;
+  notes?: string[];
+  internalPath?: string;
 }
 
 export const projects: Project[] = [
@@ -25,11 +30,35 @@ technologies: [
   "PWA", "Workbox", "JWT", "Tailwind CSS", "API Juggling Lab",
   "Podman", "Vitest", "Playwright"
 ],
-    date: "Janvier 2026 - En cours",
+    date: "Janvier 2026 — en cours",
     github: "https://github.com/Atefoub/JuggleFlow",
     image: assetPath('images/projects/juggleflow.webp'),
     featured: true,
     inProgress: true,
+    caseStudy: true,
+    lead: "Apprendre le jonglage étape par étape, même sans réseau.",
+    notes: [
+      "Parcours, badges et statistiques, avec les figures animées par Juggling Lab.",
+      "Back-end Spring Boot et PostgreSQL pour les établissements, authentification JWT.",
+      "PWA utilisable hors ligne, avec une attention particulière au RGPD.",
+    ],
+  },
+
+  {
+    id: 101,
+    title: "Convocations Audencia",
+    description: "Stage à la DTSI d'Audencia : workflow n8n qui envoie les convocations Executive Education à partir des exports Aurion, via l'API Microsoft Graph.",
+    technologies: ["n8n", "Microsoft Graph", "Aurion", "SharePoint", "Google Sheets"],
+    date: "Juin — juillet 2026",
+    featured: true,
+    caseStudy: true,
+    internalPath: "/parcours",
+    lead: "Les convocations des programmes Executive Education partent seules, à J-7.",
+    notes: [
+      "Workflow n8n branché sur les exports Aurion et l'API Microsoft Graph.",
+      "Copie systématique à l'équipe, brouillon pour les sessions OPEN INTER.",
+      "Anti-renvoi, journal d'erreurs, documentation. Livré à la DTSI.",
+    ],
   },
 
   // ⭐ PROJETS PHARES
@@ -43,7 +72,14 @@ technologies: [
     demo: "https://adaopte-blue.vercel.app",
     image: assetPath('images/projects/screenshot_exercice_11_Adaopte.webp'),
     featured: true,
-    collaboration: "Projet réalisé en collaboration avec Maëlle Aucher et Antoine Boinot (Promo Grace Hopper)",
+    caseStudy: true,
+    lead: "Trouver un animal à adopter, filtrer, et proposer son aide sans se perdre.",
+    notes: [
+      "Recherche, filtres par type et par ville, pagination, formulaire de bénévolat.",
+      "Les filtres restent en place d'une visite à l'autre.",
+      "Construit en équipe, à partir d'une maquette.",
+    ],
+    collaboration: "Avec Maëlle Aucher et Antoine Boinot (promo Grace Hopper)",
   },
   {
     id: 12,
@@ -54,8 +90,8 @@ technologies: [
     github: "https://github.com/Atefoub/projet-dataviz",
     demo: "https://projet-dataviz-davanto.vercel.app/",
     image: assetPath('images/projects/screenshot_exercice_9_projet_Dataviz.webp'),
-    featured: true,
-    collaboration: "Projet réalisé en collaboration avec David",
+    lead: "14 738 séances de cinéma parisien, lues d'un coup d'œil.",
+    collaboration: "Avec David",
   },
   {
     id: 11,
@@ -66,8 +102,8 @@ technologies: [
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/quiz_objets_insolites",
     demo: "https://atefoub.github.io/projet-quiz-antochloe-quiz-show/",
     image: assetPath('images/projects/screenshot_exercice_5_quiz.jpg'),
-    featured: true,
-    collaboration: "Projet réalisé en collaboration avec Chloé Verglas",
+    lead: "Un quiz minuté, avec score, explications et mémoire des meilleurs résultats.",
+    collaboration: "Avec Chloé Verglas",
   },
 
   // AUTRES PROJETS
@@ -79,6 +115,7 @@ technologies: [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/bonjour_javascript",
     image: assetPath('images/projects/screenshot_exercice_1_bonjour_javascript.jpg'),
+    exercise: true,
   },
   {
     id: 2,
@@ -89,6 +126,7 @@ technologies: [
     github: "https://github.com/adatechschool/Exercices_individuels_Module_1/blob/main/02_guess_a_number.md",
     demo: "https://guess-a-number-atefoub.netlify.app/",
     image: assetPath('images/projects/screenshot_exercice_2_guess_a_number.jpg'),
+    exercise: true,
   },
   {
     id: 3,
@@ -98,6 +136,7 @@ technologies: [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-1",
     image: assetPath('images/projects/screenshot_exercice_3_paw_models.jpg'),
+    exercise: true,
   },
   {
     id: 4,
@@ -107,6 +146,7 @@ technologies: [
     date: "Octobre 2025",
     github: "https://github.com/Atefoub/ADA/tree/main/exercices_individuels/HTML_%20CSS_avanc%C3%A9_(responsive)/exercice-3",
     image: assetPath('images/projects/screenshot_exercice_4_flexbox_galery.jpg'),
+    exercise: true,
   },
   {
     id: 5,
@@ -117,6 +157,7 @@ technologies: [
     github: "https://github.com/Atefoub/parlez_vous_le_morse",
     demo: "https://atefoub.github.io/parlez_vous_le_morse/",
     image: assetPath('images/projects/screenshot_exercice_6_parlez_vous_le_morse.jpg'),
+    exercise: true,
   },
   {
     id: 6,
@@ -127,6 +168,7 @@ technologies: [
     github: "https://github.com/Atefoub/Paradoxe_Syracuse",
     demo: "https://atefoub.github.io/Paradoxe_Syracuse",
     image: assetPath('images/projects/screenshot_exercice_7_conjecture_Syracuse.jpg'),
+    exercise: true,
   },
   {
     id: 7,
@@ -136,6 +178,7 @@ technologies: [
     date: "Novembre 2025",
     github: "https://github.com/Atefoub/generateur-attestation-licence",
     image: assetPath('images/projects/screenshot_exercice_8_attestation_licence.jpg'),
+    exercise: true,
   },
   {
     id: 8,
@@ -146,5 +189,6 @@ technologies: [
     github: "https://github.com/Atefoub/mini_station_meteo",
     demo: "https://atefoub.github.io/mini_station_meteo/",
     image: assetPath('images/projects/screenshot_exercice_10_mini_station_meteo.jpg'),
+    exercise: true,
   },
 ];

@@ -1,155 +1,54 @@
-import { GraduationCap } from 'lucide-react';
 import { ANIMATION_DELAYS } from '../lib/constants';
 import { useViewNavigate } from '../lib/motion';
 import { assetPath } from '../lib/utils';
 import AsciiPortrait from './AsciiPortrait';
 import Button from './Button';
-import MorphingText from './MorphingText';
 import SocialLinks from './SocialLinks';
-
-const HERO_MORPH_PHRASES = [
-  'Développeur Full-Stack',
-  'Titulaire CDA · RNCP 6',
-  'Alternance RNCP 7 · CDI junior',
-] as const;
 
 export default function Hero() {
   const navigate = useViewNavigate();
 
   return (
-    <section className="hero-section px-4 sm:px-6 md:px-8 lg:px-16" id="hero">
-      <div className="max-w-7xl w-full mx-auto h-full flex items-center">
-
-        {/* ── Desktop : 2 colonnes côte à côte ── */}
-        <div className="hero-desktop w-full animate-fade-in">
-          <div className="hero-text-col">
-
-            {/* Bloc 1 — Nom + sous-titre */}
-            <div className="hero-block">
-              <h1 className="hero-title font-bold tracking-tight leading-tight">
-                Antoine Mourin
-              </h1>
-              <MorphingText phrases={HERO_MORPH_PHRASES} className="hero-subtitle font-light mt-3" />
-            </div>
-
-            {/* Bloc 2 — Corps */}
-            <div className={`hero-block animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-              <p className="hero-body leading-relaxed">
-                Titulaire du titre de{' '}
-                <span className="text-foreground font-semibold">
-                  Concepteur Développeur d'Applications (RNCP 6)
-                </span>
-                , obtenu à l'Ada Tech School de Nantes.
-              </p>
-              <p className="hero-body leading-relaxed mt-3">
-                Mon métier de comptable m'a appris la{' '}
-                <span className="text-foreground font-semibold">rigueur</span>
-                {', '}le{' '}
-                <span className="text-foreground font-semibold">respect des délais</span>{' '}
-                et le{' '}
-                <span className="text-foreground font-semibold">travail en équipe</span>.
-                <br />Je cherche à les mettre au service d'une équipe tech.
-              </p>
-              <p className="hero-body leading-relaxed mt-3">
-                <span className="text-foreground font-semibold">
-                  Recherche une alternance (24 mois, RNCP 7) ou un premier poste de développeur full-stack junior
-                </span>{' '}
-                - Nantes, Ancenis, Angers. Disponible rapidement.
-              </p>
-            </div>
-
-            {/* Bloc 3 — CTA */}
-            <div className={`hero-block hero-cta animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
-              <Button variant="primary" size="lg" onClick={() => navigate('/projets')}>
-                Voir mes projets
-              </Button>
-              <SocialLinks />
-            </div>
-
-            {/* Bloc 4 — Badges */}
-            <div className={`hero-block hero-badges animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-              <div className="hero-badge hero-badge-green">
-                <GraduationCap className="w-4 h-4 shrink-0" />
-                <span className="hero-badge-label">
-                  Titulaire CDA · RNCP 6
-                </span>
-              </div>
-              <div className="hero-badge hero-badge-blue">
-                <span className="status-dot-wrap">
-                  <span className="status-ping status-ping-blue" />
-                  <span className="status-dot status-dot-blue" />
-                </span>
-                <span className="hero-badge-label">
-                  Alternance RNCP 7 ou CDI junior · Disponible rapidement
-                </span>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="hero-img-col">
-            <HeroImage />
+    <section className="hero-section" id="hero">
+      <div className="hero-grid">
+        <div className="animate-fade-in">
+          <p className="hero-kicker">
+            <span className="hero-kicker-mark" aria-hidden="true" />
+            Nantes · Développeur full-stack
+          </p>
+          <h1 className="hero-title">
+            <span>Antoine</span>
+            <span>Mourin</span>
+          </h1>
+          <p className={`hero-lead animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
+            Douze ans de comptabilité m'ont appris à finir ce que je commence.
+            J'en fais des outils qui enlèvent le travail répétitif.
+          </p>
+          <p className={`hero-meta animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
+            Titulaire du CDA (RNCP 6), Ada Tech School. Je cherche une alternance RNCP 7
+            ou un premier poste junior, entre Nantes, Ancenis et Angers.
+          </p>
+          <p className="hero-siteswap" title="531, la notation siteswap d'un jonglage à trois balles">
+            <span>siteswap</span>
+            531
+          </p>
+          <div className={`hero-cta animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
+            <Button variant="primary" size="lg" onClick={() => navigate('/projets')}>
+              Voir les projets
+            </Button>
+            <Button variant="outline" size="lg" onClick={() => navigate('/contact')}>
+              Me contacter
+            </Button>
+            <SocialLinks size="md" />
           </div>
         </div>
 
-        {/* ── Mobile : full immersif ── */}
-        <div className="hero-mobile-immersif animate-fade-in">
-          <img
-            src={assetPath('images/hero.jpg')}
-            alt="Antoine Mourin"
-            className="hero-immersif-photo"
-          />
-          <div className="hero-immersif-gradient" />
-          <div className="hero-immersif-content">
-            <p className={`hero-immersif-intro animate-slide-up ${ANIMATION_DELAYS.SHORT}`}>
-              Titulaire <strong>CDA (RNCP 6)</strong> · Ada Tech School de Nantes
-            </p>
-            <h1 className="hero-immersif-name animate-fade-in">
-              Antoine Mourin
-            </h1>
-            <MorphingText phrases={HERO_MORPH_PHRASES} className="hero-immersif-subtitle" />
-            <div className={`flex flex-col gap-2 animate-slide-up ${ANIMATION_DELAYS.MEDIUM}`}>
-              <div className="hero-badge-immersif hero-badge-immersif-green">
-                <GraduationCap className="w-3.5 h-3.5 shrink-0" />
-                <span className="font-semibold">Titulaire CDA · RNCP 6</span>
-              </div>
-              <div className="hero-badge-immersif hero-badge-immersif-blue">
-                <span className="status-dot-wrap">
-                  <span className="status-ping status-ping-blue" />
-                  <span className="status-dot status-dot-blue" />
-                </span>
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-semibold">Alternance RNCP 7 ou CDI junior</span>
-                  <span className="hero-badge-immersif-sub">Disponible rapidement · Nantes / Ancenis / Angers</span>
-                </div>
-              </div>
-            </div>
-            <div className={`animate-slide-up ${ANIMATION_DELAYS.LONG}`}>
-              <Button variant="primary" size="md" onClick={() => navigate('/projets')}>
-                Voir mes projets
-              </Button>
-            </div>
-          </div>
+        <div className="hero-plate animate-fade-in">
+          <AsciiPortrait src={assetPath('images/hero.jpg')} alt="Antoine Mourin" />
+          <div className="hero-plate-scan" aria-hidden="true" />
+          <p className="hero-plate-caption">Portrait en code — survolez</p>
         </div>
-
       </div>
     </section>
-  );
-}
-
-function HeroImage() {
-  return (
-    <div className="hero-img-wrap">
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="absolute w-full h-full rounded-full opacity-20 animate-pulse-soft bg-[radial-gradient(circle,var(--color-accent)_0%,transparent_70%)]" />
-        <div className="hero-pulse-2 absolute rounded-full opacity-10 animate-pulse-soft bg-[radial-gradient(circle,var(--color-sage)_0%,transparent_70%)] [animation-delay:1s]" />
-      </div>
-      <div className="relative w-full h-full hero-img-frame overflow-hidden border-accent/30 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:border-accent/50">
-        <AsciiPortrait src={assetPath('images/hero.jpg')} alt="Antoine Mourin" />
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background opacity-40 pointer-events-none" />
-      </div>
-      <div className="hero-glow-tr absolute bg-accent rounded-full opacity-20 blur-xl animate-pulse-soft" />
-      <div className="hero-glow-bl absolute bg-sage rounded-full opacity-20 blur-xl animate-pulse-soft [animation-delay:1.5s]" />
-    </div>
   );
 }

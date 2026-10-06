@@ -6,7 +6,6 @@ import {
   Calendar,
   MapPin,
   Award,
-  Sparkles,
   ChevronDown,
 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -26,8 +25,9 @@ export default function Timeline() {
         {/* ── En-tête ── */}
         <div className="acc-header animate-fade-in">
           <SectionHeader
-            title="Mon Parcours"
-            icon={<Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+            index="02 — Parcours"
+            title="Parcours"
+            lede="Du grand livre comptable aux outils qui font le travail à la place des gens."
           />
         </div>
 
@@ -69,8 +69,8 @@ interface AccordionCssVars extends React.CSSProperties {
 
 function AccordionItem({ item, index, isOpen, isLast, onToggle }: AccordionItemProps) {
   const isFormation = item.type === 'formation';
-  const accentColor = isFormation ? '#83a08b' : '#738b69';
-  const gradientEnd = isFormation ? '#99c6c4' : '#5a6e51';
+  const accentColor = 'var(--color-accent)';
+  const gradientEnd = 'var(--color-sage)';
 
   const hasDetail = !!(
     item.detailedDescription ||

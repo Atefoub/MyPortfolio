@@ -12,7 +12,7 @@ export default function ThemeToggle() {
       icon={theme === 'light' ? <Moon /> : <Sun />}
       onClick={toggleTheme}
       aria-label="Basculer le thème"
-      className="shadow-lg"
+      className="shadow-none"
     />
   );
 }

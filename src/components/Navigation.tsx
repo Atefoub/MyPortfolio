@@ -1,7 +1,6 @@
 import { NavLink, useLocation } from 'react-router';
 import { Download, Home, BookOpen, FolderOpen, Mail } from 'lucide-react';
 import { NAV_LINKS, CV_PATH, type ViewId } from '../lib/constants';
-import { useDateTime } from '../lib/hooks';
 import { setNavDirection, usePrefersReducedMotion } from '../lib/motion';
 import { cn } from '../lib/utils';
 import ThemeToggle from './ThemeToggle';
@@ -26,7 +25,6 @@ function bottomClass(isActive: boolean): string {
 }
 
 export default function Navigation() {
-  const { date, time } = useDateTime();
   const { pathname } = useLocation();
   const reducedMotion = usePrefersReducedMotion();
 
@@ -38,13 +36,9 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-14 sm:h-16">
 
             {/* Gauche : DateTime + Logo */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="datetime-block" aria-label="Date et heure">
-                <span className="datetime-date">{date}</span>
-                <span className="datetime-time">{time}</span>
-              </div>
-              <span className="datetime-rule" aria-hidden="true" />
+            <div className="flex items-center gap-2.5 sm:gap-3">
               <Logo />
+              <span className="nav-wordmark">Antoine Mourin</span>
             </div>
 
             {/* Droite Desktop : liens + CV + toggle — tout sur la même ligne */}
