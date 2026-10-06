@@ -35,7 +35,7 @@ export default function Button<T extends ElementType = 'button'>({
   const sizeConfig = BUTTON_SIZES[size];
 
   const classes = cn(
-    'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-300',
+    'inline-flex items-center justify-center gap-2 rounded-sm font-semibold tracking-tight transition-all duration-300',
     BUTTON_VARIANTS[variant],
     isIconOnly ? sizeConfig.paddingIcon : sizeConfig.padding,
     !isIconOnly && sizeConfig.text,

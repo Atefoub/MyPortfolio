@@ -1,22 +1,16 @@
-import { type ReactNode } from 'react';
-
 interface SectionHeaderProps {
+  index: string;
   title: string;
-  icon: ReactNode;
+  lede?: string;
   className?: string;
 }
 
-export default function SectionHeader({ title, icon, className = '' }: SectionHeaderProps) {
+export default function SectionHeader({ index, title, lede, className = '' }: SectionHeaderProps) {
   return (
-    <div className={`flex flex-col gap-1.5 animate-fade-in ${className}`}>
-      <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-accent/10 rounded-full border border-accent/20 w-fit">
-        <span className="inline-flex items-center justify-center text-accent w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0">
-          {icon}
-        </span>
-        <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-accent">
-          {title}
-        </span>
-      </div>
-    </div>
+    <header className={`section-intro animate-fade-in ${className}`}>
+      <p className="section-index">{index}</p>
+      <h1 className="section-title">{title}</h1>
+      {lede && <p className="section-lede">{lede}</p>}
+    </header>
   );
 }

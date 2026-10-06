@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { useFinePointer, usePrefersReducedMotion } from '../lib/motion';
 
 const CHARS = ' .:-=+*#%@';
-const CELL = 9;
-const MAX_RADIUS = 0.26;
+const CELL = 8;
+const MAX_RADIUS = 0.4;
 const LERP = 0.14;
 
 function drawCover(
@@ -44,9 +44,7 @@ export default function AsciiPortrait({ src, alt }: AsciiPortraitProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sampleRef = useRef<HTMLCanvasElement | null>(null);
-  const pixelsRef = useRef<ImageData | null>(null);
-  const mouseRef = useRef({ x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, inside: false, radius: 0 });
+  const mouseRef = useRef({ x: 0.5, y: 0.42, tx: 0.5, ty: 0.42, inside: false, radius: 0 });
   const rafRef = useRef(0);
   const reduced = usePrefersReducedMotion();
   const fine = useFinePointer();
@@ -60,23 +58,78 @@ export default function AsciiPortrait({ src, alt }: AsciiPortraitProps) {
     const img = imgRef.current;
     if (!wrap || !canvas || !img) return;
 
-    const sample = document.createElement('canvas');
-    sampleRef.current = sample;
+    const buffer = document.createElement('canvas');
     const mouse = mouseRef.current;
     let running = false;
     let last = 0;
+    let asciiReady = false;
 
-    const rebuildSample = () => {
+    const drawFrame = () => {
+      const ctx = canvas.getContext('2d');
+      if (!ctx || !asciiReady) return;
+      const w = buffer.width;
+      const h = buffer.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(buffer, 0, 0);
+      if (mouse.radius < 0.004) return;
+
+      const cx = mouse.x * w;
+      const cy = mouse.y * h;
+      const r = mouse.radius * Math.min(w, h);
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      const g = ctx.createRadialGradient(cx, cy, r * 0.42, cx, cy, r);
+      g.addColorStop(0, 'rgba(0,0,0,1)');
+      g.addColorStop(0.7, 'rgba(0,0,0,0.92)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    const paintAscii = () => {
       const w = Math.max(1, Math.round(wrap.clientWidth));
       const h = Math.max(1, Math.round(wrap.clientHeight));
-      if (!img.naturalWidth) return;
+      if (!img.naturalWidth || w < 2 || h < 2) return;
+
+      const sample = document.createElement('canvas');
       sample.width = w;
       sample.height = h;
       const sctx = sample.getContext('2d', { willReadFrequently: true });
       if (!sctx) return;
-      sctx.clearRect(0, 0, w, h);
       drawCover(sctx, img, w, h);
-      pixelsRef.current = sctx.getImageData(0, 0, w, h);
+      const pixels = sctx.getImageData(0, 0, w, h);
+
+      buffer.width = w;
+      buffer.height = h;
+      const bctx = buffer.getContext('2d');
+      if (!bctx) return;
+
+      const styles = getComputedStyle(wrap);
+      const fg = styles.getPropertyValue('--ascii-fg').trim() || '#f6f1e4';
+      const dim = styles.getPropertyValue('--ascii-dim').trim() || '#d6ff4a';
+      const plate = styles.getPropertyValue('--ascii-plate').trim() || '#14181f';
+
+      bctx.fillStyle = plate;
+      bctx.fillRect(0, 0, w, h);
+      bctx.font = `600 ${CELL}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
+      bctx.textAlign = 'center';
+      bctx.textBaseline = 'middle';
+
+      for (let y = CELL * 0.5; y < h; y += CELL) {
+        for (let x = CELL * 0.5; x < w; x += CELL) {
+          const b = brightnessAt(pixels.data, pixels.width, pixels.height, x, y);
+          const contrast = Math.max(0, Math.min(1, (0.92 - b) * 1.35));
+          const ci = Math.min(CHARS.length - 1, Math.floor(contrast * (CHARS.length - 0.001)));
+          bctx.globalAlpha = 0.28 + contrast * 0.72;
+          bctx.fillStyle = contrast > 0.52 ? fg : dim;
+          bctx.fillText(CHARS[ci], x, y);
+        }
+      }
+      bctx.globalAlpha = 1;
+      asciiReady = true;
 
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(w * dpr);
@@ -85,85 +138,28 @@ export default function AsciiPortrait({ src, alt }: AsciiPortraitProps) {
       canvas.style.height = `${h}px`;
       const ctx = canvas.getContext('2d');
       if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawFrame();
     };
 
     const tick = (now: number) => {
       rafRef.current = requestAnimationFrame(tick);
-      const ctx = canvas.getContext('2d');
-      const pixels = pixelsRef.current;
-      if (!ctx || !pixels) return;
-
-      const w = sample.width;
-      const h = sample.height;
       const dt = Math.min(32, now - last || 16);
       last = now;
-      const t = now * 0.001;
-
       mouse.x += (mouse.tx - mouse.x) * LERP;
       mouse.y += (mouse.ty - mouse.y) * LERP;
       const targetR = mouse.inside ? MAX_RADIUS : 0;
-      mouse.radius += (targetR - mouse.radius) * 0.12 * (dt / 16);
-
-      ctx.clearRect(0, 0, w, h);
-      if (mouse.radius < 0.004) {
-        if (!mouse.inside) {
-          running = false;
-          cancelAnimationFrame(rafRef.current);
-          rafRef.current = 0;
-        }
-        return;
+      mouse.radius += (targetR - mouse.radius) * 0.14 * (dt / 16);
+      drawFrame();
+      const settled =
+        Math.abs(mouse.radius - targetR) < 0.004 &&
+        Math.hypot(mouse.tx - mouse.x, mouse.ty - mouse.y) < 0.002;
+      if (settled && !mouse.inside) {
+        running = false;
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = 0;
+        mouse.radius = 0;
+        drawFrame();
       }
-
-      const styles = getComputedStyle(wrap);
-      const fg = styles.getPropertyValue('--color-foreground').trim() || '#35392e';
-      const accent = styles.getPropertyValue('--color-accent').trim() || '#99c6c4';
-      const bg = styles.getPropertyValue('--color-background').trim() || '#f5f7f5';
-
-      const cx = mouse.x + Math.sin(t * 1.4) * 0.012;
-      const cy = mouse.y + Math.cos(t * 1.1) * 0.01;
-      const radius =
-        mouse.radius * (1 + 0.07 * Math.sin(t * 2.2) + 0.04 * Math.sin(t * 3.6));
-      const minSide = Math.min(w, h);
-      const rPx = radius * minSide;
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx * w, cy * h, rPx, 0, Math.PI * 2);
-      ctx.fillStyle = bg;
-      ctx.globalAlpha = 0.82;
-      ctx.fill();
-      ctx.clip();
-      ctx.globalAlpha = 1;
-
-      ctx.font = `700 ${CELL}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      const x0 = Math.max(0, Math.floor((cx * w - rPx) / CELL) - 1);
-      const y0 = Math.max(0, Math.floor((cy * h - rPx) / CELL) - 1);
-      const x1 = Math.min(w / CELL, Math.ceil((cx * w + rPx) / CELL) + 1);
-      const y1 = Math.min(h / CELL, Math.ceil((cy * h + rPx) / CELL) + 1);
-
-      for (let gy = y0; gy < y1; gy++) {
-        for (let gx = x0; gx < x1; gx++) {
-          const px = gx * CELL + CELL * 0.5;
-          const py = gy * CELL + CELL * 0.5;
-          const dx = (px - cx * w) / minSide;
-          const dy = (py - cy * h) / minSide;
-          const dist = Math.hypot(dx, dy);
-          if (dist > radius) continue;
-
-          const edge = Math.min(1, (radius - dist) / Math.max(0.04, radius * 0.35));
-          const b = brightnessAt(pixels.data, pixels.width, pixels.height, px, py);
-          const contrast = Math.max(0, Math.min(1, (0.9 - b) * 1.4));
-          const ci = Math.min(CHARS.length - 1, Math.floor(contrast * (CHARS.length - 0.001)));
-          ctx.globalAlpha = 0.4 + edge * 0.6;
-          ctx.fillStyle = contrast > 0.45 ? fg : accent;
-          ctx.fillText(CHARS[ci], px, py);
-        }
-      }
-
-      ctx.restore();
     };
 
     const start = () => {
@@ -186,27 +182,28 @@ export default function AsciiPortrait({ src, alt }: AsciiPortraitProps) {
       start();
     };
 
-    const onResize = () => rebuildSample();
-
-    if (img.complete) rebuildSample();
-    img.addEventListener('load', rebuildSample);
+    if (img.complete) paintAscii();
+    img.addEventListener('load', paintAscii);
     wrap.addEventListener('pointermove', onMove);
     wrap.addEventListener('pointerleave', onLeave);
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', paintAscii);
+    const obs = new MutationObserver(paintAscii);
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     return () => {
       running = false;
       cancelAnimationFrame(rafRef.current);
-      img.removeEventListener('load', rebuildSample);
+      img.removeEventListener('load', paintAscii);
       wrap.removeEventListener('pointermove', onMove);
       wrap.removeEventListener('pointerleave', onLeave);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener('resize', paintAscii);
+      obs.disconnect();
     };
   }, [enabled, src]);
 
   return (
     <div ref={wrapRef} className="ascii-portrait-wrap">
-      <img ref={imgRef} src={src} alt={alt} className="w-full h-full object-cover" />
+      <img ref={imgRef} src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
       {enabled && (
         <canvas ref={canvasRef} className="ascii-portrait-canvas" aria-hidden="true" />
       )}
