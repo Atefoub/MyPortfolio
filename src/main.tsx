@@ -7,6 +7,9 @@ import Hero from './components/Hero.tsx';
 import Timeline from './components/Timeline.tsx';
 import Projects from './components/Project.tsx';
 import Contact from './components/Contact.tsx';
+import { installGoatCounter } from './lib/analytics.ts';
+
+installGoatCounter();
 
 const router = createBrowserRouter(
   [
