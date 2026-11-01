@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { SWIPE_THRESHOLD } from '../lib/constants';
 import { MOTION, prefersReducedMotion } from '../lib/motion';
+import { trackProject } from '../lib/analytics';
 import { cn } from '../lib/utils';
 import BlockRevealCanvas from './BlockRevealCanvas';
 import SectionHeader from './SectionHeader';
@@ -39,6 +40,13 @@ export default function Projects() {
   const total = sortedProjects.length;
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const visibleProject = sortedProjects[currentIndex];
+
+  useEffect(() => {
+    if (!visibleProject) return;
+    trackProject(visibleProject.id, visibleProject.title);
+  }, [visibleProject]);
+
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const [animating, setAnimating] = useState(false);
   const [exitIndex, setExitIndex] = useState<number | null>(null);
